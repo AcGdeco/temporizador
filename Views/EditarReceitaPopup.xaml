@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="Temporizador.Popups.EditarReceitaPopup"
+               BackgroundColor="White"
+               Padding="0">
+
+    <Grid RowDefinitions="Auto,*" Padding="0" Margin="0">
+        <!-- Cabeçalho -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" >
+            <Label Text="Editar Receita"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Start"
+                   Grid.Column="0" />
+
+            <Button Text="✕"
+                    FontSize="18"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    Clicked="OnFecharClicked"
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center" />
+        </Grid>
+
+        <!-- Conteúdo -->
+        <VerticalStackLayout Grid.Row="1" Spacing="15">
+            <Entry x:Name="NomeReceitaEntry" Placeholder="Nome da Receita" />
+
+            <!-- Entradas de tempo -->
+            <Grid ColumnDefinitions="0.3*,0.3*,0.3*" ColumnSpacing="10">
+                <Entry x:Name="HorasEntry" Placeholder="Horas" Keyboard="Numeric" Grid.Column="0" />
+                <Entry x:Name="MinutosEntry" Placeholder="Minutos" Keyboard="Numeric" Grid.Column="1" />
+                <Entry x:Name="SegundosEntry" Placeholder="Segundos" Keyboard="Numeric" Grid.Column="2" />
+            </Grid>
+
+            <Label Text="Cor do Cartão" FontSize="14" />
+
+            <!-- Seletor de cores com checkmark (igual ao NovaReceitaPopup) -->
+            <Grid ColumnDefinitions="0.16*,0.16*,0.16*,0.16*,0.16*,0.16*" ColumnSpacing="10">
+                <Grid Grid.Column="0">
+                    <Button x:Name="Cor1Button"
+                            BackgroundColor="#FF6B35"
+                            CornerRadius="15"
+                            Clicked="OnCorSelecionada"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" />
+                    <Label x:Name="Cor1Check"
+                           Text="✓"
+                           FontSize="20"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False" />
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Button x:Name="Cor2Button"
+                            BackgroundColor="#27AE60"
+                            CornerRadius="15"
+                            Clicked="OnCorSelecionada"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" />
+                    <Label x:Name="Cor2Check"
+                           Text="✓"
+                           FontSize="20"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False" />
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Button x:Name="Cor3Button"
+                            BackgroundColor="#E74C3C"
+                            CornerRadius="15"
+                            Clicked="OnCorSelecionada"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" />
+                    <Label x:Name="Cor3Check"
+                           Text="✓"
+                           FontSize="20"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False" />
+                </Grid>
+
+                <Grid Grid.Column="3">
+                    <Button x:Name="Cor4Button"
+                            BackgroundColor="#FFD60A"
+                            CornerRadius="15"
+                            Clicked="OnCorSelecionada"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" />
+                    <Label x:Name="Cor4Check"
+                           Text="✓"
+                           FontSize="20"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False" />
+                </Grid>
+
+                <Grid Grid.Column="4">
+                    <Button x:Name="Cor5Button"
+                            BackgroundColor="#3498DB"
+                            CornerRadius="15"
+                            Clicked="OnCorSelecionada"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" />
+                    <Label x:Name="Cor5Check"
+                           Text="✓"
+                           FontSize="20"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False" />
+                </Grid>
+
+                <Grid Grid.Column="5">
+                    <Button x:Name="Cor6Button"
+                            BackgroundColor="#9B59B6"
+                            CornerRadius="15"
+                            Clicked="OnCorSelecionada"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" />
+                    <Label x:Name="Cor6Check"
+                           Text="✓"
+                           FontSize="20"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="False" />
+                </Grid>
+            </Grid>
+
+            <!-- Botões de ação -->
+            <!-- Exemplo: Botão "Salvar Alterações" corrigido -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" HeightRequest="55" Margin="0,10,0,0">
+                <!-- Botão Deletar -->
+                <Border Grid.Column="0"
+                        BackgroundColor="#E74C3C"
+                        StrokeThickness="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDeletarReceitaClicked" />
+                    </Border.GestureRecognizers>
+                    <Label Text="Deletar"
+                        TextColor="White"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Border>
+
+                <!-- Botão Salvar -->
+                <Border Grid.Column="1"
+                        BackgroundColor="#27AE60"
+                        StrokeThickness="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSalvarEdicaoClicked" />
+                    </Border.GestureRecognizers>
+                    <Label Text="Salvar"
+                        TextColor="White"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+</toolkit:Popup>

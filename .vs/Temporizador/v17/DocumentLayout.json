@@ -1,0 +1,121 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Andre\\source\\repos\\Temporizador\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\mainpage.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\mainpage.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\models\\receita.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:models\\receita.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\viewsmodels\\receitasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:viewsmodels\\receitasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\MainPage.xaml.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
+              "RelativeToolTip": "Views\\MainPage.xaml.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAUwGgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T10:58:52.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
+              "RelativeDocumentMoniker": "Views\\MainPage.xaml",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
+              "RelativeToolTip": "Views\\MainPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-09T11:27:23.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\App.xaml.cs",
+              "RelativeDocumentMoniker": "App.xaml.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\App.xaml.cs",
+              "RelativeToolTip": "App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T10:40:13.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReceitasViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\ViewsModels\\ReceitasViewModel.cs",
+              "RelativeDocumentMoniker": "ViewsModels\\ReceitasViewModel.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\ViewsModels\\ReceitasViewModel.cs",
+              "RelativeToolTip": "ViewsModels\\ReceitasViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T10:36:38.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DatabaseService.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Services\\DatabaseService.cs",
+              "RelativeDocumentMoniker": "Services\\DatabaseService.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Services\\DatabaseService.cs",
+              "RelativeToolTip": "Services\\DatabaseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T10:35:52.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Receita.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Models\\Receita.cs",
+              "RelativeDocumentMoniker": "Models\\Receita.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Models\\Receita.cs",
+              "RelativeToolTip": "Models\\Receita.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T10:34:45.562Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
