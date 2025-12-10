@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Andre\\source\\repos\\Temporizador\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\temporizador.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:temporizador.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\novareceitapopup.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\novareceitapopup.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -59,6 +63,18 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Temporizador",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Temporizador.csproj",
+              "RelativeDocumentMoniker": "Temporizador.csproj",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Temporizador.csproj",
+              "RelativeToolTip": "Temporizador.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-10T16:25:49.842Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "NovaReceitaPopup.xaml",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\NovaReceitaPopup.xaml",
               "RelativeDocumentMoniker": "Views\\NovaReceitaPopup.xaml",
@@ -66,12 +82,11 @@
               "RelativeToolTip": "Views\\NovaReceitaPopup.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAKEAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-09T20:07:10.412Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T20:07:10.412Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "Views\\MainPage.xaml.cs",
@@ -79,12 +94,11 @@
               "RelativeToolTip": "Views\\MainPage.xaml.cs",
               "ViewState": "AgIAAJcBAAAAAAAAAAA6wJ8BAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:58:52.864Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T10:58:52.864Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "EditarReceitaPopup.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\EditarReceitaPopup.xaml.cs",
               "RelativeDocumentMoniker": "Views\\EditarReceitaPopup.xaml.cs",
@@ -92,12 +106,11 @@
               "RelativeToolTip": "Views\\EditarReceitaPopup.xaml.cs",
               "ViewState": "AgIAAEQAAAAAAAAAAAAAAFMAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-10T09:33:09.538Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-10T09:33:09.538Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "NovaReceitaPopup.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\NovaReceitaPopup.xaml.cs",
               "RelativeDocumentMoniker": "Views\\NovaReceitaPopup.xaml.cs",
@@ -109,7 +122,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MauiProgram.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\MauiProgram.cs",
               "RelativeDocumentMoniker": "MauiProgram.cs",
@@ -117,12 +130,11 @@
               "RelativeToolTip": "MauiProgram.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T19:27:32.765Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T19:27:32.765Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "EditarReceitaPopup.xaml",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\EditarReceitaPopup.xaml",
               "RelativeDocumentMoniker": "Views\\EditarReceitaPopup.xaml",
@@ -130,12 +142,11 @@
               "RelativeToolTip": "Views\\EditarReceitaPopup.xaml",
               "ViewState": "AgIAALQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-10T09:49:02.435Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-10T09:49:02.435Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "MainPage.xaml",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
               "RelativeDocumentMoniker": "Views\\MainPage.xaml",
@@ -143,12 +154,11 @@
               "RelativeToolTip": "Views\\MainPage.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-09T11:27:23.418Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T11:27:23.418Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\App.xaml.cs",
               "RelativeDocumentMoniker": "App.xaml.cs",
@@ -160,7 +170,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "ReceitasViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\ViewsModels\\ReceitasViewModel.cs",
               "RelativeDocumentMoniker": "ViewsModels\\ReceitasViewModel.cs",
@@ -172,7 +182,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "DatabaseService.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Services\\DatabaseService.cs",
               "RelativeDocumentMoniker": "Services\\DatabaseService.cs",
@@ -184,7 +194,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Receita.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Models\\Receita.cs",
               "RelativeDocumentMoniker": "Models\\Receita.cs",

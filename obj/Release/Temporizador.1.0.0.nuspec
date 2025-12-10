@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Temporizador</id>
+    <version>1.0.0</version>
+    <authors>Temporizador</authors>
+    <description>Package Description</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net10.0-android36.0">
+        <dependency id="CommunityToolkit.Maui" version="13.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Debug" version="8.0.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls" version="10.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls.Compatibility" version="10.0.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Graphics" version="10.0.10" exclude="Build,Analyzers" />
+        <dependency id="Plugin.Maui.Audio" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="sqlite-net-pcl" version="1.9.172" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\Andre\source\repos\Temporizador\bin\ARM64\Release\net10.0-android\Temporizador.runtimeconfig.json" target="lib\net10.0-android36.0\Temporizador.runtimeconfig.json" />
+    <file src="C:\Users\Andre\source\repos\Temporizador\bin\ARM64\Release\net10.0-android\Temporizador.dll" target="lib\net10.0-android36.0\Temporizador.dll" />
+    <file src="C:\Users\Andre\source\repos\Temporizador\bin\ARM64\Release\net10.0-android\Temporizador.xml" target="lib\net10.0-android36.0\Temporizador.xml" />
+  </files>
+</package>
