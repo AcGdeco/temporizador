@@ -19,6 +19,7 @@ namespace Temporizador
                 });
         // ✅ registra o serviço de áudio
         builder.Services.AddSingleton(AudioManager.Current);
+        builder.Services.AddSingleton<IShortcutService, ShortcutService>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

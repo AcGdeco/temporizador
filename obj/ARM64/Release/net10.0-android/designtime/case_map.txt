@@ -10,6 +10,7 @@ animation\nav_modal_default_enter_anim;animation\nav_modal_default_enter_anim
 animation\nav_modal_default_exit_anim;animation\nav_modal_default_exit_anim
 drawable\maui_splash;drawable\maui_splash
 drawable\maui_splash_image;drawable\maui_splash_image
+drawable\shortcut_icon;drawable\shortcut_icon
 layout\drawer_layout;layout\drawer_layout
 layout\flyoutcontent;compatibility\Android\Resources\layout\flyoutcontent
 layout\fragment_backstack;layout\fragment_backstack

@@ -1,8 +1,8 @@
-<api type="release" assembly-name="Temporizador" mvid="28ac518f1b3342ac9bce195fcd5d0387">
-  <module assembly-name="Temporizador" mvid="28ac518f1b3342ac9bce195fcd5d0387" mvid-bytes="j1GsKDMbrEKbzhlfzV0Dhw==">
+<api type="release" assembly-name="Temporizador" mvid="83e838a3d6b44975adad48bf0b6e7ccf">
+  <module assembly-name="Temporizador" mvid="83e838a3d6b44975adad48bf0b6e7ccf" mvid-bytes="ozjog7TWdUmtrUi/C258zw==">
     <types-scratch>
-      <entry key="crc644f4854b3ebd3c3a6/MainActivity" java-name="crc644f4854b3ebd3c3a6/MainActivity" managed-type-name="Temporizador.MainActivity" token="33554502" />
-      <entry key="crc644f4854b3ebd3c3a6/MainApplication" java-name="crc644f4854b3ebd3c3a6/MainApplication" managed-type-name="Temporizador.MainApplication" token="33554503" />
+      <entry key="crc644f4854b3ebd3c3a6/MainActivity" java-name="crc644f4854b3ebd3c3a6/MainActivity" managed-type-name="Temporizador.MainActivity" token="33554505" />
+      <entry key="crc644f4854b3ebd3c3a6/MainApplication" java-name="crc644f4854b3ebd3c3a6/MainApplication" managed-type-name="Temporizador.MainApplication" token="33554506" />
     </types-scratch>
   </module>
 </api>
