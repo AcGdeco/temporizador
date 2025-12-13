@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage Loaded="OnPageLoaded"      
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Temporizador.Views.MainPage"
              BackgroundColor="#FFFFFF"
@@ -61,7 +62,7 @@
                 </Border.GestureRecognizers>
                 <Label Text="+1h"
                        TextColor="Black"
-                       FontSize="14"
+                       FontSize="12"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        InputTransparent="True"
@@ -82,7 +83,7 @@
                 </Border.GestureRecognizers>
                 <Label Text="+10m"
                        TextColor="Black"
-                       FontSize="14"
+                       FontSize="12"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        InputTransparent="True"
@@ -103,7 +104,7 @@
                 </Border.GestureRecognizers>
                 <Label Text="+1m"
                        TextColor="Black"
-                       FontSize="14"
+                       FontSize="12"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        InputTransparent="True"
@@ -124,7 +125,7 @@
                 </Border.GestureRecognizers>
                 <Label Text="+30s"
                        TextColor="Black"
-                       FontSize="14"
+                       FontSize="12"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        InputTransparent="True"
@@ -145,7 +146,7 @@
                 </Border.GestureRecognizers>
                 <Label Text="+10s"
                        TextColor="Black"
-                       FontSize="14"
+                       FontSize="12"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        InputTransparent="True"

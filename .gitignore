@@ -32,3 +32,24 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Build
+bin/
+obj/
+
+# VS
+.vs/
+*.user
+*.suo
+
+# Logs
+*.log
+
+# DB local
+*.db
+*.sqlite
+
+# MAUI
+*.apk
+*.aab
+*.msix

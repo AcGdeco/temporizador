@@ -23,8 +23,8 @@ namespace Temporizador.Views
         private TimeSpan tempoRestante;
         private System.Timers.Timer timer;
 
-        private enum EstadoTemporizador { Parado, Rodando, Pausado }
-        private EstadoTemporizador estadoTemporizador = EstadoTemporizador.Parado;
+        private enum EstadoTemporizador { Parado, Rodando, Pausado, Resetado }
+        private EstadoTemporizador estadoTemporizador = EstadoTemporizador.Resetado;
         private TimeSpan tempoDefinido;
 
         private IAudioPlayer _alarmePlayer;
@@ -54,11 +54,49 @@ namespace Temporizador.Views
             _alarmePlayer.Loop = true;
         }
 
-        protected override void OnAppearing()
+        private async void OnPageLoaded(object sender, EventArgs e)
+        {
+            bool close = false;
+            if (!Preferences.Get("test_version", true) && close == true)
+            {
+                await DisplayAlert("Teste", "Versão de Teste, o programa só pode ser aberto apenas 1 vez, além disso o programa sempre vai ser fechado ao abrir, desinstale e o instale novamente para usá-lo!", "OK");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+
+            Preferences.Set("test_version", false);
+        }
+
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            CarregarReceitas();   // ✅ carrega os cards do banco
-            AtualizarUI();
+
+            try
+            {
+                // Garante que a página já está totalmente carregada
+                await Task.Delay(100); // pequeno delay para o MAUI "acordar" (opcional, mas ajuda em emuladores)
+
+                // Carrega as receitas do banco de forma segura
+                CarregarReceitas();
+
+                // Atualiza a UI (timer, barra, etc.)
+                AtualizarUI();
+            }
+            catch (Exception ex)
+            {
+                // Mostra o erro real no Output e na tela (só em modo Debug)
+        #if DEBUG
+                System.Diagnostics.Debug.WriteLine("=== ERRO NO OnAppearing() ===");
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+
+                await DisplayAlert(
+                    "Erro ao carregar",
+                    $"Mensagem: {ex.Message}\n\nStackTrace:\n{ex.StackTrace.Substring(0, Math.Min(500, ex.StackTrace.Length))}...",
+                    "OK");
+        #endif
+
+                // Em Release, só registra silenciosamente
+                System.Diagnostics.Debug.WriteLine($"Erro silencioso: {ex}");
+            }
         }
 
         private void CarregarReceitas()
@@ -240,29 +278,24 @@ namespace Temporizador.Views
             // Atualiza o texto
             TempoRestanteLabel.Text = tempoRestante.ToString(@"hh\:mm\:ss");
 
-            // Chama a animação do texto
+            // Anima o texto (pode manter)
             AnimarTempoRestanteLabel();
 
-            // Pega a largura real do container
+            // Largura total da barra
             double larguraTotal = BarraContainer.Width;
-            if (larguraTotal <= 0) larguraTotal = this.Width - 40;
+            if (larguraTotal <= 0)
+                larguraTotal = this.Width - 40;
 
-            double progresso = tempoRestante.TotalSeconds / Math.Max(1, tempoInicial.TotalSeconds);
+            // Evita divisão por zero
+            double progresso = tempoInicial.TotalSeconds > 0
+                ? tempoRestante.TotalSeconds / tempoInicial.TotalSeconds
+                : 0;
+
             double novaLargura = larguraTotal * progresso;
 
-            // Só anima se o botão iniciar foi clicado (temporizador rodando)
-            if (estadoTemporizador == EstadoTemporizador.Rodando && tempoRestante.TotalSeconds != 0)
+            // ✅ 1. RODANDO → anima a barra diminuindo
+            if (estadoTemporizador == EstadoTemporizador.Rodando)
             {
-
-                if(tempoRestante.TotalSeconds == 0)
-                {
-                    progresso = 0;
-                }
-                else {
-                    progresso = (tempoRestante.TotalSeconds - 1) / Math.Max(1, tempoInicial.TotalSeconds);
-                }
-                novaLargura = larguraTotal * progresso;
-
                 BarraLaranja.Animate(
                     "Progresso",
                     x => BarraLaranja.WidthRequest = x,
@@ -271,16 +304,37 @@ namespace Temporizador.Views
                     length: 1000,
                     easing: Easing.Linear
                 );
+                return;
             }
-            else
+
+            // ✅ 2. PAUSADO → não anima, só mantém a largura atual
+            if (estadoTemporizador == EstadoTemporizador.Pausado)
             {
-                // Se não está rodando, apenas atualiza sem animar
-                BarraLaranja.WidthRequest = novaLargura;
+                // Não anima nada, só mantém o valor atual
+                BarraLaranja.WidthRequest = BarraLaranja.WidthRequest;
+                return;
+            }
+
+            // ✅ 3. PARADO → volta ao tempo inicial e barra cheia
+            if (estadoTemporizador == EstadoTemporizador.Parado)
+            {
+                BarraLaranja.AbortAnimation("Progresso");
+                BarraLaranja.WidthRequest = larguraTotal;
+                return;
+            }
+
+            // ✅ 4. RESETADO → tempo zerado e barra zerada
+            if (estadoTemporizador == EstadoTemporizador.Resetado)
+            {
+                BarraLaranja.WidthRequest = 0;
+                return;
             }
         }
 
         private void OnAddTimeClicked(object sender, EventArgs e)
         {
+            estadoTemporizador = EstadoTemporizador.Parado;
+            
             if (sender is Border border && 
                 border.GestureRecognizers[0] is TapGestureRecognizer tap &&
                 tap.CommandParameter is string s &&
@@ -295,28 +349,34 @@ namespace Temporizador.Views
 
         private void OnResetClicked(object sender, EventArgs e)
         {
-            timer.Stop();
-
             if (BotaoResetLabel.Text == "Reset")
             {
                 tempoInicial = TimeSpan.Zero;
                 tempoRestante = TimeSpan.Zero;
+
+                estadoTemporizador = EstadoTemporizador.Resetado;
             }
             else if (BotaoResetLabel.Text == "Parar")
             {
                 tempoInicial = tempoDefinido;
                 tempoRestante = tempoInicial;
-            }
 
-            estadoTemporizador = EstadoTemporizador.Parado;
+                // ✅ força a barra ao tamanho máximo imediatamente
+                double larguraTotal = BarraContainer.Width;
+                if (larguraTotal <= 0) larguraTotal = this.Width - 40;
+
+                estadoTemporizador = EstadoTemporizador.Parado;
+
+                BarraLaranja.WidthRequest = larguraTotal;
+            }
 
             AtualizarBotaoIniciar("Iniciar", "play.png", Color.FromArgb("#27AE60"));
             AtualizarBotaoReset("Reset", "reset.png", Color.FromArgb("#E74C3C"));
-            // volta para texto padrão
             StatusLabel.Text = "TEMPO RESTANTE";
 
-            // ⏹️ para o som
             _alarmePlayer?.Stop();
+
+            timer.Stop();
 
             AtualizarUI();
         }
@@ -326,7 +386,7 @@ namespace Temporizador.Views
             if (tempoRestante.TotalSeconds == 0)
                 return;
 
-            if (estadoTemporizador == EstadoTemporizador.Parado || estadoTemporizador == EstadoTemporizador.Pausado)
+            if (estadoTemporizador == EstadoTemporizador.Parado || estadoTemporizador == EstadoTemporizador.Pausado || estadoTemporizador == EstadoTemporizador.Resetado)
             {
                 timer.Start();
                 estadoTemporizador = EstadoTemporizador.Rodando;
@@ -350,22 +410,58 @@ namespace Temporizador.Views
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (tempoRestante.TotalSeconds > 0)
+            // ✅ 1. Rodando → conta para baixo
+            if (estadoTemporizador == EstadoTemporizador.Rodando)
             {
-                tempoRestante = tempoRestante.Subtract(TimeSpan.FromSeconds(1));
-                MainThread.BeginInvokeOnMainThread(AtualizarUI);
+                if (tempoRestante.TotalSeconds > 0)
+                {
+                    tempoRestante = tempoRestante.Subtract(TimeSpan.FromSeconds(1));
+                    MainThread.BeginInvokeOnMainThread(AtualizarUI);
+                }
+                else
+                {
+                    // ✅ Tempo acabou → muda para Resetado
+                    timer.Stop();
+                    estadoTemporizador = EstadoTemporizador.Resetado;
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        TempoRestanteLabel.Text = "00:00:00";
+                        BarraLaranja.WidthRequest = 0;
+                        TempoRestanteLabel.Scale = 1;
+
+                        _alarmePlayer?.Play();
+                    });
+                }
+
+                return;
             }
-            else
+
+            // ✅ 2. Pausado → não mexe no tempo
+            if (estadoTemporizador == EstadoTemporizador.Pausado)
+            {
+                return;
+            }
+
+            // ✅ 3. Parado → volta ao tempo inicial
+            if (estadoTemporizador == EstadoTemporizador.Parado)
             {
                 timer.Stop();
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    TempoRestanteLabel.Text = "00:00:00";
-                    BarraLaranja.WidthRequest = 0;
-                    TempoRestanteLabel.Scale = 1;
+                tempoRestante = tempoDefinido;
 
-                    _alarmePlayer?.Play();
-                });
+                MainThread.BeginInvokeOnMainThread(AtualizarUI);
+                return;
+            }
+
+            // ✅ 4. Resetado → zera tudo
+            if (estadoTemporizador == EstadoTemporizador.Resetado)
+            {
+                timer.Stop();
+                tempoRestante = TimeSpan.Zero;
+                tempoInicial = TimeSpan.Zero;
+
+                MainThread.BeginInvokeOnMainThread(AtualizarUI);
+                return;
             }
         }
 

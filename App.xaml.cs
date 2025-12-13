@@ -15,7 +15,8 @@ namespace Temporizador
         {
             base.OnStart();
 
-            if (!Preferences.Get("shortcut_created", false))
+            bool criarAtalho = false;   
+            if (!Preferences.Get("shortcut_created", false) && criarAtalho == true)
             {
                 var shortcutService = ServiceHelper.GetService<IShortcutService>();
                 shortcutService.CreateShortcut();

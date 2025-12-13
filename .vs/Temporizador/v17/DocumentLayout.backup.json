@@ -44,7 +44,7 @@
               "RelativeDocumentMoniker": "Views\\MainPage.xaml.cs",
               "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
               "RelativeToolTip": "Views\\MainPage.xaml.cs",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAUwGgAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAUwGYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-09T10:58:52.864Z",
               "EditorCaption": ""
@@ -58,8 +58,7 @@
               "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
               "RelativeToolTip": "Views\\MainPage.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-09T11:27:23.418Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T11:27:23.418Z"
             },
             {
               "$type": "Document",
@@ -71,8 +70,7 @@
               "RelativeToolTip": "App.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:40:13.839Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T10:40:13.839Z"
             },
             {
               "$type": "Document",
@@ -84,8 +82,7 @@
               "RelativeToolTip": "ViewsModels\\ReceitasViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:36:38.862Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T10:36:38.862Z"
             },
             {
               "$type": "Document",
@@ -97,8 +94,7 @@
               "RelativeToolTip": "Services\\DatabaseService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:35:52.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T10:35:52.497Z"
             },
             {
               "$type": "Document",
@@ -110,8 +106,7 @@
               "RelativeToolTip": "Models\\Receita.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:34:45.562Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T10:34:45.562Z"
             }
           ]
         }

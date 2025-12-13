@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0-android</TargetFrameworks>
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <!-- <AndroidPackageFormat>apk</AndroidPackageFormat>-->
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
     <OutputType>Exe</OutputType>
     <RootNamespace>Temporizador</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -11,42 +12,72 @@
     <Nullable>enable</Nullable>
 
     <!-- Informações do app -->
-    <ApplicationTitle>Temporizador</ApplicationTitle>
+    <ApplicationTitle>Bibi</ApplicationTitle>
     <ApplicationId>com.companyname.temporizador</ApplicationId>
-    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.1</ApplicationDisplayVersion>
+    <ApplicationVersion>2</ApplicationVersion>
 
     <!-- Compatibilidade Android -->
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
     <AndroidTargetSdkVersion>27</AndroidTargetSdkVersion>
 
     <!-- Arquitetura -->
-    <Platforms>ARM64</Platforms>
+    <Platforms>ARM64;x64;x86</Platforms>
     <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
 
     <!-- ABI e empacotamento -->
 	<RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
 	<AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
-
+  <NoWarn>$(NoWarn);CS0618;CS4014</NoWarn>
+  <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  <WarningsNotAsErrors>CS0618;CS4014</WarningsNotAsErrors>
   </PropertyGroup>
 
-  <!-- Assinatura Debug -->
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|ARM64'">
+    <AndroidKeyStore>False</AndroidKeyStore>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|x64'">
+    <AndroidKeyStore>False</AndroidKeyStore>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|x86'">
+    <AndroidKeyStore>False</AndroidKeyStore>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|ARM64'">
+    <AndroidKeyStore>False</AndroidKeyStore>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|x64'">
+    <AndroidKeyStore>False</AndroidKeyStore>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|x86'">
+    <AndroidKeyStore>False</AndroidKeyStore>
+  </PropertyGroup>
+
+  <!-- Assinatura Debug 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|ARM64'">
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>temporizadorchave.keystore</AndroidSigningKeyStore>
     <AndroidSigningKeyAlias>temporizadorchave</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>acgacg04</AndroidSigningKeyPass>
     <AndroidSigningStorePass>acgacg04</AndroidSigningStorePass>
-  </PropertyGroup>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup> -->
 
-  <!-- Assinatura Release -->
+  <!-- Assinatura Release 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|ARM64'">
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>temporizadorchave.keystore</AndroidSigningKeyStore>
     <AndroidSigningKeyAlias>temporizadorchave</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>acgacg04</AndroidSigningKeyPass>
     <AndroidSigningStorePass>acgacg04</AndroidSigningStorePass>
-  </PropertyGroup>
+  </PropertyGroup> -->
 
   <ItemGroup>
     <!-- App Icon -->
@@ -87,6 +118,21 @@
     <PackageReference Include="Microsoft.Maui.Graphics" Version="10.0.10" />
     <PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
