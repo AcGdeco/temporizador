@@ -57,7 +57,7 @@
 0x3dc84a49 di:12 mi:12 do:190753 ds:6351 ddo:0 dds:0 cdo:0 cds:0 System.Drawing.Primitives.dll
 0x3e444eb4 di:18 mi:18 do:266277 ds:168980 ddo:0 dds:0 cdo:0 cds:0 System.Linq.Expressions.dll
 0x3e865cbd di:87 mi:87 do:3360851 ds:3320 ddo:0 dds:0 cdo:0 cds:0 Microsoft.Extensions.Diagnostics.Abstractions.dll
-0x3f2b54e4 di:134 mi:134 do:6049855 ds:56332 ddo:0 dds:0 cdo:0 cds:0 Temporizador.dll
+0x3f2b54e4 di:134 mi:134 do:6049855 ds:56324 ddo:0 dds:0 cdo:0 cds:0 Temporizador.dll
 0x408b17f4 di:6 mi:6 do:77132 ds:48674 ddo:0 dds:0 cdo:0 cds:0 System.ComponentModel.TypeConverter
 0x409e66d8 di:131 mi:131 do:5982296 ds:32195 ddo:0 dds:0 cdo:0 cds:0 Xamarin.Kotlin.StdLib
 0x41761b2c di:40 mi:40 do:1274325 ds:2245 ddo:0 dds:0 cdo:0 cds:0 System
@@ -196,7 +196,7 @@
 0xb660be12 di:5 mi:5 do:70399 ds:6733 ddo:0 dds:0 cdo:0 cds:0 System.ComponentModel.Primitives
 0xb76be845 di:58 mi:58 do:3001331 ds:9995 ddo:0 dds:0 cdo:0 cds:0 hu/Microsoft.Maui.Controls.resources.dll
 0xb8fd311b di:14 mi:14 do:199473 ds:33205 ddo:0 dds:0 cdo:0 cds:0 System.Formats.Asn1
-0xbc85a377 di:134 mi:134 do:6049855 ds:56332 ddo:0 dds:0 cdo:0 cds:0 Temporizador
+0xbc85a377 di:134 mi:134 do:6049855 ds:56324 ddo:0 dds:0 cdo:0 cds:0 Temporizador
 0xbd78b0c8 di:122 mi:122 do:5602701 ds:8454 ddo:0 dds:0 cdo:0 cds:0 Xamarin.AndroidX.Navigation.Fragment.dll
 0xbff2e236 di:38 mi:38 do:1266084 ds:5700 ddo:0 dds:0 cdo:0 cds:0 System.Threading
 0xc2293e61 di:126 mi:126 do:5753076 ds:6000 ddo:0 dds:0 cdo:0 cds:0 Xamarin.AndroidX.SavedState.SavedState.Android.dll

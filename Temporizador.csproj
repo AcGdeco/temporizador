@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0-android</TargetFrameworks>
-    <!-- <AndroidPackageFormat>apk</AndroidPackageFormat>-->
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <!-- <AndroidPackageFormat>aab</AndroidPackageFormat>-->
     <OutputType>Exe</OutputType>
     <RootNamespace>Temporizador</RootNamespace>
     <UseMaui>true</UseMaui>

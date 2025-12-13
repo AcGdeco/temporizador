@@ -56,7 +56,7 @@
 0x34e292762d9615df di:48 mi:48 do:2985032 ds:9980 ddo:0 dds:0 cdo:0 cds:0 cs/Microsoft.Maui.Controls.resources.dll
 0x3508234247f48404 di:94 mi:94 do:3492731 ds:879605 ddo:0 dds:0 cdo:0 cds:0 Microsoft.Maui.Controls
 0x355282fc1c909694 di:83 mi:83 do:3389076 ds:8901 ddo:0 dds:0 cdo:0 cds:0 Microsoft.Extensions.Configuration
-0x36ab7a373533e28a di:134 mi:134 do:6133473 ds:56332 ddo:0 dds:0 cdo:0 cds:0 Temporizador
+0x36ab7a373533e28a di:134 mi:134 do:6133473 ds:56324 ddo:0 dds:0 cdo:0 cds:0 Temporizador
 0x380134e03b1e160a di:1 mi:1 do:26639 ds:13319 ddo:0 dds:0 cdo:0 cds:0 System.Collections.Immutable.dll
 0x385c17636bb6fe6e di:113 mi:113 do:5516348 ds:5413 ddo:0 dds:0 cdo:0 cds:0 Xamarin.AndroidX.CustomView.dll
 0x3be99b43dd39dd37 di:126 mi:126 do:5836694 ds:6000 ddo:0 dds:0 cdo:0 cds:0 Xamarin.AndroidX.SavedState.SavedState.Android
@@ -232,7 +232,7 @@
 0xd373685349b1fe8b di:90 mi:90 do:3454057 ds:11242 ddo:0 dds:0 cdo:0 cds:0 Microsoft.Extensions.Logging.dll
 0xd3e4c8d6a2d5d470 di:60 mi:60 do:3104952 ds:9987 ddo:0 dds:0 cdo:0 cds:0 it/Microsoft.Maui.Controls.resources
 0xd6d21782156bc35b di:127 mi:127 do:5842694 ds:16605 ddo:0 dds:0 cdo:0 cds:0 Xamarin.AndroidX.SwipeRefreshLayout.dll
-0xd8295957b469fcaf di:134 mi:134 do:6133473 ds:56332 ddo:0 dds:0 cdo:0 cds:0 Temporizador.dll
+0xd8295957b469fcaf di:134 mi:134 do:6133473 ds:56324 ddo:0 dds:0 cdo:0 cds:0 Temporizador.dll
 0xda1dfa4c534a9251 di:85 mi:85 do:3401120 ds:28183 ddo:0 dds:0 cdo:0 cds:0 Microsoft.Extensions.DependencyInjection
 0xdad05a11827959a3 di:2 mi:2 do:39958 ds:9033 ddo:0 dds:0 cdo:0 cds:0 System.Collections.NonGeneric.dll
 0xdbeda89f832aa805 di:76 mi:76 do:3264796 ds:9986 ddo:0 dds:0 cdo:0 cds:0 vi/Microsoft.Maui.Controls.resources.dll
