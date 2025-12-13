@@ -1,6 +1,0 @@
-images\dotnet_bot;images\dotnet_bot
-images\pause;images\pause
-images\play;images\play
-images\reset;images\reset
-images\stop;images\stop
-raw\aboutassets;raw\AboutAssets

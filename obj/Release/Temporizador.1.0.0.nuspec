@@ -5,7 +5,7 @@
     <version>1.0.0</version>
     <authors>Temporizador</authors>
     <description>Package Description</description>
-    <repository type="git" />
+    <repository type="git" commit="5230f946cba2d8003f5f77013974883952c1f2d2" />
     <dependencies>
       <group targetFramework="net10.0-android36.0">
         <dependency id="CommunityToolkit.Maui" version="13.0.0" exclude="Build,Analyzers" />

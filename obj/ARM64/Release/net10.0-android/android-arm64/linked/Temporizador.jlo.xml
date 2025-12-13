@@ -9,7 +9,7 @@
     <type name="MainApplication" package="crc644f4854b3ebd3c3a6" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="crc6488302ad6e9e4df1a.MauiApplication" is_application="True" partial_assembly_qualified_name="Temporizador.MainApplication, Temporizador" application_constructor="MainApplication" />
   </jcw-types>
   <acw-types partial-assembly-name="Temporizador" module-name="Temporizador.dll">
-    <type assembly-qualified-name="Temporizador.MainActivity, Temporizador, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainActivity" java-key="crc644f4854b3ebd3c3a6.MainActivity" managed-key="Temporizador.MainActivity" partial-assembly-qualified-name="Temporizador.MainActivity, Temporizador" />
-    <type assembly-qualified-name="Temporizador.MainApplication, Temporizador, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainApplication" java-key="crc644f4854b3ebd3c3a6.MainApplication" managed-key="Temporizador.MainApplication" partial-assembly-qualified-name="Temporizador.MainApplication, Temporizador" />
+    <type assembly-qualified-name="Temporizador.MainActivity, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainActivity" java-key="crc644f4854b3ebd3c3a6.MainActivity" managed-key="Temporizador.MainActivity" partial-assembly-qualified-name="Temporizador.MainActivity, Temporizador" />
+    <type assembly-qualified-name="Temporizador.MainApplication, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainApplication" java-key="crc644f4854b3ebd3c3a6.MainApplication" managed-key="Temporizador.MainApplication" partial-assembly-qualified-name="Temporizador.MainApplication, Temporizador" />
   </acw-types>
 </api>

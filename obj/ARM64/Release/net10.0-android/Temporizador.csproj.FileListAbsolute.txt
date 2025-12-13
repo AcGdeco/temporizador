@@ -26,10 +26,10 @@ C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\mauis
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\mauifont.stamp
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\f\OpenSans-Regular.ttf
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\f\OpenSans-Semibold.ttf
-C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\pause.png
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\stop.png
-C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\reset.png
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\play.png
+C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\pause.png
+C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\reset.png
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xxxhdpi\dotnet_bot.png
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xxhdpi\dotnet_bot.png
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xhdpi\dotnet_bot.png
@@ -126,10 +126,13 @@ C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\lp\17
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\R.txt
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\_Microsoft.Android.Resource.Designer.dll
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\R.cs.flag
+C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.Properties.Resources.resources
+C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.csproj.GenerateResource.cache
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.AssemblyInfoInputs.cache
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.AssemblyInfo.cs
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.csproj.CoreCompileInputs.cache
+C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.sourcelink.json
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\XamlC.stamp
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.dll
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.pdb
@@ -500,4 +503,3 @@ C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\stamp
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\stamp\_ResolveLibraryProjectImports.stamp
-C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\Temporizador.sourcelink.json

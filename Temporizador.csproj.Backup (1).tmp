@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Temporizador</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Informações do app -->
+    <ApplicationTitle>Temporizador</ApplicationTitle>
+    <ApplicationId>com.companyname.temporizador</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <!-- Compatibilidade Android -->
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <AndroidTargetSdkVersion>27</AndroidTargetSdkVersion>
+
+    <!-- Arquitetura -->
+    <Platforms>ARM64;x64;x86</Platforms>
+    <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
+
+    <!-- ABI e empacotamento -->
+	<RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
+	<AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
+	<AndroidSigningKeyStore />
+
+  </PropertyGroup>
+
+  <!-- Assinatura Debug -->
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|ARM64'">
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>temporizadorchave.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass></AndroidSigningKeyPass>
+    <AndroidSigningStorePass></AndroidSigningStorePass>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
+  <!-- Assinatura Release -->
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|ARM64'">
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>temporizadorchave.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass></AndroidSigningKeyPass>
+    <AndroidSigningStorePass></AndroidSigningStorePass>
+    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- App Icon -->
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+    <!-- Images -->
+    <MauiImage Include="Resources\Images\*" />
+    <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+
+    <!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\*" />
+
+    <!-- Raw Assets -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AndroidResource Remove="Resources\Drawable\**" />
+    <Compile Remove="Resources\Drawable\**" />
+    <EmbeddedResource Remove="Resources\Drawable\**" />
+    <MauiCss Remove="Resources\Drawable\**" />
+    <MauiXaml Remove="Resources\Drawable\**" />
+    <None Remove="Resources\Drawable\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Platforms\Android\Resources\shortcut_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.10" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Maui.Graphics" Version="10.0.10" />
+    <PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ReceitasPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+
+</Project>

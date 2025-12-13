@@ -63,6 +63,7 @@ obj\ARM64\Release\net10.0-android\android-arm64\aot\System.ComponentModel.TypeCo
 obj\ARM64\Release\net10.0-android\android-arm64\aot\System.ComponentModel.dll.so
 obj\ARM64\Release\net10.0-android\android-arm64\aot\System.Console.dll.so
 obj\ARM64\Release\net10.0-android\android-arm64\aot\System.Diagnostics.DiagnosticSource.dll.so
+obj\ARM64\Release\net10.0-android\android-arm64\aot\System.Diagnostics.Process.dll.so
 obj\ARM64\Release\net10.0-android\android-arm64\aot\System.Diagnostics.TraceSource.dll.so
 obj\ARM64\Release\net10.0-android\android-arm64\aot\System.Drawing.Primitives.dll.so
 obj\ARM64\Release\net10.0-android\android-arm64\aot\System.Drawing.dll.so
