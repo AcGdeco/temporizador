@@ -1,5 +1,5 @@
-<api type="release" assembly-name="Xamarin.KotlinX.Coroutines.Core.Jvm" mvid="1f9b279c6d694e8cb55c9f1c43f8d6f6">
-  <module assembly-name="Xamarin.KotlinX.Coroutines.Core.Jvm" mvid="1f9b279c6d694e8cb55c9f1c43f8d6f6" mvid-bytes="nCebH2ltjE61XJ8cQ/jW9g==">
+<api type="release" assembly-name="Xamarin.KotlinX.Coroutines.Core.Jvm" mvid="52e721f9eda546bf973938501899a318">
+  <module assembly-name="Xamarin.KotlinX.Coroutines.Core.Jvm" mvid="52e721f9eda546bf973938501899a318" mvid-bytes="+SHnUqXtv0aXOThQGJmjGA==">
     <duplicates>
       <entry java-name="kotlinx/coroutines/CoroutineScope" managed-type-name="Xamarin.KotlinX.Coroutines.ICoroutineScopeInvoker" token="33554441" />
       <entry java-name="kotlinx/coroutines/flow/Flow" managed-type-name="Xamarin.KotlinX.Coroutines.Flow.IFlowInvoker" token="33554443" />

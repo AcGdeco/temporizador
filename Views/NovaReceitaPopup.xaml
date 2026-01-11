@@ -9,7 +9,7 @@
     <Grid RowDefinitions="Auto,*" Padding="0" Margin="0">
         <!-- Cabeçalho com botão fechar -->
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" >
-            <Label Text="Adicionar Nova Receita"
+            <Label Text="Adicionar Receita"
                    FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="FillAndExpand"
@@ -153,7 +153,7 @@
                 </Grid>
             </Grid>
 
-            <Button Text="Salvar Receita"
+            <Button Text="Salvar"
                     BackgroundColor="#E74C3C"
                     TextColor="White"
                     FontAttributes="Bold"

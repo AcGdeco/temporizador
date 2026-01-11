@@ -124,6 +124,21 @@ mono.android.runtime.OutputStreamAdapter;mono.android.runtime.OutputStreamAdapte
 Android.Runtime.XmlReaderPullParser, Mono.Android;android.runtime.XmlReaderPullParser
 Android.Runtime.XmlReaderPullParser;android.runtime.XmlReaderPullParser
 android.runtime.XmlReaderPullParser;android.runtime.XmlReaderPullParser
+Android.Support.V4.Media.Session.IMediaControllerCallback, Xamarin.AndroidX.Media;android.support.v4.media.session.IMediaControllerCallback
+Android.Support.V4.Media.Session.IMediaControllerCallback;android.support.v4.media.session.IMediaControllerCallback
+android.support.v4.media.session.IMediaControllerCallback;android.support.v4.media.session.IMediaControllerCallback
+Android.Support.V4.Media.Session.IMediaSession, Xamarin.AndroidX.Media;android.support.v4.media.session.IMediaSession
+Android.Support.V4.Media.Session.IMediaSession;android.support.v4.media.session.IMediaSession
+android.support.v4.media.session.IMediaSession;android.support.v4.media.session.IMediaSession
+Android.Support.V4.Media.Session.MediaSessionCompat+IOnActiveChangeListener, Xamarin.AndroidX.Media;android.support.v4.media.session.MediaSessionCompat$OnActiveChangeListener
+Android.Support.V4.Media.Session.MediaSessionCompat.IOnActiveChangeListener;android.support.v4.media.session.MediaSessionCompat$OnActiveChangeListener
+android.support.v4.media.session.MediaSessionCompat$OnActiveChangeListener;android.support.v4.media.session.MediaSessionCompat$OnActiveChangeListener
+Android.Support.V4.Media.Session.MediaSessionCompat+IOnActiveChangeListenerImplementor, Xamarin.AndroidX.Media;mono.android.support.v4.media.session.MediaSessionCompat_OnActiveChangeListenerImplementor
+Android.Support.V4.Media.Session.MediaSessionCompat.IOnActiveChangeListenerImplementor;mono.android.support.v4.media.session.MediaSessionCompat_OnActiveChangeListenerImplementor
+mono.android.support.v4.media.session.MediaSessionCompat_OnActiveChangeListenerImplementor;mono.android.support.v4.media.session.MediaSessionCompat_OnActiveChangeListenerImplementor
+Android.Support.V4.Media.Session.MediaSessionCompat+IRegistrationCallback, Xamarin.AndroidX.Media;android.support.v4.media.session.MediaSessionCompat$RegistrationCallback
+Android.Support.V4.Media.Session.MediaSessionCompat.IRegistrationCallback;android.support.v4.media.session.MediaSessionCompat$RegistrationCallback
+android.support.v4.media.session.MediaSessionCompat$RegistrationCallback;android.support.v4.media.session.MediaSessionCompat$RegistrationCallback
 Android.Text.IEditable, Mono.Android;android.text.Editable
 Android.Text.IEditable;android.text.Editable
 android.text.Editable;android.text.Editable
@@ -448,6 +463,15 @@ mono.androidx.appcompat.widget.Toolbar_OnMenuItemClickListenerImplementor;mono.a
 AndroidX.AppCompat.Widget.Toolbar+NavigationOnClickEventDispatcher, Xamarin.AndroidX.AppCompat;androidx.appcompat.widget.Toolbar_NavigationOnClickEventDispatcher
 AndroidX.AppCompat.Widget.Toolbar.NavigationOnClickEventDispatcher;androidx.appcompat.widget.Toolbar_NavigationOnClickEventDispatcher
 androidx.appcompat.widget.Toolbar_NavigationOnClickEventDispatcher;androidx.appcompat.widget.Toolbar_NavigationOnClickEventDispatcher
+AndroidX.Core.App.ActivityCompat+IPermissionCompatDelegate, Xamarin.AndroidX.Core;androidx.core.app.ActivityCompat$PermissionCompatDelegate
+AndroidX.Core.App.ActivityCompat.IPermissionCompatDelegate;androidx.core.app.ActivityCompat$PermissionCompatDelegate
+androidx.core.app.ActivityCompat$PermissionCompatDelegate;androidx.core.app.ActivityCompat$PermissionCompatDelegate
+AndroidX.Core.App.INotificationBuilderWithBuilderAccessor, Xamarin.AndroidX.Core;androidx.core.app.NotificationBuilderWithBuilderAccessor
+AndroidX.Core.App.INotificationBuilderWithBuilderAccessor;androidx.core.app.NotificationBuilderWithBuilderAccessor
+androidx.core.app.NotificationBuilderWithBuilderAccessor;androidx.core.app.NotificationBuilderWithBuilderAccessor
+AndroidX.Core.App.NotificationCompat+IExtender, Xamarin.AndroidX.Core;androidx.core.app.NotificationCompat$Extender
+AndroidX.Core.App.NotificationCompat.IExtender;androidx.core.app.NotificationCompat$Extender
+androidx.core.app.NotificationCompat$Extender;androidx.core.app.NotificationCompat$Extender
 AndroidX.Core.App.SharedElementCallback+IOnSharedElementsReadyListener, Xamarin.AndroidX.Core;androidx.core.app.SharedElementCallback$OnSharedElementsReadyListener
 AndroidX.Core.App.SharedElementCallback.IOnSharedElementsReadyListener;androidx.core.app.SharedElementCallback$OnSharedElementsReadyListener
 androidx.core.app.SharedElementCallback$OnSharedElementsReadyListener;androidx.core.app.SharedElementCallback$OnSharedElementsReadyListener
@@ -625,6 +649,9 @@ androidx.swiperefreshlayout.widget.SwipeRefreshLayout$OnRefreshListener;androidx
 AndroidX.SwipeRefreshLayout.Widget.SwipeRefreshLayout+IOnRefreshListenerImplementor, Xamarin.AndroidX.SwipeRefreshLayout;mono.androidx.swiperefreshlayout.widget.SwipeRefreshLayout_OnRefreshListenerImplementor
 AndroidX.SwipeRefreshLayout.Widget.SwipeRefreshLayout.IOnRefreshListenerImplementor;mono.androidx.swiperefreshlayout.widget.SwipeRefreshLayout_OnRefreshListenerImplementor
 mono.androidx.swiperefreshlayout.widget.SwipeRefreshLayout_OnRefreshListenerImplementor;mono.androidx.swiperefreshlayout.widget.SwipeRefreshLayout_OnRefreshListenerImplementor
+AndroidX.VersionedParcelable.IVersionedParcelable, Xamarin.AndroidX.VersionedParcelable;androidx.versionedparcelable.VersionedParcelable
+AndroidX.VersionedParcelable.IVersionedParcelable;androidx.versionedparcelable.VersionedParcelable
+androidx.versionedparcelable.VersionedParcelable;androidx.versionedparcelable.VersionedParcelable
 AndroidX.ViewPager.Widget.ViewPager+IOnAdapterChangeListener, Xamarin.AndroidX.ViewPager;androidx.viewpager.widget.ViewPager$OnAdapterChangeListener
 AndroidX.ViewPager.Widget.ViewPager.IOnAdapterChangeListener;androidx.viewpager.widget.ViewPager$OnAdapterChangeListener
 androidx.viewpager.widget.ViewPager$OnAdapterChangeListener;androidx.viewpager.widget.ViewPager$OnAdapterChangeListener
@@ -1492,6 +1519,15 @@ temporizador.MainActivity;crc644f4854b3ebd3c3a6.MainActivity
 Temporizador.MainApplication, Temporizador;crc644f4854b3ebd3c3a6.MainApplication
 Temporizador.MainApplication;crc644f4854b3ebd3c3a6.MainApplication
 temporizador.MainApplication;crc644f4854b3ebd3c3a6.MainApplication
+Temporizador.Platforms.Android.BotaoReceiver, Temporizador;crc64f4d9d07d0eb5bd40.BotaoReceiver
+Temporizador.Platforms.Android.BotaoReceiver;crc64f4d9d07d0eb5bd40.BotaoReceiver
+temporizador.platforms.android.BotaoReceiver;crc64f4d9d07d0eb5bd40.BotaoReceiver
+Temporizador.TimerService, Temporizador;crc644f4854b3ebd3c3a6.TimerService
+Temporizador.TimerService;crc644f4854b3ebd3c3a6.TimerService
+temporizador.TimerService;crc644f4854b3ebd3c3a6.TimerService
+Temporizador.Views.TimerBroadcastReceiver, Temporizador;crc64d1407d2d3dc494b3.TimerBroadcastReceiver
+Temporizador.Views.TimerBroadcastReceiver;crc64d1407d2d3dc494b3.TimerBroadcastReceiver
+temporizador.views.TimerBroadcastReceiver;crc64d1407d2d3dc494b3.TimerBroadcastReceiver
 Xamarin.KotlinX.Coroutines.Flow.IFlow, Xamarin.KotlinX.Coroutines.Core.Jvm;kotlinx.coroutines.flow.Flow
 Xamarin.KotlinX.Coroutines.Flow.IFlow;kotlinx.coroutines.flow.Flow
 kotlinx.coroutines.flow.Flow;kotlinx.coroutines.flow.Flow

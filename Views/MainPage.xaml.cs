@@ -11,7 +11,18 @@ using Temporizador.Models;
 using SQLite;
 using Microsoft.Maui.Controls.Shapes;
 using CommunityToolkit.Maui.Behaviors;
-using Plugin.Maui.Audio;
+using Plugin.Maui.Audio; 
+using Microsoft.Maui.Controls;
+using CommunityToolkit.Mvvm.Messaging;
+using Temporizador.Platforms.Android;
+using Android.Widget;
+using Android.Content;
+#if ANDROID
+using Android.App;
+using Android.Content;
+using Android.OS;
+using AndroidX.Core.App;
+#endif
 
 namespace Temporizador.Views
 {
@@ -28,10 +39,36 @@ namespace Temporizador.Views
         private TimeSpan tempoDefinido;
 
         private IAudioPlayer _alarmePlayer;
+        private bool _audioInitialized = false;
+
+        // BroadcastReceiver para ações da notificação
+        private TimerBroadcastReceiver _receiver;
 
         public MainPage()
         {
             InitializeComponent();
+
+            // Registro para PARAR
+            WeakReferenceMessenger.Default.Register<PararTimerPelaNotificacaoMessage>(this, (r, m) =>
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    if (BotaoResetLabel.Text == "Parar")
+                    {
+                        OnResetClicked(null, null);
+                        AtualizarNotificacaoAndroid(tempoDefinido.ToString("hh\\:mm\\:ss"));
+                    }
+                });
+            });
+
+            // Registro para INICIAR
+            WeakReferenceMessenger.Default.Register<IniciarTimerPelaNotificacaoMessage>(this, (r, m) =>
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    OnStartClicked(null, null);
+                });
+            });
 
             // ✅ inicializa o banco
             var dbPath = System.IO.Path.Combine(FileSystem.AppDataDirectory, "receitas.db");
@@ -44,14 +81,31 @@ namespace Temporizador.Views
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += OnTimerElapsed;
             timer.AutoReset = true;
+        }
 
-            // ✅ Pré-carrega o áudio
-            var audioManager = AudioManager.Current;
-            using var stream = FileSystem.OpenAppPackageFileAsync("alarme.mp3").Result;
-            _alarmePlayer = audioManager.CreatePlayer(stream);
+        private void AtualizarNotificacaoAndroid(string tempoRestante)
+        {
+        #if ANDROID
+            try
+            {
+                var intent = new Intent(Android.App.Application.Context, typeof(TimerService));
+                intent.PutExtra("tempo", tempoRestante);
+                Android.App.Application.Context.StartForegroundService(intent);
+            }
+            catch (Exception ex)
+            {
+                // Log or display error (e.g., for debugging)
+                System.Diagnostics.Debug.WriteLine($"Service error: {ex.Message}");
+            }
+        #endif
+        }
 
-            // 🔁 ativa loop automático
-            _alarmePlayer.Loop = true;
+        private void StopNotificationAndroid()
+        {
+        #if ANDROID
+            var intent = new Intent(Android.App.Application.Context, typeof(TimerService));
+            Android.App.Application.Context.StopService(intent);
+        #endif
         }
 
         private async void OnPageLoaded(object sender, EventArgs e)
@@ -72,31 +126,56 @@ namespace Temporizador.Views
 
             try
             {
-                // Garante que a página já está totalmente carregada
-                await Task.Delay(100); // pequeno delay para o MAUI "acordar" (opcional, mas ajuda em emuladores)
+                // Só inicializa o áudio uma vez
+                if (!_audioInitialized)
+                {
+                    await InitializeAudioPlayerAsync();
+                    _audioInitialized = true;
+                }
 
                 // Carrega as receitas do banco de forma segura
                 CarregarReceitas();
 
-                // Atualiza a UI (timer, barra, etc.)
                 AtualizarUI();
             }
             catch (Exception ex)
             {
-                // Mostra o erro real no Output e na tela (só em modo Debug)
-        #if DEBUG
-                System.Diagnostics.Debug.WriteLine("=== ERRO NO OnAppearing() ===");
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
-
-                await DisplayAlert(
-                    "Erro ao carregar",
-                    $"Mensagem: {ex.Message}\n\nStackTrace:\n{ex.StackTrace.Substring(0, Math.Min(500, ex.StackTrace.Length))}...",
-                    "OK");
-        #endif
-
-                // Em Release, só registra silenciosamente
-                System.Diagnostics.Debug.WriteLine($"Erro silencioso: {ex}");
+    #if DEBUG
+                await DisplayAlert("Erro no OnAppearing", ex.Message, "OK");
+    #endif
             }
+        }
+
+        private async Task InitializeAudioPlayerAsync()
+        {
+            try
+            {
+                var audioManager = AudioManager.Current;
+
+                // Agora sim, await de verdade (não bloqueia)
+                await using var stream = await FileSystem.OpenAppPackageFileAsync("alarme.mp3");
+
+                _alarmePlayer = audioManager.CreatePlayer(stream);
+
+                // Configura loop
+                _alarmePlayer.Loop = true;
+
+                // Opcional: pré-carrega se quiser, mas geralmente não precisa
+                // _alarmePlayer.Play(); _alarmePlayer.Pause();
+            }
+            catch (Exception ex)
+            {
+                // Trate o erro (arquivo não encontrado, formato inválido, etc.)
+                System.Diagnostics.Debug.WriteLine($"Falha ao carregar alarme: {ex.Message}");
+    #if DEBUG
+                await DisplayAlert("Erro no áudio", "Não foi possível carregar o alarme.mp3", "OK");
+    #endif
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
         }
 
         private void CarregarReceitas()
@@ -147,7 +226,6 @@ namespace Temporizador.Views
                     TextColor = Colors.Black,
                     HorizontalOptions = LayoutOptions.Center
                 };
-
                 var tempoLabel = new Label
                 {
                     Text = TimeSpan.FromSeconds(receita.Tempo).ToString(@"hh\:mm\:ss"),
@@ -155,7 +233,6 @@ namespace Temporizador.Views
                     TextColor = Colors.Black,
                     HorizontalOptions = LayoutOptions.Center
                 };
-
                 grid.Add(nomeLabel, 0, 0);
                 grid.Add(tempoLabel, 0, 1);
 
@@ -165,7 +242,6 @@ namespace Temporizador.Views
                 var tap = new TapGestureRecognizer();
                 tap.Tapped += OnReceitaSelecionada;
                 frame.GestureRecognizers.Add(tap);
-
                 frame.BindingContext = receita;
 
                 // Remove qualquer gesto antigo
@@ -180,20 +256,16 @@ namespace Temporizador.Views
                         // Toque normal → seleciona a receita e define o temporizador
                         OnReceitaSelecionada(frame, EventArgs.Empty);
                     }),
-
                     LongPressCommand = new Command(async () =>
                     {
                         // Pressão longa → abre edição (NÃO altera o tempo!)
                         var popup = new EditarReceitaPopup(receita, _db);
                         var resultado = await this.ShowPopupAsync(popup);
-
                         // Recarrega os cards após salvar ou deletar
                         CarregarReceitas();
                     }),
-
                     LongPressDuration = 600, // 0.6s pra ser bem confortável
                 };
-
                 frame.Behaviors.Add(touchBehavior);
 
                 ReceitasContainer.Add(frame, col, row);
@@ -215,7 +287,6 @@ namespace Temporizador.Views
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 Padding = new Thickness(10, 14),
                 StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(8) },
-
                 // Define padrão pontilhado: traço curto + espaço
                 StrokeDashArray = new DoubleCollection { 2, 2 }
             };
@@ -267,7 +338,7 @@ namespace Temporizador.Views
         {
             // Inicia a animação sem esperar (fire-and-forget)
             TempoRestanteLabel.ScaleTo(0.95, 1, Easing.CubicOut)
-                .ContinueWith(t => 
+                .ContinueWith(t =>
                 {
                     TempoRestanteLabel.ScaleTo(1.0, 90, Easing.CubicIn);
                 }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -334,8 +405,8 @@ namespace Temporizador.Views
         private void OnAddTimeClicked(object sender, EventArgs e)
         {
             estadoTemporizador = EstadoTemporizador.Parado;
-            
-            if (sender is Border border && 
+           
+            if (sender is Border border &&
                 border.GestureRecognizers[0] is TapGestureRecognizer tap &&
                 tap.CommandParameter is string s &&
                 int.TryParse(s, out int addSeg))
@@ -353,7 +424,6 @@ namespace Temporizador.Views
             {
                 tempoInicial = TimeSpan.Zero;
                 tempoRestante = TimeSpan.Zero;
-
                 estadoTemporizador = EstadoTemporizador.Resetado;
             }
             else if (BotaoResetLabel.Text == "Parar")
@@ -410,17 +480,20 @@ namespace Temporizador.Views
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            // ✅ 1. Rodando → conta para baixo
             if (estadoTemporizador == EstadoTemporizador.Rodando)
             {
                 if (tempoRestante.TotalSeconds > 0)
                 {
                     tempoRestante = tempoRestante.Subtract(TimeSpan.FromSeconds(1));
-                    MainThread.BeginInvokeOnMainThread(AtualizarUI);
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        AtualizarUI();
+                        AtualizarNotificacaoAndroid(tempoRestante.ToString("hh\\:mm\\:ss"));
+                    });
                 }
                 else
                 {
-                    // ✅ Tempo acabou → muda para Resetado
                     timer.Stop();
                     estadoTemporizador = EstadoTemporizador.Resetado;
 
@@ -431,36 +504,42 @@ namespace Temporizador.Views
                         TempoRestanteLabel.Scale = 1;
 
                         _alarmePlayer?.Play();
+
+                        // Quando termina, atualiza a notificação para "Tempo concluído!"
+                        AtualizarNotificacaoAndroid("Tempo concluído!");
                     });
                 }
 
                 return;
             }
 
-            // ✅ 2. Pausado → não mexe no tempo
             if (estadoTemporizador == EstadoTemporizador.Pausado)
-            {
                 return;
-            }
 
-            // ✅ 3. Parado → volta ao tempo inicial
             if (estadoTemporizador == EstadoTemporizador.Parado)
             {
                 timer.Stop();
                 tempoRestante = tempoDefinido;
 
-                MainThread.BeginInvokeOnMainThread(AtualizarUI);
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    AtualizarUI();
+                    AtualizarNotificacaoAndroid(tempoRestante.ToString("hh\\:mm\\:ss"));
+                });
                 return;
             }
 
-            // ✅ 4. Resetado → zera tudo
             if (estadoTemporizador == EstadoTemporizador.Resetado)
             {
                 timer.Stop();
                 tempoRestante = TimeSpan.Zero;
                 tempoInicial = TimeSpan.Zero;
 
-                MainThread.BeginInvokeOnMainThread(AtualizarUI);
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    AtualizarUI();
+                    AtualizarNotificacaoAndroid("00:00:00");
+                });
                 return;
             }
         }
@@ -522,6 +601,134 @@ namespace Temporizador.Views
                 // Atualiza lista de receitas
                 CarregarReceitas();
                 AtualizarUI();
+            }
+        }
+
+        // Método para pausar via notificação (chamado pelo receiver)
+        public void PausarTimer()
+        {
+            if (estadoTemporizador == EstadoTemporizador.Rodando)
+            {
+                timer.Stop();
+                estadoTemporizador = EstadoTemporizador.Pausado;
+                AtualizarBotaoIniciar("Continuar", "play.png", Colors.Blue);
+                StatusLabel.Text = "TEMPO RESTANTE";
+                AtualizarUI();
+            }
+        }
+
+        // Método para continuar via notificação
+        public void ContinuarTimer()
+        {
+            if (estadoTemporizador == EstadoTemporizador.Pausado)
+            {
+                timer.Start();
+                estadoTemporizador = EstadoTemporizador.Rodando;
+                AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
+                StatusLabel.Text = "COZINHANDO...";
+                AtualizarUI();
+            }
+        }
+
+        public class AtualizarNotificacaoMessage 
+        { 
+            public string NovoTempo { get; set; }
+            public bool EstaRodando { get; set; }
+        }
+
+        // Método para parar via notificação
+        public void PararTimer()
+        {
+            if (BotaoResetLabel.Text == "Parar")
+            {
+                tempoInicial = tempoDefinido;
+                tempoRestante = tempoInicial;
+
+                // ✅ força a barra ao tamanho máximo imediatamente
+                double larguraTotal = BarraContainer.Width;
+                if (larguraTotal <= 0) larguraTotal = this.Width - 40;
+
+                estadoTemporizador = EstadoTemporizador.Parado;
+
+                BarraLaranja.WidthRequest = larguraTotal;
+
+                AtualizarBotaoIniciar("Iniciar", "play.png", Color.FromArgb("#27AE60"));
+                AtualizarBotaoReset("Reset", "reset.png", Color.FromArgb("#E74C3C"));
+                StatusLabel.Text = "TEMPO RESTANTE";
+
+                _alarmePlayer?.Stop();
+
+                timer.Stop();
+
+                tempoRestante = tempoInicial; // Resetando o tempo
+        
+                // Envia comando para atualizar a notificação com o tempo resetado
+                WeakReferenceMessenger.Default.Send(new AtualizarNotificacaoMessage 
+                { 
+                    NovoTempo = tempoRestante.ToString(@"mm\:ss"), 
+                    EstaRodando = false 
+                });
+
+                AtualizarUI();
+            }
+        }
+
+        // Método para resetar via notificação
+        public void ResetarTimer()
+        {
+            tempoInicial = TimeSpan.Zero;
+            tempoRestante = TimeSpan.Zero;
+            estadoTemporizador = EstadoTemporizador.Resetado;
+
+            AtualizarBotaoIniciar("Iniciar", "play.png", Color.FromArgb("#27AE60"));
+            AtualizarBotaoReset("Reset", "reset.png", Color.FromArgb("#E74C3C"));
+            StatusLabel.Text = "TEMPO RESTANTE";
+
+            _alarmePlayer?.Stop();
+
+            timer.Stop();
+
+            AtualizarUI();
+            StopNotificationAndroid();  // Removes notification on reset
+        }
+    }
+
+    // BroadcastReceiver para ações da notificação
+    [BroadcastReceiver(Enabled = true, Label = "Timer Receiver", Exported = true)]
+    public class TimerBroadcastReceiver : BroadcastReceiver
+    {
+        private readonly MainPage _mainPage;
+
+        public TimerBroadcastReceiver()
+        {
+        }
+
+        public TimerBroadcastReceiver(MainPage mainPage)
+        {
+            _mainPage = mainPage;
+        }
+
+        public override void OnReceive(Context context, Intent intent)
+        {
+            if (_mainPage == null) return;  // Segurança se não inicializado
+
+            string action = intent.GetStringExtra("action");
+
+            if (action == "PAUSAR")
+            {
+                _mainPage.PausarTimer();
+            }
+            else if (action == "CONTINUAR")
+            {
+                _mainPage.ContinuarTimer();
+            }
+            else if (action == "PARAR")
+            {
+                _mainPage.PararTimer();
+            }
+            else if (action == "RESETAR")
+            {
+                _mainPage.ResetarTimer();
             }
         }
     }

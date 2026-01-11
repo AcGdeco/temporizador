@@ -5,11 +5,44 @@
         <constructor name="MainActivity" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
         <constructor name="MainActivity" method="n_.ctor:(I)V:" jni_signature="(I)V" managed_parameters="System.Int32, System.Private.CoreLib" params="int p0" retval="void" is_dynamically_registered="True" super_call="p0" activate_call="p0" />
       </constructors>
+      <methods>
+        <method name="onCreate" method="n_onCreate:(Landroid/os/Bundle;)V:GetOnCreate_Landroid_os_Bundle_Handler" jni_signature="(Landroid/os/Bundle;)V" params="android.os.Bundle p0" retval="void" super_call="p0" activate_call="p0" />
+      </methods>
     </type>
     <type name="MainApplication" package="crc644f4854b3ebd3c3a6" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="crc6488302ad6e9e4df1a.MauiApplication" is_application="True" partial_assembly_qualified_name="Temporizador.MainApplication, Temporizador" application_constructor="MainApplication" />
+    <type name="TimerService" package="crc644f4854b3ebd3c3a6" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="android.app.Service" partial_assembly_qualified_name="Temporizador.TimerService, Temporizador">
+      <constructors>
+        <constructor name="TimerService" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
+      </constructors>
+      <methods>
+        <method name="onBind" method="n_onBind:(Landroid/content/Intent;)Landroid/os/IBinder;:GetOnBind_Landroid_content_Intent_Handler" jni_signature="(Landroid/content/Intent;)Landroid/os/IBinder;" params="android.content.Intent p0" retval="android.os.IBinder" super_call="p0" activate_call="p0" />
+        <method name="onCreate" method="n_onCreate:()V:GetOnCreateHandler" jni_signature="()V" retval="void" />
+        <method name="onStartCommand" method="n_onStartCommand:(Landroid/content/Intent;II)I:GetOnStartCommand_Landroid_content_Intent_IIHandler" jni_signature="(Landroid/content/Intent;II)I" params="android.content.Intent p0, int p1, int p2" retval="int" super_call="p0, p1, p2" activate_call="p0, p1, p2" />
+        <method name="onDestroy" method="n_onDestroy:()V:GetOnDestroyHandler" jni_signature="()V" retval="void" />
+      </methods>
+    </type>
+    <type name="TimerBroadcastReceiver" package="crc64d1407d2d3dc494b3" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="android.content.BroadcastReceiver" partial_assembly_qualified_name="Temporizador.Views.TimerBroadcastReceiver, Temporizador">
+      <constructors>
+        <constructor name="TimerBroadcastReceiver" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
+      </constructors>
+      <methods>
+        <method name="onReceive" method="n_onReceive:(Landroid/content/Context;Landroid/content/Intent;)V:GetOnReceive_Landroid_content_Context_Landroid_content_Intent_Handler" jni_signature="(Landroid/content/Context;Landroid/content/Intent;)V" params="android.content.Context p0, android.content.Intent p1" retval="void" super_call="p0, p1" activate_call="p0, p1" />
+      </methods>
+    </type>
+    <type name="BotaoReceiver" package="crc64f4d9d07d0eb5bd40" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="android.content.BroadcastReceiver" partial_assembly_qualified_name="Temporizador.Platforms.Android.BotaoReceiver, Temporizador">
+      <constructors>
+        <constructor name="BotaoReceiver" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
+      </constructors>
+      <methods>
+        <method name="onReceive" method="n_onReceive:(Landroid/content/Context;Landroid/content/Intent;)V:GetOnReceive_Landroid_content_Context_Landroid_content_Intent_Handler" jni_signature="(Landroid/content/Context;Landroid/content/Intent;)V" params="android.content.Context p0, android.content.Intent p1" retval="void" super_call="p0, p1" activate_call="p0, p1" />
+      </methods>
+    </type>
   </jcw-types>
   <acw-types partial-assembly-name="Temporizador" module-name="Temporizador.dll">
     <type assembly-qualified-name="Temporizador.MainActivity, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainActivity" java-key="crc644f4854b3ebd3c3a6.MainActivity" managed-key="Temporizador.MainActivity" partial-assembly-qualified-name="Temporizador.MainActivity, Temporizador" />
     <type assembly-qualified-name="Temporizador.MainApplication, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainApplication" java-key="crc644f4854b3ebd3c3a6.MainApplication" managed-key="Temporizador.MainApplication" partial-assembly-qualified-name="Temporizador.MainApplication, Temporizador" />
+    <type assembly-qualified-name="Temporizador.TimerService, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.TimerService" java-key="crc644f4854b3ebd3c3a6.TimerService" managed-key="Temporizador.TimerService" partial-assembly-qualified-name="Temporizador.TimerService, Temporizador" />
+    <type assembly-qualified-name="Temporizador.Views.TimerBroadcastReceiver, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.views.TimerBroadcastReceiver" java-key="crc64d1407d2d3dc494b3.TimerBroadcastReceiver" managed-key="Temporizador.Views.TimerBroadcastReceiver" partial-assembly-qualified-name="Temporizador.Views.TimerBroadcastReceiver, Temporizador" />
+    <type assembly-qualified-name="Temporizador.Platforms.Android.BotaoReceiver, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.platforms.android.BotaoReceiver" java-key="crc64f4d9d07d0eb5bd40.BotaoReceiver" managed-key="Temporizador.Platforms.Android.BotaoReceiver" partial-assembly-qualified-name="Temporizador.Platforms.Android.BotaoReceiver, Temporizador" />
   </acw-types>
 </api>

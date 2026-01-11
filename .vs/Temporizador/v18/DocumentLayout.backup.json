@@ -3,40 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Andre\\source\\repos\\Temporizador\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\shortcutservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\shortcutservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\botaoreceiver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\botaoreceiver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\timerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\timerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\editarreceitapopup.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\editarreceitapopup.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\shortcutservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\shortcutservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\novareceitapopup.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\novareceitapopup.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\viewsmodels\\receitasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:viewsmodels\\receitasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\models\\receita.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:models\\receita.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,11 +34,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "BotaoReceiver.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\BotaoReceiver.cs",
+              "RelativeDocumentMoniker": "Platforms\\Android\\BotaoReceiver.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\BotaoReceiver.cs",
+              "RelativeToolTip": "Platforms\\Android\\BotaoReceiver.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T22:10:57.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainActivity.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\MainActivity.cs",
+              "RelativeDocumentMoniker": "Platforms\\Android\\MainActivity.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\MainActivity.cs",
+              "RelativeToolTip": "Platforms\\Android\\MainActivity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T19:03:39.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TimerService.cs",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\TimerService.cs",
+              "RelativeDocumentMoniker": "Platforms\\Android\\TimerService.cs",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\TimerService.cs",
+              "RelativeToolTip": "Platforms\\Android\\TimerService.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAtwDoAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T16:50:14.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
+              "RelativeDocumentMoniker": "Views\\MainPage.xaml",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
+              "RelativeToolTip": "Views\\MainPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-14T14:14:01.59Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "ShortcutService.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\ShortcutService.cs",
               "RelativeDocumentMoniker": "Platforms\\Android\\ShortcutService.cs",
@@ -63,99 +107,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "Views\\MainPage.xaml.cs",
               "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
               "RelativeToolTip": "Views\\MainPage.xaml.cs",
-              "ViewState": "AgIAAC0BAAAAAAAAAAAgwDsBAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAlwEoAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:58:52.864Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EditarReceitaPopup.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\EditarReceitaPopup.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\EditarReceitaPopup.xaml.cs",
-              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\EditarReceitaPopup.xaml.cs",
-              "RelativeToolTip": "Views\\EditarReceitaPopup.xaml.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAAAFMAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-10T09:33:09.538Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "NovaReceitaPopup.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\NovaReceitaPopup.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\NovaReceitaPopup.xaml.cs",
-              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\NovaReceitaPopup.xaml.cs",
-              "RelativeToolTip": "Views\\NovaReceitaPopup.xaml.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAIwGgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T20:00:18.998Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MauiProgram.cs",
-              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\MauiProgram.cs",
-              "RelativeDocumentMoniker": "MauiProgram.cs",
-              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\MauiProgram.cs",
-              "RelativeToolTip": "MauiProgram.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T19:27:32.765Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\App.xaml.cs",
-              "RelativeDocumentMoniker": "App.xaml.cs",
-              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\App.xaml.cs",
-              "RelativeToolTip": "App.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:40:13.839Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ReceitasViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\ViewsModels\\ReceitasViewModel.cs",
-              "RelativeDocumentMoniker": "ViewsModels\\ReceitasViewModel.cs",
-              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\ViewsModels\\ReceitasViewModel.cs",
-              "RelativeToolTip": "ViewsModels\\ReceitasViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:36:38.862Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DatabaseService.cs",
-              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Services\\DatabaseService.cs",
-              "RelativeDocumentMoniker": "Services\\DatabaseService.cs",
-              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Services\\DatabaseService.cs",
-              "RelativeToolTip": "Services\\DatabaseService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:35:52.497Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Receita.cs",
-              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Models\\Receita.cs",
-              "RelativeDocumentMoniker": "Models\\Receita.cs",
-              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Models\\Receita.cs",
-              "RelativeToolTip": "Models\\Receita.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T10:34:45.562Z"
+              "WhenOpened": "2025-12-09T10:58:52.864Z",
+              "EditorCaption": ""
             }
           ]
         }
