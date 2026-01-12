@@ -15,6 +15,8 @@
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+  <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
   <!-- ÚNICO application -->
   <application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:name="crc644f4854b3ebd3c3a6.MainApplication" android:label="Bibi" android:extractNativeLibs="true">
     <receiver android:name=".TimerBroadcastReceiver" android:exported="false">
@@ -22,8 +24,9 @@
         <action android:name="com.temporizador.ACTION" />
       </intent-filter>
     </receiver>
-    <!-- Serviço registrado aqui -->
-    <service android:name=".TimerService" android:exported="true" android:foregroundServiceType="dataSync" />
+    <service android:name=".TimerService" android:enabled="true" android:exported="true" android:foregroundServiceType="specialUse">
+      <property android:name="android.app.PROPERTY_SPECIAL_USE_TYPE" android:value="timer-notification" />
+    </service>
     <activity android:configChanges="orientation|screenSize" android:exported="false" android:name="crc6468b6408a11370c2f.WebAuthenticatorIntermediateActivity" />
     <provider android:authorities="com.companyname.temporizador.fileProvider" android:exported="false" android:grantUriPermissions="true" android:name="microsoft.maui.essentials.fileProvider">
       <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/microsoft_maui_essentials_fileprovider_file_paths" />

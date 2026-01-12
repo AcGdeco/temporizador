@@ -1,11 +1,11 @@
-<api type="release" assembly-name="Temporizador" mvid="dd40f308edcb435c97dd9a3ff3b95ce8">
-  <module assembly-name="Temporizador" mvid="dd40f308edcb435c97dd9a3ff3b95ce8" mvid-bytes="CPNA3cvtXEOX3Zo/87lc6A==">
+<api type="release" assembly-name="Temporizador" mvid="d475a9b3d91d4e92aa553abd577cce2a">
+  <module assembly-name="Temporizador" mvid="d475a9b3d91d4e92aa553abd577cce2a" mvid-bytes="s6l11B3Zkk6qVTq9V3zOKg==">
     <types-scratch>
       <entry key="crc644f4854b3ebd3c3a6/MainActivity" java-name="crc644f4854b3ebd3c3a6/MainActivity" managed-type-name="Temporizador.MainActivity" token="33554505" />
       <entry key="crc644f4854b3ebd3c3a6/MainApplication" java-name="crc644f4854b3ebd3c3a6/MainApplication" managed-type-name="Temporizador.MainApplication" token="33554506" />
       <entry key="crc644f4854b3ebd3c3a6/TimerService" java-name="crc644f4854b3ebd3c3a6/TimerService" managed-type-name="Temporizador.TimerService" token="33554507" />
-      <entry key="crc64d1407d2d3dc494b3/TimerBroadcastReceiver" java-name="crc64d1407d2d3dc494b3/TimerBroadcastReceiver" managed-type-name="Temporizador.Views.TimerBroadcastReceiver" token="33554521" />
-      <entry key="crc64f4d9d07d0eb5bd40/BotaoReceiver" java-name="crc64f4d9d07d0eb5bd40/BotaoReceiver" managed-type-name="Temporizador.Platforms.Android.BotaoReceiver" token="33554534" />
+      <entry key="crc64d1407d2d3dc494b3/TimerBroadcastReceiver" java-name="crc64d1407d2d3dc494b3/TimerBroadcastReceiver" managed-type-name="Temporizador.Views.TimerBroadcastReceiver" token="33554522" />
+      <entry key="crc64f4d9d07d0eb5bd40/BotaoReceiver" java-name="crc64f4d9d07d0eb5bd40/BotaoReceiver" managed-type-name="Temporizador.Platforms.Android.BotaoReceiver" token="33554535" />
     </types-scratch>
   </module>
 </api>

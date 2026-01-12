@@ -17,6 +17,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Temporizador.Platforms.Android;
 using Android.Widget;
 using Android.Content;
+using Temporizador.Platforms.Android;
 #if ANDROID
 using Android.App;
 using Android.Content;
@@ -43,10 +44,14 @@ namespace Temporizador.Views
 
         // BroadcastReceiver para ações da notificação
         private TimerBroadcastReceiver _receiver;
+        private NotificationCompat.Builder _builder;
 
         public MainPage()
         {
             InitializeComponent();
+
+            var btn1Label = "";
+            var btn2Label = "";
 
             // Registro para PARAR
             WeakReferenceMessenger.Default.Register<PararTimerPelaNotificacaoMessage>(this, (r, m) =>
@@ -60,6 +65,19 @@ namespace Temporizador.Views
                     } else {
                         OnResetClicked(null, null);
                     }
+
+                    if (BotaoResetLabel.Text == "Parar")
+                    {
+                        btn2Label = "Parar";
+                    } else {
+                        btn2Label = "Resetar";
+                    }
+
+                    btn1Label = BotaoIniciarLabel.Text;
+                    // Cria (ou recria) o builder usando o helper externo
+                    var context = Android.App.Application.Context;
+                    _builder = TimerNotificationBuilder.Build(context, btn1Label, btn2Label);
+
                 });
             });
 
@@ -69,6 +87,19 @@ namespace Temporizador.Views
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
                     OnStartClicked(null, null);
+
+                    if (BotaoIniciarLabel.Text == "Pausar")
+                    {
+                        btn1Label = "Pausar";
+                    } else {
+                        btn1Label = "Continuar";
+                    }
+
+                    btn2Label = BotaoResetLabel.Text;
+                    // Cria (ou recria) o builder usando o helper externo
+                    var context = Android.App.Application.Context;
+                    _builder = TimerNotificationBuilder.Build(context, btn1Label, btn2Label);
+
                 });
             });
 
@@ -85,19 +116,21 @@ namespace Temporizador.Views
             timer.AutoReset = true;
         }
 
-        private void AtualizarNotificacaoAndroid(string tempoRestante)
+        private void AtualizarNotificacaoAndroid(string tempoFormatado)
         {
         #if ANDROID
             try
             {
                 var intent = new Intent(Android.App.Application.Context, typeof(TimerService));
-                intent.PutExtra("tempo", tempoRestante);
+                intent.PutExtra("tempo", tempoFormatado);
+                intent.PutExtra("estaRodando", estadoTemporizador == EstadoTemporizador.Rodando);
+                intent.PutExtra("btn1Label", BotaoIniciarLabel.Text);   // "Pausar" ou "Continuar"
+                intent.PutExtra("btn2Label", BotaoResetLabel.Text);     // "Parar" ou "Reset"
                 Android.App.Application.Context.StartForegroundService(intent);
             }
             catch (Exception ex)
             {
-                // Log or display error (e.g., for debugging)
-                System.Diagnostics.Debug.WriteLine($"Service error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Erro ao atualizar notificação: {ex.Message}");
             }
         #endif
         }
@@ -451,6 +484,10 @@ namespace Temporizador.Views
 
             timer.Stop();
 
+            // ✅ Para a vibração em loop 
+            var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService); 
+            vibrator?.Cancel();
+
             AtualizarUI();
         }
 
@@ -509,16 +546,20 @@ namespace Temporizador.Views
                         // Toca o alarme
                         _alarmePlayer?.Play();
 
-                        // Vibra ao despertar o alarme
                         var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService);
+
                         if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
                         {
-                            var effect = VibrationEffect.CreateOneShot(1500, VibrationEffect.DefaultAmplitude);
+                            // padrão: [início imediato, vibra 1000ms, pausa 1000ms]
+                            long[] pattern = { 0, 1000, 1000 };
+                            var effect = VibrationEffect.CreateWaveform(pattern, 0); // 0 = repetir indefinidamente
                             vibrator?.Vibrate(effect);
                         }
                         else
                         {
-                            vibrator?.Vibrate(1500); // vibra por 1,5 segundos
+                            // versões antigas
+                            long[] pattern = { 0, 1000, 1000 };
+                            vibrator?.Vibrate(pattern, 0); // 0 = repetir indefinidamente
                         }
 
                         // Atualiza a notificação
@@ -556,6 +597,10 @@ namespace Temporizador.Views
                     AtualizarUI();
                     AtualizarNotificacaoAndroid("00:00:00");
                     StopNotificationAndroid();
+
+                    // Para a vibração quando resetar
+                    var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService);
+                    vibrator?.Cancel();
                 });
                 return;
             }
