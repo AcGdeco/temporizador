@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- PAUSE (lado esquerdo) -->
+    <!-- Barra esquerda -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M3,6 H7 V18 H3 Z"/>
+
+    <!-- Barra direita -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M9,6 H13 V18 H9 Z"/>
+
+    <!-- Separador fino (opcional) -->
+    <path
+        android:fillColor="#80FFFFFF"
+        android:pathData="M14,5 H15 V19 H14 Z"/>
+
+    <!-- PLAY (lado direito) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M16,6 V18 L22,12 Z"/>
+</vector>

@@ -63,6 +63,7 @@ Xamarin.AndroidX.Lifecycle.ViewModel.Ktx.dll
 Xamarin.AndroidX.Lifecycle.ViewModelSavedState.Android.dll
 Xamarin.AndroidX.Lifecycle.ViewModelSavedState.dll
 Xamarin.AndroidX.Loader.dll
+Xamarin.AndroidX.Media.dll
 Xamarin.AndroidX.Navigation.Common.Android.dll
 Xamarin.AndroidX.Navigation.Common.dll
 Xamarin.AndroidX.Navigation.Fragment.dll
@@ -162,6 +163,7 @@ androidx.navigation.navigation-ui.aar
 androidx.lifecycle.lifecycle-livedata-core-ktx.aar
 androidx.fragment.fragment-ktx.aar
 androidx.navigation.navigation-fragment.aar
+androidx.media.media.aar
 androidx.lifecycle.lifecycle-livedata.aar
 androidx.exifinterface.exifinterface.aar
 androidx.browser.browser.aar

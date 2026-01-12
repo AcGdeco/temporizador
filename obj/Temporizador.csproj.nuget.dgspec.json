@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[13.0.0, )"
             },
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.4.0, )"
+            },
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
               "version": "[8.0.1, )"
@@ -81,6 +85,10 @@
             "Plugin.Maui.Audio": {
               "target": "Package",
               "version": "[4.0.0, )"
+            },
+            "Xamarin.AndroidX.Media": {
+              "target": "Package",
+              "version": "[1.7.1.1, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",
