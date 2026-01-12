@@ -3111,8 +3111,8 @@ int drawable ic_mtrl_chip_checked_black 0x7f070095
 int drawable ic_mtrl_chip_checked_circle 0x7f070096
 int drawable ic_mtrl_chip_close_circle 0x7f070097
 int drawable ic_pause_play 0x7f070098
-int drawable ic_search_black_24 0x7f070099
-int drawable ic_stop 0x7f07009a
+int drawable ic_reset_stop 0x7f070099
+int drawable ic_search_black_24 0x7f07009a
 int drawable ic_timer 0x7f07009b
 int drawable indeterminate_static 0x7f07009c
 int drawable m3_avd_hide_password 0x7f07009d

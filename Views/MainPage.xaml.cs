@@ -57,6 +57,8 @@ namespace Temporizador.Views
                     {
                         OnResetClicked(null, null);
                         AtualizarNotificacaoAndroid(tempoDefinido.ToString("hh\\:mm\\:ss"));
+                    } else {
+                        OnResetClicked(null, null);
                     }
                 });
             });
@@ -425,6 +427,7 @@ namespace Temporizador.Views
                 tempoInicial = TimeSpan.Zero;
                 tempoRestante = TimeSpan.Zero;
                 estadoTemporizador = EstadoTemporizador.Resetado;
+                StopNotificationAndroid();
             }
             else if (BotaoResetLabel.Text == "Parar")
             {
@@ -503,9 +506,22 @@ namespace Temporizador.Views
                         BarraLaranja.WidthRequest = 0;
                         TempoRestanteLabel.Scale = 1;
 
+                        // Toca o alarme
                         _alarmePlayer?.Play();
 
-                        // Quando termina, atualiza a notificação para "Tempo concluído!"
+                        // Vibra ao despertar o alarme
+                        var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService);
+                        if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+                        {
+                            var effect = VibrationEffect.CreateOneShot(1500, VibrationEffect.DefaultAmplitude);
+                            vibrator?.Vibrate(effect);
+                        }
+                        else
+                        {
+                            vibrator?.Vibrate(1500); // vibra por 1,5 segundos
+                        }
+
+                        // Atualiza a notificação
                         AtualizarNotificacaoAndroid("Tempo concluído!");
                     });
                 }
@@ -539,6 +555,7 @@ namespace Temporizador.Views
                 {
                     AtualizarUI();
                     AtualizarNotificacaoAndroid("00:00:00");
+                    StopNotificationAndroid();
                 });
                 return;
             }
