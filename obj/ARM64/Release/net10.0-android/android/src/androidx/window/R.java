@@ -36,19 +36,19 @@ public final class R {
 		public static final int tag = 0x7f030469;
 	}
 	public static final class id {
-		public static final int adjacent = 0x7f080048;
-		public static final int always = 0x7f08004d;
-		public static final int alwaysAllow = 0x7f08004e;
-		public static final int alwaysDisallow = 0x7f08004f;
-		public static final int androidx_window_activity_scope = 0x7f080050;
-		public static final int bottomToTop = 0x7f080065;
-		public static final int draggable = 0x7f0800b2;
-		public static final int fixed = 0x7f0800cf;
-		public static final int locale = 0x7f080103;
-		public static final int ltr = 0x7f080104;
-		public static final int never = 0x7f080151;
-		public static final int rtl = 0x7f08018d;
-		public static final int topToBottom = 0x7f0801f7;
+		public static final int adjacent = 0x7f080049;
+		public static final int always = 0x7f08004e;
+		public static final int alwaysAllow = 0x7f08004f;
+		public static final int alwaysDisallow = 0x7f080050;
+		public static final int androidx_window_activity_scope = 0x7f080051;
+		public static final int bottomToTop = 0x7f080066;
+		public static final int draggable = 0x7f0800b4;
+		public static final int fixed = 0x7f0800d2;
+		public static final int locale = 0x7f080106;
+		public static final int ltr = 0x7f080107;
+		public static final int never = 0x7f080156;
+		public static final int rtl = 0x7f080192;
+		public static final int topToBottom = 0x7f0801fd;
 	}
 	public static final class styleable {
 		public static final int[] ActivityFilter = new int[] { 0x7f030028, 0x7f03002a };

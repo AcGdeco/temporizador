@@ -8,6 +8,13 @@ animation\nav_default_pop_enter_anim;animation\nav_default_pop_enter_anim
 animation\nav_default_pop_exit_anim;animation\nav_default_pop_exit_anim
 animation\nav_modal_default_enter_anim;animation\nav_modal_default_enter_anim
 animation\nav_modal_default_exit_anim;animation\nav_modal_default_exit_anim
+drawable\ic_pause;drawable\ic_pause
+drawable\ic_pause_play;drawable\ic_pause_play
+drawable\ic_play;drawable\ic_play
+drawable\ic_reset;drawable\ic_reset
+drawable\ic_reset_stop;drawable\ic_reset_stop
+drawable\ic_stop;drawable\ic_stop
+drawable\ic_timer;drawable\ic_timer
 drawable\maui_splash;drawable\maui_splash
 drawable\maui_splash_image;drawable\maui_splash_image
 drawable\shortcut_icon;drawable\shortcut_icon

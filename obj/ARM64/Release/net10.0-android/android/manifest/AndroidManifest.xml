@@ -6,12 +6,29 @@
     o conteúdo for regenerado.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.companyname.temporizador" android:versionCode="2" android:versionName="1.0.1">
-  <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="36" />
+  <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="36" />
+  <!-- Permissões -->
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+  <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
   <permission android:name="com.companyname.temporizador.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature" />
   <uses-permission android:name="com.companyname.temporizador.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-  <application android:name="crc644f4854b3ebd3c3a6.MainApplication" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:extractNativeLibs="true" android:icon="@mipmap/appicon" android:label="Temporizador" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true">
+  <!-- ÚNICO application -->
+  <application android:name="crc644f4854b3ebd3c3a6.MainApplication" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:extractNativeLibs="true" android:icon="@mipmap/appicon" android:label="Bibi" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true">
+    <receiver android:name="com.companyname.temporizador.TimerBroadcastReceiver" android:exported="false">
+      <intent-filter>
+        <action android:name="com.temporizador.ACTION" />
+      </intent-filter>
+    </receiver>
+    <service android:name="com.companyname.temporizador.TimerService" android:enabled="true" android:exported="true" android:foregroundServiceType="specialUse">
+      <property android:name="android.app.PROPERTY_SPECIAL_USE_TYPE" android:value="timer-notification" />
+    </service>
     <activity android:name="crc6468b6408a11370c2f.WebAuthenticatorIntermediateActivity" android:configChanges="orientation|screenSize" android:exported="false" />
     <provider android:name="microsoft.maui.essentials.fileProvider" android:authorities="com.companyname.temporizador.fileProvider" android:exported="false" android:grantUriPermissions="true">
       <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/microsoft_maui_essentials_fileprovider_file_paths" />
@@ -26,6 +43,9 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+    <service android:name="crc644f4854b3ebd3c3a6.TimerService" android:exported="true" android:foregroundServiceType="dataSync" />
+    <receiver android:name="crc64d1407d2d3dc494b3.TimerBroadcastReceiver" android:enabled="true" android:exported="true" android:label="Timer Receiver" />
+    <receiver android:name="crc64f4d9d07d0eb5bd40.BotaoReceiver" android:enabled="true" android:exported="true" />
     <provider android:name="mono.MonoRuntimeProvider" android:authorities="com.companyname.temporizador.mono.MonoRuntimeProvider.__mono_init__" android:exported="false" android:initOrder="1999999999" />
     <provider android:name="androidx.startup.InitializationProvider" android:authorities="com.companyname.temporizador.androidx-startup" android:exported="false" tools:node="merge">
       <meta-data android:name="androidx.profileinstaller.ProfileInstallerInitializer" android:value="androidx.startup" />
