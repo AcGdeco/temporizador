@@ -18,6 +18,7 @@ using Temporizador.Platforms.Android;
 using Android.Widget;
 using Android.Content;
 using Temporizador.Platforms.Android;
+using AndroidX.Core.Content;
 #if ANDROID
 using Android.App;
 using Android.Content;
@@ -496,15 +497,27 @@ namespace Temporizador.Views
             if (tempoRestante.TotalSeconds == 0)
                 return;
 
-            if (estadoTemporizador == EstadoTemporizador.Parado || estadoTemporizador == EstadoTemporizador.Pausado || estadoTemporizador == EstadoTemporizador.Resetado)
+            if (estadoTemporizador == EstadoTemporizador.Parado || 
+                estadoTemporizador == EstadoTemporizador.Pausado || 
+                estadoTemporizador == EstadoTemporizador.Resetado)
             {
                 timer.Start();
                 estadoTemporizador = EstadoTemporizador.Rodando;
                 AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
                 AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
 
-                // muda o texto do status
                 StatusLabel.Text = "COZINHANDO...";
+
+                // 🔑 Aqui você inicia o serviço Android
+                #if ANDROID
+                var intent = new Intent(Android.App.Application.Context, typeof(TimerService));
+                intent.PutExtra("tempo", tempoRestante.ToString(@"hh\:mm\:ss"));
+
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                    ContextCompat.StartForegroundService(Android.App.Application.Context, intent);
+                else
+                    Android.App.Application.Context.StartService(intent);
+                #endif
             }
             else if (estadoTemporizador == EstadoTemporizador.Rodando)
             {
@@ -513,7 +526,6 @@ namespace Temporizador.Views
                 AtualizarBotaoIniciar("Continuar", "play.png", Colors.Blue);
                 AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
 
-                // volta para texto padrão
                 StatusLabel.Text = "TEMPO RESTANTE";
             }
         }

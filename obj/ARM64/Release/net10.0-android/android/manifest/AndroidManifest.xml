@@ -43,7 +43,7 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <service android:name="crc644f4854b3ebd3c3a6.TimerService" android:exported="true" android:foregroundServiceType="dataSync" />
+    <service android:name="crc644f4854b3ebd3c3a6.TimerService" android:exported="true" android:foregroundServiceType="dataSync|mediaPlayback" />
     <receiver android:name="crc64d1407d2d3dc494b3.TimerBroadcastReceiver" android:enabled="true" android:exported="true" android:label="Timer Receiver" />
     <receiver android:name="crc64f4d9d07d0eb5bd40.BotaoReceiver" android:enabled="true" android:exported="true" />
     <provider android:name="mono.MonoRuntimeProvider" android:authorities="com.companyname.temporizador.mono.MonoRuntimeProvider.__mono_init__" android:exported="false" android:initOrder="1999999999" />

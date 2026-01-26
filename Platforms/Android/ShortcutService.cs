@@ -25,7 +25,7 @@ public class ShortcutService : IShortcutService
                     .SetIntent(intent)
                     .Build();
 
-                shortcutManager.RequestPinShortcut(shortcut, null);
+                // shortcutManager.RequestPinShortcut(shortcut, null);
             }
         }
     }
