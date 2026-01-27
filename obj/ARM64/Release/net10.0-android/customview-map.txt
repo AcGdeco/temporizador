@@ -34,6 +34,7 @@ external-cache-path;C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\n
 external-path;C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\lp\175\jl\res\xml\microsoft_maui_essentials_fileprovider_file_paths.xml
 foreground;obj\ARM64\Release\net10.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
 foreground;obj\ARM64\Release\net10.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_round.xml
+group;obj\ARM64\Release\net10.0-android\res\drawable\ic_reset.xml
 item;C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\lp\171\jl\res\values\styles.xml
 item;C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\lp\173\jl\res\values\values.xml
 item;C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\lp\174\jl\res\drawable\maui_splash.xml

@@ -23,11 +23,21 @@ namespace Temporizador.Platforms.Android
             else if (intent.Action == "ACAO_INICIAR")
             {
                 WeakReferenceMessenger.Default.Send(new IniciarTimerPelaNotificacaoMessage());
-            }            
+            }
+            else if (intent.Action == "ACAO_PAUSAR")
+            {
+                WeakReferenceMessenger.Default.Send(new PausarTimerPelaNotificacaoMessage());
+            }
+            else if (intent.Action == "ACAO_RESETAR")
+            {
+                WeakReferenceMessenger.Default.Send(new ResetarTimerPelaNotificacaoMessage());
+            }
         }
     }
 
     // Defina as mensagens como classes vazias para manter compatibilidade
     public class PararTimerPelaNotificacaoMessage { }
     public class IniciarTimerPelaNotificacaoMessage { }
+    public class PausarTimerPelaNotificacaoMessage { }
+    public class ResetarTimerPelaNotificacaoMessage { }
 }

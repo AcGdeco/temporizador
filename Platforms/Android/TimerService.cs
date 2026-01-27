@@ -14,7 +14,7 @@ using Stream = Android.Media.Stream;
 
 namespace Temporizador
 {
-    [Service(Exported = true, ForegroundServiceType = Android.Content.PM.ForegroundService.TypeDataSync | Android.Content.PM.ForegroundService.TypeMediaPlayback)]
+    [Service(Exported = true, ForegroundServiceType = Android.Content.PM.ForegroundService.TypeDataSync)]
     public class TimerService : Service
     {
         private const int NotificationId = 1;
@@ -30,11 +30,11 @@ namespace Temporizador
         // ✅ Novos campos para timer integrado e alarme
         private System.Timers.Timer _timer;
         private TimeSpan _tempoRestante;
+        private TimeSpan _tempoInicial;  // ✅ Armazena o tempo definido antes de iniciar
         private bool _estaRodando = false;
         private PowerManager.WakeLock _wakeLock;
         private AudioManager _audioManager;
         private Vibrator _vibrator;
-        private MediaPlayer _mediaPlayer;
 
         public override IBinder OnBind(Intent intent) => null;
 
@@ -54,6 +54,22 @@ namespace Temporizador
                 this,
                 (r, m) => AtualizarNotificacaoFisica(m.NovoTempo, m.EstaRodando));
 
+            WeakReferenceMessenger.Default.Register<PausarTimerPelaNotificacaoMessage>(
+                this,
+                (r, m) => PausarTimer());
+
+            WeakReferenceMessenger.Default.Register<IniciarTimerPelaNotificacaoMessage>(
+                this,
+                (r, m) => RetomarTimer());
+
+            WeakReferenceMessenger.Default.Register<PararTimerPelaNotificacaoMessage>(
+                this,
+                (r, m) => PararTimer());
+
+            WeakReferenceMessenger.Default.Register<ResetarTimerPelaNotificacaoMessage>(
+                this,
+                (r, m) => ResetarTimer());
+
             // ✅ Inicializa o timer
             _timer = new System.Timers.Timer(1000);
             _timer.Elapsed += OnTimerElapsed;
@@ -63,14 +79,39 @@ namespace Temporizador
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
             var tempo = intent?.GetStringExtra("tempo") ?? "00:00:00";
+            var tempoInicialStr = intent?.GetStringExtra("tempoInicial") ?? tempo;  // ✅ Recebe tempo inicial
             var rodando = intent?.GetBooleanExtra("estaRodando", false) ?? false;
 
             if (TimeSpan.TryParse(tempo, out var ts))
             {
                 _tempoRestante = ts;
             }
+            
+            // ✅ Salva o tempo inicial se foi passado, senão usa o tempo atual
+            if (TimeSpan.TryParse(tempoInicialStr, out var tsInicial))
+            {
+                _tempoInicial = tsInicial;
+            }
+            else
+            {
+                _tempoInicial = _tempoRestante;
+            }
 
             _estaRodando = rodando;
+
+            // ✅ Reconstrói a notificação com os botões corretos baseado no novo estado
+            if (rodando)
+            {
+                // Timer está rodando: mostrar "Pausar" e "Parar"
+                _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
+            }
+            else
+            {
+                // Timer está parado: mostrar "Iniciar" e "Reset"
+                _builder = TimerNotificationBuilder.Build(this, "Iniciar", "Reset");
+            }
+            
+            _builder.SetContentText($"Tempo restante: {tempo}");
 
             // ✅ Inicia o timer se estiver rodando
             if (_estaRodando && !_timer.Enabled)
@@ -145,29 +186,13 @@ namespace Temporizador
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    PlayAlarmWithScreenLocked();
+                    // Audio playback removed to prevent crash issues
                     VibratePattern();
                 });
             }
         }
 
-        // ✅ Toca o alarme mesmo com tela bloqueada
-        private void PlayAlarmWithScreenLocked()
-        {
-            try
-            {
-                // Define volume máximo
-                _audioManager?.SetStreamVolume(
-                    Stream.Alarm,
-                    _audioManager.GetStreamMaxVolume(Stream.Alarm),
-                    VolumeNotificationFlags.ShowUi
-               );
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Erro ao tocar alarme: {ex.Message}");
-            }
-        }
+        // Audio playback method removed to prevent crash issues
 
         private void VibratePattern()
         {
@@ -214,6 +239,18 @@ namespace Temporizador
 
         private void AtualizarNotificacaoFisica(string tempo, bool rodando)
         {
+            // ✅ Reconstrói a notificação com os botões corretos baseado no estado
+            if (rodando)
+            {
+                // Timer está rodando: mostrar "Pausar" e "Parar"
+                _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
+            }
+            else
+            {
+                // Timer está parado: mostrar "Iniciar" e "Reset"
+                _builder = TimerNotificationBuilder.Build(this, "Iniciar", "Reset");
+            }
+            
             _builder
                 .SetContentTitle(rodando ? "Temporizador em andamento" : "Temporizador parado")
                 .SetContentText($"Tempo: {tempo}")
@@ -229,12 +266,84 @@ namespace Temporizador
             }
         }
 
+        private void PausarTimer()
+        {
+            _estaRodando = false;
+            _timer?.Stop();
+            ReleaseWakeLock();
+            System.Diagnostics.Debug.WriteLine("Timer pausado pelo comando da notificação");
+            
+            // Reconstrói a notificação com o botão "Continuar"
+            _builder = TimerNotificationBuilder.Build(this, "Continuar", "Parar");
+            _builder.SetContentText($"Tempo restante: {_tempoRestante.ToString(@"hh\:mm\:ss")}");
+            var notification = _builder.Build();
+            _notificationManager.Notify(NotificationId, notification);
+        }
+
+        private void RetomarTimer()
+        {
+            if (_tempoRestante.TotalSeconds > 0 && !_timer.Enabled)
+            {
+                _estaRodando = true;
+                AcquireWakeLock();
+                _timer.Start();
+                System.Diagnostics.Debug.WriteLine("Timer retomado pelo comando da notificação");
+                
+                // Reconstrói a notificação com o botão "Pausar"
+                _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
+                _builder.SetContentText($"Tempo restante: {_tempoRestante.ToString(@"hh\:mm\:ss")}");
+                var notification = _builder.Build();
+                _notificationManager.Notify(NotificationId, notification);
+            }
+        }
+
+        private void PararTimer()
+        {
+            _estaRodando = false;
+            _timer?.Stop();
+            _tempoRestante = _tempoInicial;  // ✅ Volta ao tempo definido antes de iniciar
+            ReleaseWakeLock();
+            
+            // ✅ Cancela a vibração
+            _vibrator?.Cancel();
+            
+            System.Diagnostics.Debug.WriteLine($"Timer parado pelo comando da notificação. Tempo restaurado para: {_tempoRestante.ToString(@"hh\:mm\:ss")}");
+            
+            // Reconstrói a notificação com os botões "Iniciar" e "Reset"
+            _builder = TimerNotificationBuilder.Build(this, "Iniciar", "Reset");
+            _builder.SetContentText($"Tempo restante: {_tempoRestante.ToString(@"hh\:mm\:ss")}");
+            var notification = _builder.Build();
+            _notificationManager.Notify(NotificationId, notification);
+            
+            // ✅ Se não estamos mais em foreground (após parar), remova a flag
+            if (_isForeground)
+            {
+                StopForeground(StopForegroundFlags.Detach);
+                _isForeground = false;
+            }
+        }
+
+        private void ResetarTimer()
+        {
+            _estaRodando = false;
+            _timer?.Stop();
+            _tempoRestante = TimeSpan.Zero;
+            ReleaseWakeLock();
+            System.Diagnostics.Debug.WriteLine("Timer resetado e notificação removida");
+            
+            // Remove a notificação completamente
+            if (_isForeground)
+            {
+                StopForeground(StopForegroundFlags.Remove);
+                _isForeground = false;
+            }
+            _notificationManager.Cancel(NotificationId);
+        }
+
         public override void OnDestroy()
         {
             _timer?.Stop();
             _timer?.Dispose();
-            _mediaPlayer?.Stop();
-            _mediaPlayer?.Release();
             ReleaseWakeLock();
 
             WeakReferenceMessenger.Default.Unregister<AtualizarNotificacaoMessage>(this);

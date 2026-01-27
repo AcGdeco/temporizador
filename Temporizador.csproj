@@ -19,7 +19,7 @@
 
     <!-- Compatibilidade Android -->
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
-    <AndroidTargetSdkVersion>27</AndroidTargetSdkVersion>
+    <AndroidTargetSdkVersion>36</AndroidTargetSdkVersion>
 
     <!-- Arquitetura -->
     <Platforms>ARM64;x64;x86</Platforms>

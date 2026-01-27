@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="36dp"
-    android:height="36dp"
+    android:width="48dp"
+    android:height="48dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
 
+    <!-- STOP - Quadrado centralizado -->
     <path
         android:fillColor="#000000"
-        android:pathData="M15,6h6v12h-6z" />
+        android:pathData="M6,6 h12 v12 h-12 z" />
 
 </vector>

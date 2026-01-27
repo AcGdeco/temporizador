@@ -19,6 +19,7 @@ using Android.Widget;
 using Android.Content;
 using Temporizador.Platforms.Android;
 using AndroidX.Core.Content;
+using Android.App;
 #if ANDROID
 using Android.App;
 using Android.Content;
@@ -54,31 +55,21 @@ namespace Temporizador.Views
             var btn1Label = "";
             var btn2Label = "";
 
-            // Registro para PARAR
+            // Registro para PARAR - atualiza o UI do frontend quando parar pela notificação
             WeakReferenceMessenger.Default.Register<PararTimerPelaNotificacaoMessage>(this, (r, m) =>
             {
-                MainThread.BeginInvokeOnMainThread(async () =>
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    if (BotaoResetLabel.Text == "Parar")
-                    {
-                        OnResetClicked(null, null);
-                        AtualizarNotificacaoAndroid(tempoDefinido.ToString("hh\\:mm\\:ss"));
-                    } else {
-                        OnResetClicked(null, null);
-                    }
+                    PararTimer();
+                });
+            });
 
-                    if (BotaoResetLabel.Text == "Parar")
-                    {
-                        btn2Label = "Parar";
-                    } else {
-                        btn2Label = "Resetar";
-                    }
-
-                    btn1Label = BotaoIniciarLabel.Text;
-                    // Cria (ou recria) o builder usando o helper externo
-                    var context = Android.App.Application.Context;
-                    _builder = TimerNotificationBuilder.Build(context, btn1Label, btn2Label);
-
+            // Registro para RESETAR - atualiza o UI do frontend quando resetar pela notificação
+            WeakReferenceMessenger.Default.Register<ResetarTimerPelaNotificacaoMessage>(this, (r, m) =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    ResetarTimer();
                 });
             });
 
@@ -104,6 +95,23 @@ namespace Temporizador.Views
                 });
             });
 
+            // Registro para PAUSAR
+            WeakReferenceMessenger.Default.Register<PausarTimerPelaNotificacaoMessage>(this, (r, m) =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    if (estadoTemporizador == EstadoTemporizador.Rodando)
+                    {
+                        timer.Stop();
+                        estadoTemporizador = EstadoTemporizador.Pausado;
+                        AtualizarBotaoIniciar("Continuar", "play.png", Colors.Blue);
+                        AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
+                        StatusLabel.Text = "TEMPO RESTANTE";
+                        AtualizarUI();
+                    }
+                });
+            });
+
             // ✅ inicializa o banco
             var dbPath = System.IO.Path.Combine(FileSystem.AppDataDirectory, "receitas.db");
             _db = new SQLiteConnection(dbPath);
@@ -115,25 +123,6 @@ namespace Temporizador.Views
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += OnTimerElapsed;
             timer.AutoReset = true;
-        }
-
-        private void AtualizarNotificacaoAndroid(string tempoFormatado)
-        {
-        #if ANDROID
-            try
-            {
-                var intent = new Intent(Android.App.Application.Context, typeof(TimerService));
-                intent.PutExtra("tempo", tempoFormatado);
-                intent.PutExtra("estaRodando", estadoTemporizador == EstadoTemporizador.Rodando);
-                intent.PutExtra("btn1Label", BotaoIniciarLabel.Text);   // "Pausar" ou "Continuar"
-                intent.PutExtra("btn2Label", BotaoResetLabel.Text);     // "Parar" ou "Reset"
-                Android.App.Application.Context.StartForegroundService(intent);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Erro ao atualizar notificação: {ex.Message}");
-            }
-        #endif
         }
 
         private void StopNotificationAndroid()
@@ -456,14 +445,23 @@ namespace Temporizador.Views
 
         private void OnResetClicked(object sender, EventArgs e)
         {
-            if (BotaoResetLabel.Text == "Reset")
+            bool ehReset = BotaoResetLabel.Text == "Reset";
+            bool ehParar = BotaoResetLabel.Text == "Parar";
+            
+            // ✅ Para o timer IMEDIATAMENTE antes de qualquer outra ação
+            timer.Stop();
+            _alarmePlayer?.Stop();
+            var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService); 
+            vibrator?.Cancel();
+            
+            if (ehReset)
             {
                 tempoInicial = TimeSpan.Zero;
                 tempoRestante = TimeSpan.Zero;
                 estadoTemporizador = EstadoTemporizador.Resetado;
                 StopNotificationAndroid();
             }
-            else if (BotaoResetLabel.Text == "Parar")
+            else if (ehParar)
             {
                 tempoInicial = tempoDefinido;
                 tempoRestante = tempoInicial;
@@ -480,14 +478,20 @@ namespace Temporizador.Views
             AtualizarBotaoIniciar("Iniciar", "play.png", Color.FromArgb("#27AE60"));
             AtualizarBotaoReset("Reset", "reset.png", Color.FromArgb("#E74C3C"));
             StatusLabel.Text = "TEMPO RESTANTE";
-
-            _alarmePlayer?.Stop();
-
-            timer.Stop();
-
-            // ✅ Para a vibração em loop 
-            var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService); 
-            vibrator?.Cancel();
+            
+            // ✅ Atualiza notificação quando clica em Parar ou Reset
+            #if ANDROID
+            if (ehReset)
+            {
+                // Se clicou em Reset, remove a notificação
+                WeakReferenceMessenger.Default.Send(new ResetarTimerPelaNotificacaoMessage());
+            }
+            else if (ehParar)
+            {
+                // Envia mensagem para o TimerService parar e atualizar a notificação
+                WeakReferenceMessenger.Default.Send(new PararTimerPelaNotificacaoMessage());
+            }
+            #endif
 
             AtualizarUI();
         }
@@ -512,11 +516,20 @@ namespace Temporizador.Views
                 #if ANDROID
                 var intent = new Intent(Android.App.Application.Context, typeof(TimerService));
                 intent.PutExtra("tempo", tempoRestante.ToString(@"hh\:mm\:ss"));
+                intent.PutExtra("tempoInicial", tempoDefinido.ToString(@"hh\:mm\:ss"));  // ✅ Passa o tempo inicial definido
+                intent.PutExtra("estaRodando", true);
 
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
                     ContextCompat.StartForegroundService(Android.App.Application.Context, intent);
                 else
                     Android.App.Application.Context.StartService(intent);
+                
+                // ✅ Atualiza os botões da notificação: Pausar e Parar
+                WeakReferenceMessenger.Default.Send(new AtualizarNotificacaoMessage
+                {
+                    NovoTempo = tempoRestante.ToString(@"hh\:mm\:ss"),
+                    EstaRodando = true
+                });
                 #endif
             }
             else if (estadoTemporizador == EstadoTemporizador.Rodando)
@@ -527,6 +540,20 @@ namespace Temporizador.Views
                 AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
 
                 StatusLabel.Text = "TEMPO RESTANTE";
+
+                // ✅ Pausa também o serviço Android
+                WeakReferenceMessenger.Default.Send(new PausarTimerPelaNotificacaoMessage());
+                
+                // ✅ Atualiza notificação: Continuar e Parar
+                #if ANDROID
+                WeakReferenceMessenger.Default.Send(new AtualizarNotificacaoMessage
+                {
+                    NovoTempo = tempoRestante.ToString(@"hh\:mm\:ss"),
+                    EstaRodando = false
+                });
+                #endif
+
+                AtualizarUI();
             }
         }
 
@@ -541,7 +568,8 @@ namespace Temporizador.Views
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
                         AtualizarUI();
-                        AtualizarNotificacaoAndroid(tempoRestante.ToString("hh\\:mm\\:ss"));
+                        // ⚠️ NÃO atualiza a notificação a cada segundo (causa rate limiting no Android)
+                        // A notificação será atualizada apenas pelo TimerService quando há mudanças de estado
                     });
                 }
                 else
@@ -574,8 +602,8 @@ namespace Temporizador.Views
                             vibrator?.Vibrate(pattern, 0); // 0 = repetir indefinidamente
                         }
 
-                        // Atualiza a notificação
-                        AtualizarNotificacaoAndroid("Tempo concluído!");
+                        // ⚠️ NÃO atualiza a notificação aqui
+                        // TimerService já está gerenciando a notificação do fim do tempo
                     });
                 }
 
@@ -593,7 +621,9 @@ namespace Temporizador.Views
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     AtualizarUI();
-                    AtualizarNotificacaoAndroid(tempoRestante.ToString("hh\\:mm\\:ss"));
+                    // ⚠️ NÃO chama AtualizarNotificacaoAndroid() aqui!
+                    // A notificação já foi construída manualmente em OnResetClicked
+                    // Chamar aqui sobrescreveria os botões "Continuar" + "Reset"
                 });
                 return;
             }
@@ -607,7 +637,6 @@ namespace Temporizador.Views
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     AtualizarUI();
-                    AtualizarNotificacaoAndroid("00:00:00");
                     StopNotificationAndroid();
 
                     // Para a vibração quando resetar
@@ -731,17 +760,14 @@ namespace Temporizador.Views
                 StatusLabel.Text = "TEMPO RESTANTE";
 
                 _alarmePlayer?.Stop();
+                
+                // ✅ Cancela a vibração
+                var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService);
+                vibrator?.Cancel();
 
                 timer.Stop();
 
                 tempoRestante = tempoInicial; // Resetando o tempo
-        
-                // Envia comando para atualizar a notificação com o tempo resetado
-                WeakReferenceMessenger.Default.Send(new AtualizarNotificacaoMessage 
-                { 
-                    NovoTempo = tempoRestante.ToString(@"mm\:ss"), 
-                    EstaRodando = false 
-                });
 
                 AtualizarUI();
             }

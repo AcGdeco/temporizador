@@ -17,12 +17,12 @@ namespace Temporizador
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-        // ✅ registra o serviço de áudio
-        builder.Services.AddSingleton(AudioManager.Current);
-        builder.Services.AddSingleton<IShortcutService, ShortcutService>();
+            // ✅ registra o serviço de áudio
+            builder.Services.AddSingleton(AudioManager.Current);
+            builder.Services.AddSingleton<IShortcutService, ShortcutService>();
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
