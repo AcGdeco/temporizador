@@ -201,6 +201,14 @@ namespace Temporizador.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            
+            // ✅ Parar o timer local quando o app é minimizado/fechado
+            // O TimerService continua rodando em background
+            if (timer != null && timer.Enabled && estadoTemporizador == EstadoTemporizador.Rodando)
+            {
+                timer.Stop();
+                System.Diagnostics.Debug.WriteLine("App desaparecendo - Timer local parado");
+            }
         }
 
         private void CarregarReceitas()

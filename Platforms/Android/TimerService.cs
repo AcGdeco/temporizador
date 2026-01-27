@@ -176,6 +176,7 @@ namespace Temporizador
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
+                    // ✅ Atualiza o tempo na notificação a cada segundo para evitar que desapareça
                     AtualizarTexto(_tempoRestante.ToString(@"hh\:mm\:ss"));
                 });
             }
@@ -233,6 +234,7 @@ namespace Temporizador
             }
             else
             {
+                // ✅ Sempre notifica para evitar que a notificação desapareça
                 _notificationManager.Notify(NotificationId, notification);
             }
         }
