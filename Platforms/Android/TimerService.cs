@@ -35,6 +35,7 @@ namespace Temporizador
         private PowerManager.WakeLock _wakeLock;
         private AudioManager _audioManager;
         private Vibrator _vibrator;
+        private int _minutosAnteriores = -1;  // ✅ Rastreia os minutos anteriores para detectar mudanças
 
         public override IBinder OnBind(Intent intent) => null;
 
@@ -104,14 +105,16 @@ namespace Temporizador
             {
                 // Timer está rodando: mostrar "Pausar" e "Parar"
                 _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
+                _minutosAnteriores = ObterMinutosExibidos(_tempoRestante);
             }
             else
             {
                 // Timer está parado: mostrar "Iniciar" e "Reset"
                 _builder = TimerNotificationBuilder.Build(this, "Iniciar", "Reset");
+                _minutosAnteriores = -1;
             }
             
-            _builder.SetContentText($"Tempo restante: {tempo}");
+            _builder.SetContentText(FormatarTempoNotificacao(_tempoRestante));
 
             // ✅ Inicia o timer se estiver rodando
             if (_estaRodando && !_timer.Enabled)
@@ -120,7 +123,7 @@ namespace Temporizador
                 _timer.Start();
             }
 
-            AtualizarTexto(tempo);
+            AtualizarTexto(FormatarTempoNotificacao(_tempoRestante));
 
             // 🔑 Mantém o serviço ativo mesmo com tela bloqueada
             var notification = _builder.Build();
@@ -173,17 +176,23 @@ namespace Temporizador
             if (_estaRodando && _tempoRestante.TotalSeconds > 0)
             {
                 _tempoRestante = _tempoRestante.Subtract(TimeSpan.FromSeconds(1));
-
-                MainThread.BeginInvokeOnMainThread(() =>
+                
+                // ✅ Atualiza a notificação quando o número de minutos exibido muda
+                int minutosExibidos = ObterMinutosExibidos(_tempoRestante);
+                if (minutosExibidos != _minutosAnteriores)
                 {
-                    // ✅ Atualiza o tempo na notificação a cada segundo para evitar que desapareça
-                    AtualizarTexto(_tempoRestante.ToString(@"hh\:mm\:ss"));
-                });
+                    _minutosAnteriores = minutosExibidos;
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        AtualizarTexto(FormatarTempoNotificacao(_tempoRestante));
+                    });
+                }
             }
             else if (_estaRodando && _tempoRestante.TotalSeconds <= 0)
             {
                 _estaRodando = false;
                 _timer?.Stop();
+                _minutosAnteriores = -1;
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
@@ -191,6 +200,47 @@ namespace Temporizador
                     VibratePattern();
                 });
             }
+        }
+
+        // ✅ Obtém apenas o minuto exibido (considerando arredondamento)
+        private int ObterMinutosExibidos(TimeSpan tempo)
+        {
+            int minutos = tempo.Minutes;
+            int segundos = tempo.Seconds;
+            
+            // Se há segundos, arredonda para cima
+            if (segundos > 0)
+            {
+                minutos++;
+                if (minutos >= 60)
+                {
+                    minutos = 0;
+                }
+            }
+            
+            return minutos;
+        }
+
+        // ✅ Formata o tempo como "menos que Xh : YY m" (arredonda minutos para CIMA se há segundos)
+        private string FormatarTempoNotificacao(TimeSpan tempo)
+        {
+            int horas = (int)tempo.TotalHours;
+            int minutos = tempo.Minutes;
+            int segundos = tempo.Seconds;
+            
+            // ✅ Se há segundos, arredonda para cima (próximo minuto)
+            if (segundos > 0)
+            {
+                minutos++;
+                // Se ultrapassar 60 minutos, ajusta horas
+                if (minutos >= 60)
+                {
+                    horas++;
+                    minutos = 0;
+                }
+            }
+            
+            return $"menos que {horas}h : {minutos:D2}m";
         }
 
         // Audio playback method removed to prevent crash issues
@@ -224,7 +274,7 @@ namespace Temporizador
 
         private void AtualizarTexto(string tempo)
         {
-            _builder.SetContentText($"Tempo restante: {tempo}");
+            _builder.SetContentText(tempo);
             var notification = _builder.Build();
 
             if (!_isForeground)
@@ -272,12 +322,13 @@ namespace Temporizador
         {
             _estaRodando = false;
             _timer?.Stop();
+            _minutosAnteriores = -1;  // ✅ Reseta o rastreamento de minutos
             ReleaseWakeLock();
             System.Diagnostics.Debug.WriteLine("Timer pausado pelo comando da notificação");
             
             // Reconstrói a notificação com o botão "Continuar"
             _builder = TimerNotificationBuilder.Build(this, "Continuar", "Parar");
-            _builder.SetContentText($"Tempo restante: {_tempoRestante.ToString(@"hh\:mm\:ss")}");
+            _builder.SetContentText(FormatarTempoNotificacao(_tempoRestante));
             var notification = _builder.Build();
             _notificationManager.Notify(NotificationId, notification);
         }
@@ -287,13 +338,14 @@ namespace Temporizador
             if (_tempoRestante.TotalSeconds > 0 && !_timer.Enabled)
             {
                 _estaRodando = true;
+                _minutosAnteriores = ObterMinutosExibidos(_tempoRestante);  // ✅ Inicia rastreamento com minuto exibido
                 AcquireWakeLock();
                 _timer.Start();
                 System.Diagnostics.Debug.WriteLine("Timer retomado pelo comando da notificação");
                 
                 // Reconstrói a notificação com o botão "Pausar"
                 _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
-                _builder.SetContentText($"Tempo restante: {_tempoRestante.ToString(@"hh\:mm\:ss")}");
+                _builder.SetContentText(FormatarTempoNotificacao(_tempoRestante));
                 var notification = _builder.Build();
                 _notificationManager.Notify(NotificationId, notification);
             }
@@ -304,6 +356,7 @@ namespace Temporizador
             _estaRodando = false;
             _timer?.Stop();
             _tempoRestante = _tempoInicial;  // ✅ Volta ao tempo definido antes de iniciar
+            _minutosAnteriores = -1;  // ✅ Reseta o rastreamento de minutos
             ReleaseWakeLock();
             
             // ✅ Cancela a vibração
@@ -313,7 +366,7 @@ namespace Temporizador
             
             // Reconstrói a notificação com os botões "Iniciar" e "Reset"
             _builder = TimerNotificationBuilder.Build(this, "Iniciar", "Reset");
-            _builder.SetContentText($"Tempo restante: {_tempoRestante.ToString(@"hh\:mm\:ss")}");
+            _builder.SetContentText(FormatarTempoNotificacao(_tempoRestante));
             var notification = _builder.Build();
             _notificationManager.Notify(NotificationId, notification);
             

@@ -166,6 +166,7 @@ namespace Temporizador.Views
             catch (Exception ex)
             {
     #if DEBUG
+                System.Diagnostics.Debug.WriteLine($"Erro no OnAppearing: {ex.Message}");
                 await DisplayAlert("Erro no OnAppearing", ex.Message, "OK");
     #endif
             }
@@ -182,8 +183,8 @@ namespace Temporizador.Views
 
                 _alarmePlayer = audioManager.CreatePlayer(stream);
 
-                // Configura loop
-                _alarmePlayer.Loop = true;
+                // Não usar loop automático - vamos controlar com timer
+                _alarmePlayer.Loop = false;
 
                 // Opcional: pré-carrega se quiser, mas geralmente não precisa
                 // _alarmePlayer.Play(); _alarmePlayer.Pause();
@@ -591,7 +592,7 @@ namespace Temporizador.Views
                         BarraLaranja.WidthRequest = 0;
                         TempoRestanteLabel.Scale = 1;
 
-                        // Toca o alarme
+                        // Toca o alarme em loop contínuo
                         _alarmePlayer?.Play();
 
                         var vibrator = (Vibrator)Android.App.Application.Context.GetSystemService(Context.VibratorService);
