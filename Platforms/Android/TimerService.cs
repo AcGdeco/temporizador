@@ -9,8 +9,6 @@ using CoreNotificationCompat = AndroidX.Core.App.NotificationCompat;
 using AndroidX.Media.App;
 using Microsoft.Maui.Dispatching;
 using System;
-using System.Timers;
-using Stream = Android.Media.Stream;
 
 namespace Temporizador
 {
@@ -23,19 +21,29 @@ namespace Temporizador
         public const string ActionParar = "ACAO_PARAR";
         public const string ActionIniciar = "ACAO_INICIAR";
 
+        private const string ActionUpdate = "UPDATE_NOTIFICATION";
+        private const string ActionExpire = "EXPIRE_TIMER";
+
+        private const int RequestCodeUpdate = 1;
+        private const int RequestCodeExpire = 2;
+
         private CoreNotificationCompat.Builder _builder;
         private NotificationManager _notificationManager;
         private bool _isForeground = false;
 
-        // ✅ Novos campos para timer integrado e alarme
-        private System.Timers.Timer _timer;
+        // Notification update debounce — evita flood de notificações e rate limiting do sistema
+        private string _lastNotifiedText = string.Empty;
+        private long _lastNotifyElapsed = 0; // SystemClock.ElapsedRealtime()
+        private const long MinNotifyIntervalMs = 1000; // mínimo entre Notify()s quando texto não muda
+
+        // ✅ Novos campos para gerenciamento otimizado
+        private long _endElapsedMillis;
         private TimeSpan _tempoRestante;
         private TimeSpan _tempoInicial;  // ✅ Armazena o tempo definido antes de iniciar
         private bool _estaRodando = false;
-        private PowerManager.WakeLock _wakeLock;
         private AudioManager _audioManager;
         private Vibrator _vibrator;
-        private int _minutosAnteriores = -1;  // ✅ Rastreia os minutos anteriores para detectar mudanças
+        private AlarmManager _alarmManager;
 
         public override IBinder OnBind(Intent intent) => null;
 
@@ -46,6 +54,7 @@ namespace Temporizador
             _notificationManager = (NotificationManager)GetSystemService(NotificationService);
             _audioManager = (AudioManager)GetSystemService(Context.AudioService);
             _vibrator = (Vibrator)GetSystemService(Context.VibratorService);
+            _alarmManager = (AlarmManager)GetSystemService(Context.AlarmService);
 
             // Cria (ou recria) o builder usando o helper externo
             _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
@@ -70,16 +79,32 @@ namespace Temporizador
             WeakReferenceMessenger.Default.Register<ResetarTimerPelaNotificacaoMessage>(
                 this,
                 (r, m) => ResetarTimer());
-
-            // ✅ Inicializa o timer
-            _timer = new System.Timers.Timer(1000);
-            _timer.Elapsed += OnTimerElapsed;
-            _timer.AutoReset = true;
         }
 
-        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+        public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
-            var tempo = intent?.GetStringExtra("tempo") ?? "00:00:00";
+            if (intent != null && intent.Action != null)
+            {
+                switch (intent.Action)
+                {
+                    case ActionUpdate:
+                        HandleUpdate();
+                        return StartCommandResult.Sticky;
+                    case ActionExpire:
+                        HandleExpire();
+                        return StartCommandResult.Sticky;
+                    case ActionParar:
+                        // Ação vinda da notificação — pare imediatamente (garanta idempotência)
+                        PararTimer();
+                        return StartCommandResult.Sticky;
+                    case ActionIniciar:
+                        // Ação vinda da notificação — retome se possível
+                        RetomarTimer();
+                        return StartCommandResult.Sticky;
+                }
+            }
+
+n            var tempo = intent?.GetStringExtra("tempo") ?? "00:00:00";
             var tempoInicialStr = intent?.GetStringExtra("tempoInicial") ?? tempo;  // ✅ Recebe tempo inicial
             var rodando = intent?.GetBooleanExtra("estaRodando", false) ?? false;
 
@@ -105,22 +130,19 @@ namespace Temporizador
             {
                 // Timer está rodando: mostrar "Pausar" e "Parar"
                 _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
-                _minutosAnteriores = ObterMinutosExibidos(_tempoRestante);
             }
             else
             {
                 // Timer está parado: mostrar "Iniciar" e "Reset"
                 _builder = TimerNotificationBuilder.Build(this, "Iniciar", "Reset");
-                _minutosAnteriores = -1;
             }
             
             _builder.SetContentText(FormatarTempoNotificacao(_tempoRestante));
 
             // ✅ Inicia o timer se estiver rodando
-            if (_estaRodando && !_timer.Enabled)
+            if (_estaRodando)
             {
-                AcquireWakeLock();
-                _timer.Start();
+                StartTimerLogic();
             }
 
             AtualizarTexto(FormatarTempoNotificacao(_tempoRestante));
@@ -133,92 +155,129 @@ namespace Temporizador
             return StartCommandResult.Sticky;
         }
 
-        private void AcquireWakeLock()
+        private void StartTimerLogic()
         {
+            var currentElapsed = SystemClock.ElapsedRealtime();
+            _endElapsedMillis = currentElapsed + (long)_tempoRestante.TotalMilliseconds;
+            _estaRodando = true;
+
+            ScheduleExpireAlarm();
+            HandleUpdate();  // Atualização inicial e agendamento do próximo
+        }
+
+        private void ScheduleExpireAlarm()
+        {
+            var pendingIntent = GetPendingIntent(ActionExpire, RequestCodeExpire);
+
+            // Se for permitido, use alarm exato; caso contrário, caia para um alarm não-exato
             try
             {
-                if (_wakeLock != null && _wakeLock.IsHeld)
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.S && !_alarmManager.CanScheduleExactAlarms())
+                {
+                    // Sem permissão para alarms exatos — agendar não-exato para evitar SecurityException
+                    _alarmManager.Set(AlarmType.ElapsedRealtime, _endElapsedMillis, pendingIntent);
+                    System.Diagnostics.Debug.WriteLine("ScheduleExpireAlarm: falling back to inexact alarm (no exact-alarm permission)");
                     return;
+                }
 
-                PowerManager pm = (PowerManager)GetSystemService(Context.PowerService);
-                _wakeLock = pm.NewWakeLock(
-                    WakeLockFlags.Partial,
-                    "Temporizador:Timer"
-                );
-                _wakeLock.Acquire();
-
-                System.Diagnostics.Debug.WriteLine("WakeLock adquirido");
+                // Caso permitido ou versão anterior ao Android 12, agende exato
+                _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, _endElapsedMillis, pendingIntent);
             }
-            catch (Exception ex)
+            catch (Java.Lang.SecurityException ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Erro ao adquirir WakeLock: {ex.Message}");
+                // Proteção extra: se houver SecurityException, usar fallback inexact
+                System.Diagnostics.Debug.WriteLine($"ScheduleExpireAlarm: SecurityException, using fallback alarm: {ex.Message}");
+                _alarmManager.Set(AlarmType.ElapsedRealtime, _endElapsedMillis, pendingIntent);
             }
         }
 
-        private void ReleaseWakeLock()
+        private void ScheduleNextUpdateAlarm()
         {
+            var currentElapsed = SystemClock.ElapsedRealtime();
+            var remainingMillis = _endElapsedMillis - currentElapsed;
+            if (remainingMillis <= 0) return;
+
+            const long mod = 60000;  // 1 minuto em ms
+            var currentMod = currentElapsed % mod;
+            var endMod = _endElapsedMillis % mod;
+            var millisToNext = (endMod - currentMod + mod) % mod;
+            if (millisToNext == 0) millisToNext = mod;
+
+            var nextTrigger = currentElapsed + millisToNext;
+            if (nextTrigger >= _endElapsedMillis) return;  // Não agendar se depois ou no fim
+
+            var pendingIntent = GetPendingIntent(ActionUpdate, RequestCodeUpdate);
+
             try
             {
-                if (_wakeLock != null && _wakeLock.IsHeld)
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.S && !_alarmManager.CanScheduleExactAlarms())
                 {
-                    _wakeLock.Release();
-                    System.Diagnostics.Debug.WriteLine("WakeLock liberado");
+                    _alarmManager.Set(AlarmType.ElapsedRealtime, nextTrigger, pendingIntent);
+                    System.Diagnostics.Debug.WriteLine("ScheduleNextUpdateAlarm: falling back to inexact alarm (no exact-alarm permission)");
+                }
+                else
+                {
+                    _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, nextTrigger, pendingIntent);
                 }
             }
-            catch (Exception ex)
+            catch (Java.Lang.SecurityException ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Erro ao liberar WakeLock: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"ScheduleNextUpdateAlarm: SecurityException, using fallback alarm: {ex.Message}");
+                _alarmManager.Set(AlarmType.ElapsedRealtime, nextTrigger, pendingIntent);
             }
         }
 
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        private void CancelUpdateAlarm()
         {
-            if (_estaRodando && _tempoRestante.TotalSeconds > 0)
-            {
-                _tempoRestante = _tempoRestante.Subtract(TimeSpan.FromSeconds(1));
-                
-                // ✅ Atualiza a notificação quando o número de minutos exibido muda
-                int minutosExibidos = ObterMinutosExibidos(_tempoRestante);
-                if (minutosExibidos != _minutosAnteriores)
-                {
-                    _minutosAnteriores = minutosExibidos;
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        AtualizarTexto(FormatarTempoNotificacao(_tempoRestante));
-                    });
-                }
-            }
-            else if (_estaRodando && _tempoRestante.TotalSeconds <= 0)
-            {
-                _estaRodando = false;
-                _timer?.Stop();
-                _minutosAnteriores = -1;
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    // Audio playback removed to prevent crash issues
-                    VibratePattern();
-                });
-            }
+            var pendingIntent = GetPendingIntent(ActionUpdate, RequestCodeUpdate);
+            _alarmManager.Cancel(pendingIntent);
         }
 
-        // ✅ Obtém apenas o minuto exibido (considerando arredondamento)
-        private int ObterMinutosExibidos(TimeSpan tempo)
+        private void CancelExpireAlarm()
         {
-            int minutos = tempo.Minutes;
-            int segundos = tempo.Seconds;
-            
-            // Se há segundos, arredonda para cima
-            if (segundos > 0)
+            var pendingIntent = GetPendingIntent(ActionExpire, RequestCodeExpire);
+            _alarmManager.Cancel(pendingIntent);
+        }
+
+        private PendingIntent GetPendingIntent(string action, int requestCode)
+        {
+            var intent = new Intent(this, typeof(TimerService));
+            intent.SetAction(action);
+            return PendingIntent.GetService(this, requestCode, intent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+        }
+
+        private TimeSpan GetRemainingTime()
+        {
+            if (!_estaRodando) return _tempoRestante;
+
+            var remainingMillis = _endElapsedMillis - SystemClock.ElapsedRealtime();
+            return remainingMillis > 0 ? TimeSpan.FromMilliseconds(remainingMillis) : TimeSpan.Zero;
+        }
+
+        private void HandleUpdate()
+        {
+            var remaining = GetRemainingTime();
+            if (remaining <= TimeSpan.Zero)
             {
-                minutos++;
-                if (minutos >= 60)
-                {
-                    minutos = 0;
-                }
+                HandleExpire();
+                return;
             }
-            
-            return minutos;
+
+            AtualizarTexto(FormatarTempoNotificacao(remaining));
+            ScheduleNextUpdateAlarm();
+        }
+
+        private void HandleExpire()
+        {
+            _estaRodando = false;
+            _endElapsedMillis = 0;
+            CancelUpdateAlarm();
+
+            VibratePattern();
+
+            // Atualiza notificação para estado expirado/parado
+            _builder = TimerNotificationBuilder.Build(this, "Iniciar", "Reset");
+            AtualizarTexto("Tempo esgotado");
         }
 
         // ✅ Formata o tempo como "menos que Xh : YY m" (arredonda minutos para CIMA se há segundos)
@@ -242,8 +301,6 @@ namespace Temporizador
             
             return $"menos que {horas}h : {minutos:D2}m";
         }
-
-        // Audio playback method removed to prevent crash issues
 
         private void VibratePattern()
         {
@@ -274,6 +331,17 @@ namespace Temporizador
 
         private void AtualizarTexto(string tempo)
         {
+            // Debounce / no-op se o texto não mudou e aconteceu recentemente — evita rate limiting do sistema
+            var now = SystemClock.ElapsedRealtime();
+            if (_lastNotifiedText == tempo && (now - _lastNotifyElapsed) < MinNotifyIntervalMs)
+            {
+                System.Diagnostics.Debug.WriteLine($"AtualizarTexto: skip notify (rate-limited) — '{tempo}'");
+                return;
+            }
+
+            _lastNotifiedText = tempo;
+            _lastNotifyElapsed = now;
+
             _builder.SetContentText(tempo);
             var notification = _builder.Build();
 
@@ -284,13 +352,26 @@ namespace Temporizador
             }
             else
             {
-                // ✅ Sempre notifica para evitar que a notificação desapareça
+                // Só notificar quando houver mudança relevante (ou intervalo mínimo expirou)
+                System.Diagnostics.Debug.WriteLine($"AtualizarTexto: notifying — '{tempo}'");
                 _notificationManager.Notify(NotificationId, notification);
             }
         }
 
         private void AtualizarNotificacaoFisica(string tempo, bool rodando)
         {
+            // Debounce: combine texto+estado para evitar re-posts idênticos em curto intervalo
+            var combined = $"{tempo}|{rodando}";
+            var now = SystemClock.ElapsedRealtime();
+            if (_lastNotifiedText == combined && (now - _lastNotifyElapsed) < MinNotifyIntervalMs)
+            {
+                System.Diagnostics.Debug.WriteLine($"AtualizarNotificacaoFisica: skip notify (rate-limited) — {combined}");
+                return;
+            }
+
+            _lastNotifiedText = combined;
+            _lastNotifyElapsed = now;
+
             // ✅ Reconstrói a notificação com os botões corretos baseado no estado
             if (rodando)
             {
@@ -320,10 +401,14 @@ namespace Temporizador
 
         private void PausarTimer()
         {
+            if (!_estaRodando) return;
+
+            var remaining = GetRemainingTime();
+            _tempoRestante = remaining;
+            _endElapsedMillis = 0;
             _estaRodando = false;
-            _timer?.Stop();
-            _minutosAnteriores = -1;  // ✅ Reseta o rastreamento de minutos
-            ReleaseWakeLock();
+            CancelExpireAlarm();
+            CancelUpdateAlarm();
             System.Diagnostics.Debug.WriteLine("Timer pausado pelo comando da notificação");
             
             // Reconstrói a notificação com o botão "Continuar"
@@ -335,17 +420,14 @@ namespace Temporizador
 
         private void RetomarTimer()
         {
-            if (_tempoRestante.TotalSeconds > 0 && !_timer.Enabled)
+            if (_tempoRestante.TotalSeconds > 0 && !_estaRodando)
             {
-                _estaRodando = true;
-                _minutosAnteriores = ObterMinutosExibidos(_tempoRestante);  // ✅ Inicia rastreamento com minuto exibido
-                AcquireWakeLock();
-                _timer.Start();
+                StartTimerLogic();
                 System.Diagnostics.Debug.WriteLine("Timer retomado pelo comando da notificação");
                 
                 // Reconstrói a notificação com o botão "Pausar"
                 _builder = TimerNotificationBuilder.Build(this, "Pausar", "Parar");
-                _builder.SetContentText(FormatarTempoNotificacao(_tempoRestante));
+                _builder.SetContentText(FormatarTempoNotificacao(GetRemainingTime()));
                 var notification = _builder.Build();
                 _notificationManager.Notify(NotificationId, notification);
             }
@@ -354,10 +436,10 @@ namespace Temporizador
         private void PararTimer()
         {
             _estaRodando = false;
-            _timer?.Stop();
+            CancelExpireAlarm();
+            CancelUpdateAlarm();
             _tempoRestante = _tempoInicial;  // ✅ Volta ao tempo definido antes de iniciar
-            _minutosAnteriores = -1;  // ✅ Reseta o rastreamento de minutos
-            ReleaseWakeLock();
+            _endElapsedMillis = 0;
             
             // ✅ Cancela a vibração
             _vibrator?.Cancel();
@@ -381,9 +463,10 @@ namespace Temporizador
         private void ResetarTimer()
         {
             _estaRodando = false;
-            _timer?.Stop();
+            CancelExpireAlarm();
+            CancelUpdateAlarm();
             _tempoRestante = TimeSpan.Zero;
-            ReleaseWakeLock();
+            _endElapsedMillis = 0;
             System.Diagnostics.Debug.WriteLine("Timer resetado e notificação removida");
             
             // Remove a notificação completamente
@@ -397,9 +480,8 @@ namespace Temporizador
 
         public override void OnDestroy()
         {
-            _timer?.Stop();
-            _timer?.Dispose();
-            ReleaseWakeLock();
+            CancelExpireAlarm();
+            CancelUpdateAlarm();
 
             WeakReferenceMessenger.Default.Unregister<AtualizarNotificacaoMessage>(this);
             StopForeground(StopForegroundFlags.Remove);

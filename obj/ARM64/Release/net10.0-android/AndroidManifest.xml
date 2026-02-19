@@ -15,6 +15,7 @@
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
   <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
   <!-- ÚNICO application -->
@@ -43,7 +44,12 @@
     </activity>
     <service android:exported="true" android:foregroundServiceType="dataSync" android:name="crc644f4854b3ebd3c3a6.TimerService" />
     <receiver android:enabled="true" android:exported="true" android:label="Timer Receiver" android:name="crc64d1407d2d3dc494b3.TimerBroadcastReceiver" />
+    <receiver android:directBootAware="true" android:enabled="true" android:exported="true" android:name="crc64f4d9d07d0eb5bd40.AlarmReceiver">
+      <intent-filter>
+        <action android:name="com.companyname.temporizador.ACTION_TIMER_FINISHED" />
+      </intent-filter>
+    </receiver>
     <receiver android:enabled="true" android:exported="true" android:name="crc64f4d9d07d0eb5bd40.BotaoReceiver" />
-    <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:authorities="com.companyname.temporizador.mono.MonoRuntimeProvider.__mono_init__" />
+    <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:directBootAware="true" android:authorities="com.companyname.temporizador.mono.MonoRuntimeProvider.__mono_init__" />
   </application>
 </manifest>
