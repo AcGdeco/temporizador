@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+Yr40CzrluM=",
+  "dgSpecHash": "gWSMZPD8QqQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Temporizador.csproj",
   "expectedPackageFiles": [
@@ -142,7 +142,9 @@
       "targetGraphs": [
         "net10.0-android36.0",
         "net10.0-android36.0/android-arm",
-        "net10.0-android36.0/android-arm64"
+        "net10.0-android36.0/android-arm64",
+        "net10.0-android36.0/android-x64",
+        "net10.0-android36.0/android-x86"
       ]
     },
     {
@@ -156,7 +158,9 @@
       "targetGraphs": [
         "net10.0-android36.0",
         "net10.0-android36.0/android-arm",
-        "net10.0-android36.0/android-arm64"
+        "net10.0-android36.0/android-arm64",
+        "net10.0-android36.0/android-x64",
+        "net10.0-android36.0/android-x86"
       ]
     },
     {
@@ -170,7 +174,9 @@
       "targetGraphs": [
         "net10.0-android36.0",
         "net10.0-android36.0/android-arm",
-        "net10.0-android36.0/android-arm64"
+        "net10.0-android36.0/android-arm64",
+        "net10.0-android36.0/android-x64",
+        "net10.0-android36.0/android-x86"
       ]
     },
     {
@@ -184,7 +190,9 @@
       "targetGraphs": [
         "net10.0-android36.0",
         "net10.0-android36.0/android-arm",
-        "net10.0-android36.0/android-arm64"
+        "net10.0-android36.0/android-arm64",
+        "net10.0-android36.0/android-x64",
+        "net10.0-android36.0/android-x86"
       ]
     },
     {
@@ -198,7 +206,9 @@
       "targetGraphs": [
         "net10.0-android36.0",
         "net10.0-android36.0/android-arm",
-        "net10.0-android36.0/android-arm64"
+        "net10.0-android36.0/android-arm64",
+        "net10.0-android36.0/android-x64",
+        "net10.0-android36.0/android-x86"
       ]
     },
     {
@@ -212,7 +222,9 @@
       "targetGraphs": [
         "net10.0-android36.0",
         "net10.0-android36.0/android-arm",
-        "net10.0-android36.0/android-arm64"
+        "net10.0-android36.0/android-arm64",
+        "net10.0-android36.0/android-x64",
+        "net10.0-android36.0/android-x86"
       ]
     }
   ]

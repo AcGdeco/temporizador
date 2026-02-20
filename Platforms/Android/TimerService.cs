@@ -41,6 +41,12 @@ namespace Temporizador
         private long _lastUpdateTime = 0;
         private const long MinUpdateIntervalMs = 1000;
 
+        // Screen / minute update handling
+        private PowerManager _powerManager;
+        private BroadcastReceiver _screenReceiver;
+        private int _lastNotifiedMinutes = -1;
+        private const long MinuteUpdateIntervalMs = 60 * 1000;
+
         // Handler para posts atrasados
         private Handler _handler;
         private const long HandlerUpdateIntervalMs = 1000;
@@ -60,6 +66,28 @@ namespace Temporizador
 
         public override IBinder OnBind(Intent intent) => null;
 
+        // Força atualização imediata quando a tela é acesa
+        private void ForceUpdateNotificationOnScreenOn()
+        {
+            if (!_estaRodando) return;
+            // atualiza imediatamente e garante que o próximo agendamento esteja alinhado por minuto
+            _handler?.Post(() => { UpdateNotification(force: true); ScheduleNextUpdate(); });
+        }
+
+        // Receiver para mudanças no estado da tela
+        private class ScreenStateReceiver : BroadcastReceiver
+        {
+            private readonly TimerService _svc;
+            public ScreenStateReceiver(TimerService svc) => _svc = svc;
+            public override void OnReceive(Context context, Intent intent)
+            {
+                if (intent?.Action == Intent.ActionScreenOn || intent?.Action == Intent.ActionUserPresent)
+                {
+                    _svc.ForceUpdateNotificationOnScreenOn();
+                }
+            }
+        }
+
         public override void OnCreate()
         {
             base.OnCreate();
@@ -67,6 +95,14 @@ namespace Temporizador
             _notificationManager = (NotificationManager)GetSystemService(NotificationService);
             _alarmManager = (AlarmManager)GetSystemService(Context.AlarmService);
             _handler = new Handler(Looper.MainLooper);
+
+            // Inicializa PowerManager e registra receiver para atualização ao acender a tela
+            _powerManager = (PowerManager)GetSystemService(Context.PowerService);
+            _screenReceiver = new ScreenStateReceiver(this);
+            var screenFilter = new IntentFilter();
+            screenFilter.AddAction(Intent.ActionScreenOn);
+            screenFilter.AddAction(Intent.ActionUserPresent);
+            RegisterReceiver(_screenReceiver, screenFilter);
 
             // Cria o canal de notificação
             CreateNotificationChannel();
@@ -103,9 +139,20 @@ namespace Temporizador
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            if (intent?.Action != null)
+            // Log de depuração para verificar toques nas ações da notificação
+            try {
+                Android.Util.Log.Debug("TimerService", $"OnStartCommand: rawAction={intent?.Action}, tempoExtra={intent?.GetStringExtra("tempo")}");
+            } catch { }
+
+            // Normaliza ações que podem vir com prefixo vindo da notificação (ex.: "ACAO_PAUSAR")
+            string rawAction = intent?.Action;
+            string action = rawAction;
+            if (!string.IsNullOrEmpty(rawAction) && rawAction.StartsWith("ACAO_"))
+                action = rawAction.Substring("ACAO_".Length);
+
+            if (!string.IsNullOrEmpty(action))
             {
-                switch (intent.Action)
+                switch (action)
                 {
                     case ActionUpdate:
                         HandleUpdate();
@@ -141,7 +188,7 @@ namespace Temporizador
                 }
             }
 
-            // Atualiza a notificação
+            // Atualiza a notificação (apenas se necessário)
             UpdateNotification();
 
             // Inicia o serviço em foreground (se ainda não estiver)
@@ -159,6 +206,9 @@ namespace Temporizador
         {
             _endTimeMillis = SystemClock.ElapsedRealtime() + (long)_tempoRestante.TotalMilliseconds;
             _estaRodando = true;
+
+            // força atualização de minuto na próxima execução
+            _lastNotifiedMinutes = -1;
 
             ScheduleExpireAlarm();
             ScheduleNextUpdate();
@@ -204,23 +254,37 @@ namespace Temporizador
             _alarmManager?.Cancel(_updateIntent);
 
             long now = SystemClock.ElapsedRealtime();
-            long remaining = _endTimeMillis - now;
+            long remainingMs = _endTimeMillis - now;
 
-            if (remaining <= 0) return;
-
-            // Agenda para o próximo segundo cheio
-            long nextUpdate = now + 1000 - (now % 1000);
-            if (nextUpdate >= _endTimeMillis) return;
+            if (remainingMs <= 0) return;
 
             try
             {
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.S && !_alarmManager.CanScheduleExactAlarms())
+                if (remainingMs >= MinuteUpdateIntervalMs)
                 {
-                    _alarmManager.Set(AlarmType.ElapsedRealtime, nextUpdate, _updateIntent);
+                    // Usa aritmética inteira para determinar o "display minute" e evitar erros de ponto flutuante
+                    long remMs = remainingMs;
+                    int displayMinutes = (int)((remMs + MinuteUpdateIntervalMs - 1) / MinuteUpdateIntervalMs);
+                    long targetRemaining = (displayMinutes - 1) * MinuteUpdateIntervalMs; // quando o rótulo vai decrementar
+                    long delayToNextChange = remainingMs - targetRemaining;
+                    long scheduleAt = now + Math.Max(100, delayToNextChange);
+                    if (scheduleAt > _endTimeMillis) scheduleAt = _endTimeMillis;
+
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.S && !_alarmManager.CanScheduleExactAlarms())
+                        _alarmManager.Set(AlarmType.ElapsedRealtime, scheduleAt, _updateIntent);
+                    else
+                        _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, scheduleAt, _updateIntent);
                 }
                 else
                 {
-                    _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, nextUpdate, _updateIntent);
+                    // Menos de 1 minuto: atualiza por segundo (a notificação só será mostrada se a tela estiver acesa)
+                    long nextUpdate = now + 1000 - (now % 1000);
+                    if (nextUpdate >= _endTimeMillis) nextUpdate = _endTimeMillis;
+
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.S && !_alarmManager.CanScheduleExactAlarms())
+                        _alarmManager.Set(AlarmType.ElapsedRealtime, nextUpdate, _updateIntent);
+                    else
+                        _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, nextUpdate, _updateIntent);
                 }
             }
             catch
@@ -233,13 +297,26 @@ namespace Temporizador
         private void ScheduleUpdateWithHandler()
         {
             _handler.RemoveCallbacksAndMessages(null);
+
+            long now = SystemClock.ElapsedRealtime();
+            long remainingMs = _endTimeMillis - now;
+            long delayMs = HandlerUpdateIntervalMs;
+
+            if (remainingMs >= MinuteUpdateIntervalMs)
+            {
+                long remMs = remainingMs;
+                int displayMinutes = (int)((remMs + MinuteUpdateIntervalMs - 1) / MinuteUpdateIntervalMs);
+                long targetRemaining = (displayMinutes - 1) * MinuteUpdateIntervalMs;
+                delayMs = Math.Max(100, remainingMs - targetRemaining);
+            }
+
             _handler.PostDelayed(() => {
                 if (_estaRodando)
                 {
                     HandleUpdate();
                     ScheduleUpdateWithHandler();
                 }
-            }, HandlerUpdateIntervalMs);
+            }, delayMs);
         }
 
         private void HandleUpdate()
@@ -249,7 +326,7 @@ namespace Temporizador
             long now = SystemClock.ElapsedRealtime();
             long remaining = _endTimeMillis - now;
 
-            // Throttling manual
+            // Throttling manual para evitar chamadas excessivas
             if (now - _lastUpdateTime < MinUpdateIntervalMs && remaining > 1000)
                 return;
 
@@ -262,33 +339,71 @@ namespace Temporizador
             }
 
             _tempoRestante = TimeSpan.FromMilliseconds(remaining);
-            
-            // Atualiza a notificação
+
+            // Atualiza a notificação — UpdateNotification agora decide se deve realmente notificar (tela ligada / mudança de minuto)
             UpdateNotification();
-            
-            // Agenda próxima atualização
+
+            // Agenda próxima atualização (minuto ou segundo conforme o caso)
             ScheduleNextUpdate();
         }
 
-        private void UpdateNotification()
+        private void UpdateNotification(bool force = false)
         {
-            var notification = BuildNotification();
-            
-            if (_isForeground)
+            if (!_isForeground) return;
+
+            // Só notifica se a tela estiver acesa (a menos que for forçado)
+            bool screenOn = _powerManager?.IsInteractive ?? true;
+            if (!screenOn && !force) return;
+
+            // Quando há 1 minuto ou mais restantes, atualiza apenas na mudança de "display minute" (usamos ceil)
+            if (_tempoRestante.TotalSeconds >= 60)
             {
-                _notificationManager.Notify(NotificationId, notification);
+                long remMs = (long)Math.Max(0, _tempoRestante.TotalMilliseconds);
+                int displayMinutes = (int)((remMs + MinuteUpdateIntervalMs - 1) / MinuteUpdateIntervalMs);
+                if (!force && displayMinutes == _lastNotifiedMinutes)
+                    return; // sem mudança de minuto exibido — ignora
+                _lastNotifiedMinutes = displayMinutes;
             }
+            else
+            {
+                // abaixo de 1 minuto, reseta o rastreador de minutos para que próximas mudanças de minuto sejam detectadas
+                _lastNotifiedMinutes = -1;
+            }
+
+            var notification = BuildNotification();
+            _notificationManager.Notify(NotificationId, notification);
         }
 
         private Notification BuildNotification()
         {
-            string tempoFormatado = FormatTimeForNotification(_tempoRestante);
+            string contentText;
+            if (_tempoRestante.TotalSeconds >= 60)
+            {
+                long remMs = (long)Math.Max(0, _tempoRestante.TotalMilliseconds);
+                int displayMinutes = (int)((remMs + MinuteUpdateIntervalMs - 1) / MinuteUpdateIntervalMs);
+                if (displayMinutes >= 60)
+                {
+                    int hours = displayMinutes / 60;
+                    int mins = displayMinutes % 60;
+                    contentText = $"Faltando menos que {hours}h : {mins}m";
+                }
+                else
+                {
+                    contentText = $"Faltando menos que {displayMinutes} m";
+                }
+            }
+            else
+            {
+                contentText = FormatTimeForNotification(_tempoRestante);
+            }
+
             string textoBotao1 = _estaRodando ? "Pausar" : "Iniciar";
             string textoBotao2 = _estaRodando ? "Parar" : "Reset";
 
-            return TimerNotificationBuilder.Build(this, textoBotao1, textoBotao2, tempoFormatado)
+            // Passamos o tempo restante real como extra (hh:mm:ss) para ações
+            return TimerNotificationBuilder.Build(this, textoBotao1, textoBotao2, _tempoRestante.ToString(@"hh\:mm\:ss"))
                 .SetContentTitle(_estaRodando ? "Temporizador em andamento" : "Temporizador parado")
-                .SetContentText(tempoFormatado)
+                .SetContentText(contentText)
                 .SetOngoing(_estaRodando)
                 .SetOnlyAlertOnce(true)
                 .Build();
@@ -348,7 +463,7 @@ namespace Temporizador
             CancelAlarms();
             _handler.RemoveCallbacksAndMessages(null);
             
-            UpdateNotification();
+            UpdateNotification(force: true);
             
             WeakReferenceMessenger.Default.Send(new PararTimerPelaNotificacaoMessage());
             
@@ -384,7 +499,13 @@ namespace Temporizador
         {
             CancelAlarms();
             _handler.RemoveCallbacksAndMessages(null);
-            
+
+            if (_screenReceiver != null)
+            {
+                try { UnregisterReceiver(_screenReceiver); } catch { }
+                _screenReceiver = null;
+            }
+
             WeakReferenceMessenger.Default.Unregister<PausarTimerPelaNotificacaoMessage>(this);
             WeakReferenceMessenger.Default.Unregister<IniciarTimerPelaNotificacaoMessage>(this);
             WeakReferenceMessenger.Default.Unregister<PararTimerPelaNotificacaoMessage>(this);

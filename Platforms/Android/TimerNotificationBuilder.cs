@@ -28,10 +28,11 @@ namespace Temporizador.Platforms.Android
                 .SetOngoing(true);
 
             // Botão 1 (esquerda) - SEM ÍCONE
-            var intent1 = new Intent(context, typeof(TimerService));
-            intent1.SetAction(TimerService.GetActionForButton(botao1Texto));
+            // Envia como BROADCAST para o BotaoReceiver — garante funcionamento consistente
+            var intent1 = new Intent(context, typeof(BotaoReceiver));
+            intent1.SetAction("ACAO_" + TimerService.GetActionForButton(botao1Texto));
             intent1.PutExtra("tempo", tempoAtual);
-            var pendingIntent1 = PendingIntent.GetService(context, GetRequestCode(botao1Texto), intent1, 
+            var pendingIntent1 = PendingIntent.GetBroadcast(context, GetRequestCode(botao1Texto), intent1, 
                 PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
             
             var action1 = new NotificationCompat.Action.Builder(
@@ -41,10 +42,11 @@ namespace Temporizador.Platforms.Android
                 .Build();
 
             // Botão 2 (direita) - SEM ÍCONE
-            var intent2 = new Intent(context, typeof(TimerService));
-            intent2.SetAction(TimerService.GetActionForButton(botao2Texto));
+            // Envia como BROADCAST para o BotaoReceiver — garante funcionamento consistente
+            var intent2 = new Intent(context, typeof(BotaoReceiver));
+            intent2.SetAction("ACAO_" + TimerService.GetActionForButton(botao2Texto));
             intent2.PutExtra("tempo", tempoAtual);
-            var pendingIntent2 = PendingIntent.GetService(context, GetRequestCode(botao2Texto) + 100, intent2, 
+            var pendingIntent2 = PendingIntent.GetBroadcast(context, GetRequestCode(botao2Texto) + 100, intent2, 
                 PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
             
             var action2 = new NotificationCompat.Action.Builder(
