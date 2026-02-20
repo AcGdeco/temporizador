@@ -1,115 +1,109 @@
 using Android.App;
 using Android.Content;
-using Android.OS;
 using AndroidX.Core.App;
-using AndroidX.Media.App;
-using Temporizador.Platforms.Android;
-using CommunityToolkit.Mvvm.Messaging; // Adicionado
-using CoreNotificationCompat = AndroidX.Core.App.NotificationCompat;
-using Android.Graphics;
-using OsBuild = Android.OS.Build; 
-using OsVersionCodes = Android.OS.BuildVersionCodes;
-using MediaNotificationCompat = AndroidX.Media.App.NotificationCompat;
-using Android.Widget; 
-using Android.Content;
-
-// Adicione a diretiva de namespace explicitamente para evitar ambiguidade
-using GraphicsColor = Android.Graphics.Color;
+using static AndroidX.Core.App.NotificationCompat;
 
 namespace Temporizador.Platforms.Android
 {
-    public class TimerNotificationBuilder
+    public static class TimerNotificationBuilder
     {
-        public static AndroidX.Core.App.NotificationCompat.Builder Build(Context context, string btn1Label, string btn2Label)
+        private const string ChannelId = "timer_channel";
+
+        public static NotificationCompat.Builder Build(Context context, string botao1Texto, string botao2Texto, string tempoAtual)
         {
-            // Canal
-            var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
-            if (OsBuild.VERSION.SdkInt >= OsVersionCodes.O)
+            var intent = new Intent(context, typeof(MainActivity));
+            intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
+            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+
+            // Usando um ícone que com certeza existe no Android
+            int smallIcon = GetSmallIcon(context);
+            
+            var builder = new NotificationCompat.Builder(context, ChannelId)
+                .SetContentTitle("Temporizador")
+                .SetContentText($"Tempo: {tempoAtual}")
+                .SetSmallIcon(smallIcon)
+                .SetContentIntent(pendingIntent)
+                .SetPriority(NotificationCompat.PriorityLow)
+                .SetSilent(true)
+                .SetOngoing(true);
+
+            // Botão 1 (esquerda) - SEM ÍCONE
+            var intent1 = new Intent(context, typeof(TimerService));
+            intent1.SetAction(TimerService.GetActionForButton(botao1Texto));
+            intent1.PutExtra("tempo", tempoAtual);
+            var pendingIntent1 = PendingIntent.GetService(context, GetRequestCode(botao1Texto), intent1, 
+                PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+            
+            var action1 = new NotificationCompat.Action.Builder(
+                0,  // 0 = sem ícone
+                botao1Texto,
+                pendingIntent1)
+                .Build();
+
+            // Botão 2 (direita) - SEM ÍCONE
+            var intent2 = new Intent(context, typeof(TimerService));
+            intent2.SetAction(TimerService.GetActionForButton(botao2Texto));
+            intent2.PutExtra("tempo", tempoAtual);
+            var pendingIntent2 = PendingIntent.GetService(context, GetRequestCode(botao2Texto) + 100, intent2, 
+                PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+            
+            var action2 = new NotificationCompat.Action.Builder(
+                0,  // 0 = sem ícone
+                botao2Texto,
+                pendingIntent2)
+                .Build();
+
+            builder.AddAction(action1);
+            builder.AddAction(action2);
+
+            return builder;
+        }
+
+        private static int GetSmallIcon(Context context)
+        {
+            // Tenta usar o ícone do aplicativo (sempre existe)
+            try
             {
-                var channel = new NotificationChannel(
-                    "timer_channel",
-                    "Temporizador",
-                    NotificationImportance.Low)
+                // Primeira tentativa: ícone do app
+                int iconId = context.ApplicationInfo.Icon;
+                if (iconId != 0)
+                    return iconId;
+            }
+            catch { }
+
+            // Segunda tentativa: usar um ícone do sistema Android
+            try
+            {
+                // Usando reflexão para acessar o Resource do Android
+                var drawableClass = Type.GetType("Android.Resource+Drawable, Mono.Android");
+                if (drawableClass != null)
                 {
-                    Description = "Canal do temporizador",
-                    LockscreenVisibility = NotificationVisibility.Public
-                };
-                notificationManager.CreateNotificationChannel(channel);
+                    var field = drawableClass.GetField("ic_dialog_info");
+                    if (field != null)
+                    {
+                        var value = field.GetValue(null);
+                        if (value is int intValue)
+                            return intValue;
+                    }
+                }
             }
+            catch { }
 
-            // PendingIntents
-            var pararIntent = new Intent(context, typeof(BotaoReceiver)).SetAction("ACAO_PARAR");
-            var iniciarIntent = new Intent(context, typeof(BotaoReceiver)).SetAction("ACAO_INICIAR");
-            var pausarIntent = new Intent(context, typeof(BotaoReceiver)).SetAction("ACAO_PAUSAR");
-            var resetarIntent = new Intent(context, typeof(BotaoReceiver)).SetAction("ACAO_RESETAR");
+            // Último recurso: retorna 0 e deixa o Android escolher
+            return 0;
+        }
 
-            var pararPI = PendingIntent.GetBroadcast(context, 0, pararIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
-            var iniciarPI = PendingIntent.GetBroadcast(context, 1, iniciarIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
-            var pausarPI = PendingIntent.GetBroadcast(context, 2, pausarIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
-            var resetarPI = PendingIntent.GetBroadcast(context, 3, resetarIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
-
-            var abrirAppPI = PendingIntent.GetActivity(context, 0, new Intent(context, typeof(MainActivity)), PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
-
-            var mediaStyle = new MediaNotificationCompat.MediaStyle().SetShowActionsInCompactView(0, 1);
-
-            // Selecionar ícones e PendingIntent baseado nos rótulos dos botões
-            int btn1;
-            int btn2;
-            PendingIntent btn1PI;
-            PendingIntent btn2PI;
-
-            if(btn2Label == "Parar")
+        private static int GetRequestCode(string texto)
+        {
+            return texto switch
             {
-                btn2 = Resource.Drawable.ic_stop;
-                btn2PI = pararPI;
-            }
-            else if(btn2Label == "Reset")
-            {
-                btn2 = Resource.Drawable.ic_reset;
-                btn2PI = resetarPI;
-            }
-            else
-            {
-                btn2 = Resource.Drawable.ic_reset_stop;
-                btn2PI = pararPI;
-            }
-
-            if(btn1Label == "Pausar")
-            {
-                btn1 = Resource.Drawable.ic_pause;
-                btn1PI = pausarPI; // Quando está "Pausar", clicar envia ACAO_PAUSAR
-            }
-            else if(btn1Label == "Continuar")
-            {
-                btn1 = Resource.Drawable.ic_play;
-                btn1PI = iniciarPI; // Quando está "Continuar", clicar envia ACAO_INICIAR
-            }
-            else if(btn1Label == "Iniciar")
-            {
-                btn1 = Resource.Drawable.ic_play;
-                btn1PI = iniciarPI; // Quando está "Iniciar", clicar envia ACAO_INICIAR
-            }
-            else
-            {
-                btn1 = Resource.Drawable.ic_pause_play;
-                btn1PI = iniciarPI;
-            }
-
-            return new AndroidX.Core.App.NotificationCompat.Builder(context, "timer_channel")
-                .SetSmallIcon(Resource.Drawable.ic_timer)
-                .SetContentTitle("Temporizador em andamento")
-                .SetContentText("Tempo restante")
-                .SetContentIntent(abrirAppPI)
-                .SetStyle(mediaStyle)
-                .SetPriority(AndroidX.Core.App.NotificationCompat.PriorityLow)
-                .SetCategory(Notification.CategoryService)
-                .SetVisibility(AndroidX.Core.App.NotificationCompat.VisibilityPublic)
-                .SetOngoing(true)
-                .SetOnlyAlertOnce(true)
-                .SetForegroundServiceBehavior(AndroidX.Core.App.NotificationCompat.ForegroundServiceImmediate)
-                .AddAction(btn2, btn2Label, btn2PI)
-                .AddAction(btn1, btn1Label, btn1PI)
-                .SetColor(GraphicsColor.Blue);
+                "Pausar" => 1001,
+                "Iniciar" => 1002,
+                "Continuar" => 1003,
+                "Parar" => 1004,
+                "Reset" => 1005,
+                _ => 2000
+            };
         }
     }
 }

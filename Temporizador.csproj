@@ -23,10 +23,9 @@
 
     <!-- Arquitetura -->
     <Platforms>ARM64;x64;x86</Platforms>
-    <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
 
     <!-- ABI e empacotamento -->
-	<RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
+	<RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
 	<AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
   <NoWarn>$(NoWarn);CS0618;CS4014</NoWarn>
   <TreatWarningsAsErrors>false</TreatWarningsAsErrors>

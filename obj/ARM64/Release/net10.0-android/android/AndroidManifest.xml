@@ -45,7 +45,6 @@
       </intent-filter>
     </activity>
     <service android:name="crc644f4854b3ebd3c3a6.TimerService" android:exported="true" android:foregroundServiceType="dataSync" />
-    <receiver android:name="crc64d1407d2d3dc494b3.TimerBroadcastReceiver" android:enabled="true" android:exported="true" android:label="Timer Receiver" />
     <receiver android:name="crc64f4d9d07d0eb5bd40.AlarmReceiver" android:directBootAware="true" android:enabled="true" android:exported="true">
       <intent-filter>
         <action android:name="com.companyname.temporizador.ACTION_TIMER_FINISHED" />

@@ -41,7 +41,6 @@ obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Lifecycle.Liv
 obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Lifecycle.ViewModel.Android.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Lifecycle.ViewModelSavedState.Android.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Loader.dll.so
-obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Media.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Navigation.Common.Android.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Navigation.Fragment.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\Xamarin.AndroidX.Navigation.Runtime.Android.dll.so
@@ -66,7 +65,6 @@ obj\ARM64\Release\net10.0-android\android-arm\aot\System.ComponentModel.TypeConv
 obj\ARM64\Release\net10.0-android\android-arm\aot\System.ComponentModel.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\System.Console.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\System.Diagnostics.DiagnosticSource.dll.so
-obj\ARM64\Release\net10.0-android\android-arm\aot\System.Diagnostics.Process.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\System.Diagnostics.TraceSource.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\System.Drawing.Primitives.dll.so
 obj\ARM64\Release\net10.0-android\android-arm\aot\System.Drawing.dll.so

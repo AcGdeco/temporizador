@@ -24,13 +24,18 @@ namespace Temporizador.Platforms.Android
                 {
                     var svcIntent = new Intent(context, typeof(TimerService));
                     svcIntent.SetAction(intent.Action);
+                    // Copia extras do broadcast (ex.: "tempo") para que o Service tenha o estado atual
+                    if (intent?.Extras != null)
+                    {
+                        svcIntent.PutExtras(intent.Extras);
+                    }
 
-n                    if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+                    if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
                         context.StartForegroundService(svcIntent);
                     else
                         context.StartService(svcIntent);
 
-n                    System.Diagnostics.Debug.WriteLine($"BotaoReceiver: started TimerService for action '{intent.Action}'");
+                    System.Diagnostics.Debug.WriteLine($"BotaoReceiver: started TimerService for action '{intent.Action}' (extras copied: {intent?.Extras != null})");
                 }
             }
             catch (System.Exception ex)
