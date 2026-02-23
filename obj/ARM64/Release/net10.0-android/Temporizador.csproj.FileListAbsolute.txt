@@ -537,3 +537,4 @@ C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\andro
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\android\jni_remap.x86_64.o
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\app_shared_libraries\x86\libxamarin-app.so
 C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\app_shared_libraries\x86_64\libxamarin-app.so
+C:\Users\Andre\source\repos\Temporizador\obj\ARM64\Release\net10.0-android\android\src\crc644f4854b3ebd3c3a6\TimerService_ScreenStateReceiver.java

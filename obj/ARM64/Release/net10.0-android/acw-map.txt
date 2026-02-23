@@ -1513,6 +1513,9 @@ temporizador.platforms.android.BotaoReceiver;crc64f4d9d07d0eb5bd40.BotaoReceiver
 Temporizador.TimerService, Temporizador;crc644f4854b3ebd3c3a6.TimerService
 Temporizador.TimerService;crc644f4854b3ebd3c3a6.TimerService
 temporizador.TimerService;crc644f4854b3ebd3c3a6.TimerService
+Temporizador.TimerService+ScreenStateReceiver, Temporizador;crc644f4854b3ebd3c3a6.TimerService_ScreenStateReceiver
+Temporizador.TimerService.ScreenStateReceiver;crc644f4854b3ebd3c3a6.TimerService_ScreenStateReceiver
+temporizador.TimerService_ScreenStateReceiver;crc644f4854b3ebd3c3a6.TimerService_ScreenStateReceiver
 Xamarin.KotlinX.Coroutines.Flow.IFlow, Xamarin.KotlinX.Coroutines.Core.Jvm;kotlinx.coroutines.flow.Flow
 Xamarin.KotlinX.Coroutines.Flow.IFlow;kotlinx.coroutines.flow.Flow
 kotlinx.coroutines.flow.Flow;kotlinx.coroutines.flow.Flow

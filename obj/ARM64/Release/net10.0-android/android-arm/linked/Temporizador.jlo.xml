@@ -21,6 +21,15 @@
         <method name="onDestroy" method="n_onDestroy:()V:GetOnDestroyHandler" jni_signature="()V" retval="void" />
       </methods>
     </type>
+    <type name="TimerService_ScreenStateReceiver" package="crc644f4854b3ebd3c3a6" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="android.content.BroadcastReceiver" partial_assembly_qualified_name="Temporizador.TimerService+ScreenStateReceiver, Temporizador">
+      <constructors>
+        <constructor name="TimerService_ScreenStateReceiver" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
+        <constructor name="TimerService_ScreenStateReceiver" method="n_.ctor:(Lcrc644f4854b3ebd3c3a6/TimerService;)V:" jni_signature="(Lcrc644f4854b3ebd3c3a6/TimerService;)V" managed_parameters="Temporizador.TimerService, Temporizador" params="crc644f4854b3ebd3c3a6.TimerService p0" retval="void" is_dynamically_registered="True" super_call="" activate_call="p0" />
+      </constructors>
+      <methods>
+        <method name="onReceive" method="n_onReceive:(Landroid/content/Context;Landroid/content/Intent;)V:GetOnReceive_Landroid_content_Context_Landroid_content_Intent_Handler" jni_signature="(Landroid/content/Context;Landroid/content/Intent;)V" params="android.content.Context p0, android.content.Intent p1" retval="void" super_call="p0, p1" activate_call="p0, p1" />
+      </methods>
+    </type>
     <type name="AlarmReceiver" package="crc64f4d9d07d0eb5bd40" application_java_class="android.app.Application" mono_runtime_initialization="mono.MonoPackageManager.LoadApplication (context);" extends_type="android.content.BroadcastReceiver" partial_assembly_qualified_name="Temporizador.Platforms.Android.AlarmReceiver, Temporizador">
       <constructors>
         <constructor name="AlarmReceiver" method="n_.ctor:()V:" jni_signature="()V" managed_parameters="" retval="void" is_dynamically_registered="True" />
@@ -42,6 +51,7 @@
     <type assembly-qualified-name="Temporizador.MainActivity, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainActivity" java-key="crc644f4854b3ebd3c3a6.MainActivity" managed-key="Temporizador.MainActivity" partial-assembly-qualified-name="Temporizador.MainActivity, Temporizador" />
     <type assembly-qualified-name="Temporizador.MainApplication, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.MainApplication" java-key="crc644f4854b3ebd3c3a6.MainApplication" managed-key="Temporizador.MainApplication" partial-assembly-qualified-name="Temporizador.MainApplication, Temporizador" />
     <type assembly-qualified-name="Temporizador.TimerService, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.TimerService" java-key="crc644f4854b3ebd3c3a6.TimerService" managed-key="Temporizador.TimerService" partial-assembly-qualified-name="Temporizador.TimerService, Temporizador" />
+    <type assembly-qualified-name="Temporizador.TimerService+ScreenStateReceiver, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.TimerService_ScreenStateReceiver" java-key="crc644f4854b3ebd3c3a6.TimerService_ScreenStateReceiver" managed-key="Temporizador.TimerService.ScreenStateReceiver" partial-assembly-qualified-name="Temporizador.TimerService+ScreenStateReceiver, Temporizador" />
     <type assembly-qualified-name="Temporizador.Platforms.Android.AlarmReceiver, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.platforms.android.AlarmReceiver" java-key="crc64f4d9d07d0eb5bd40.AlarmReceiver" managed-key="Temporizador.Platforms.Android.AlarmReceiver" partial-assembly-qualified-name="Temporizador.Platforms.Android.AlarmReceiver, Temporizador" />
     <type assembly-qualified-name="Temporizador.Platforms.Android.BotaoReceiver, Temporizador, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" compat-jni-name="temporizador.platforms.android.BotaoReceiver" java-key="crc64f4d9d07d0eb5bd40.BotaoReceiver" managed-key="Temporizador.Platforms.Android.BotaoReceiver" partial-assembly-qualified-name="Temporizador.Platforms.Android.BotaoReceiver, Temporizador" />
   </acw-types>

@@ -33,6 +33,7 @@ namespace Temporizador.Views
         private TimeSpan tempoInicial;
         private TimeSpan tempoRestante;
         private IDispatcherTimer timer;
+        private DateTime _targetEndTime;
 
         private enum EstadoTemporizador { Parado, Rodando, Pausado, Resetado }
         private EstadoTemporizador estadoTemporizador = EstadoTemporizador.Resetado;
@@ -409,6 +410,7 @@ namespace Temporizador.Views
             if (estadoTemporizador == EstadoTemporizador.Parado || 
                 estadoTemporizador == EstadoTemporizador.Resetado)
             {
+                _targetEndTime = DateTime.UtcNow.Add(tempoRestante);
 #if ANDROID
                 _endElapsedMillis = Android.OS.SystemClock.ElapsedRealtime() + (long)tempoRestante.TotalMilliseconds;
 #endif
@@ -422,6 +424,7 @@ namespace Temporizador.Views
             }
             else if (estadoTemporizador == EstadoTemporizador.Pausado)
             {
+                _targetEndTime = DateTime.UtcNow.Add(tempoRestante);
 #if ANDROID
                 _endElapsedMillis = Android.OS.SystemClock.ElapsedRealtime() + (long)tempoRestante.TotalMilliseconds;
 #endif
@@ -444,18 +447,17 @@ namespace Temporizador.Views
         {
             if (estadoTemporizador == EstadoTemporizador.Rodando)
             {
-#if ANDROID
-                long remainingMillis = _endElapsedMillis - Android.OS.SystemClock.ElapsedRealtime();
-                if (remainingMillis > 0)
+                var remaining = _targetEndTime - DateTime.UtcNow;
+
+                if (remaining.TotalMilliseconds > 0)
                 {
-                    tempoRestante = TimeSpan.FromMilliseconds(remainingMillis);
+                    tempoRestante = remaining;
                     AtualizarUI();
                 }
                 else
                 {
                     TimerExpired();
                 }
-#endif
             }
         }
 
@@ -561,12 +563,12 @@ namespace Temporizador.Views
         {
             if (estadoTemporizador == EstadoTemporizador.Rodando)
             {
-#if ANDROID
-                long remainingMillis = _endElapsedMillis - Android.OS.SystemClock.ElapsedRealtime();
-                if (remainingMillis > 0)
+                var remaining = _targetEndTime - DateTime.UtcNow;
+                if (remaining.TotalMilliseconds > 0)
                 {
-                    tempoRestante = TimeSpan.FromMilliseconds(remainingMillis);
+                    tempoRestante = remaining;
                 }
+#if ANDROID
                 _endElapsedMillis = 0;
 #endif
                 timer.Stop();
@@ -681,12 +683,14 @@ namespace Temporizador.Views
                 
                 if (estadoTemporizador == EstadoTemporizador.Rodando)
                 {
+                    Preferences.Default.Set("targetEndTimeTicks", _targetEndTime.Ticks);
 #if ANDROID
                     Preferences.Default.Set("endElapsedMillis", _endElapsedMillis);
 #endif
                 }
                 else
                 {
+                    Preferences.Default.Set("targetEndTimeTicks", 0L);
                     Preferences.Default.Set("endElapsedMillis", 0L);
                     Preferences.Default.Set("tempoRestante", tempoRestante.ToString(@"hh\:mm\:ss"));
                 }
@@ -707,27 +711,62 @@ namespace Temporizador.Views
 
                 if (rodando)
                 {
-#if ANDROID
-                    _endElapsedMillis = Preferences.Default.Get("endElapsedMillis", 0L);
-                    long remainingMillis = _endElapsedMillis - Android.OS.SystemClock.ElapsedRealtime();
-
-                    if (remainingMillis > 0)
+                    long targetTicks = Preferences.Default.Get("targetEndTimeTicks", 0L);
+                    if (targetTicks > 0)
                     {
-                        tempoRestante = TimeSpan.FromMilliseconds(remainingMillis);
-                        estadoTemporizador = EstadoTemporizador.Rodando;
-                        
-                        if (!timer.IsRunning)
+                        _targetEndTime = new DateTime(targetTicks);
+                        var remaining = _targetEndTime - DateTime.UtcNow;
+
+                        if (remaining.TotalMilliseconds > 0)
                         {
-                            timer.Start();
+                            tempoRestante = remaining;
+                            estadoTemporizador = EstadoTemporizador.Rodando;
+
+                            if (!timer.IsRunning)
+                            {
+                                timer.Start();
+                            }
+
+                            AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
+                            AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
+                            StatusLabel.Text = "COZINHANDO...";
+                            
+                            // Restore Android specific state for consistency if needed
+#if ANDROID
+                            _endElapsedMillis = Android.OS.SystemClock.ElapsedRealtime() + (long)remaining.TotalMilliseconds;
+#endif
                         }
-                        
-                        AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
-                        AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
-                        StatusLabel.Text = "COZINHANDO...";
+                        else
+                        {
+                            TimerExpired();
+                        }
                     }
+#if ANDROID
                     else
                     {
-                        TimerExpired();
+                        // Fallback for older version state
+                        _endElapsedMillis = Preferences.Default.Get("endElapsedMillis", 0L);
+                        long remainingMillis = _endElapsedMillis - Android.OS.SystemClock.ElapsedRealtime();
+
+                        if (remainingMillis > 0)
+                        {
+                            tempoRestante = TimeSpan.FromMilliseconds(remainingMillis);
+                            _targetEndTime = DateTime.UtcNow.Add(tempoRestante); // Sync new state
+                            estadoTemporizador = EstadoTemporizador.Rodando;
+                            
+                            if (!timer.IsRunning)
+                            {
+                                timer.Start();
+                            }
+                            
+                            AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
+                            AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
+                            StatusLabel.Text = "COZINHANDO...";
+                        }
+                        else
+                        {
+                            TimerExpired();
+                        }
                     }
 #endif
                 }

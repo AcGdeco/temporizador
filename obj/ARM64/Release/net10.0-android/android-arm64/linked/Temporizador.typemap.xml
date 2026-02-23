@@ -1,11 +1,12 @@
-<api type="release" assembly-name="Temporizador" mvid="bab413f7e05349058280b45d5fde2100">
-  <module assembly-name="Temporizador" mvid="bab413f7e05349058280b45d5fde2100" mvid-bytes="9xO0ulPgBUmCgLRdX94hAA==">
+<api type="release" assembly-name="Temporizador" mvid="ce45635d55e94530b65769ed60f447ba">
+  <module assembly-name="Temporizador" mvid="ce45635d55e94530b65769ed60f447ba" mvid-bytes="XWNFzulVMEW2V2ntYPRHug==">
     <types-scratch>
       <entry key="crc644f4854b3ebd3c3a6/MainActivity" java-name="crc644f4854b3ebd3c3a6/MainActivity" managed-type-name="Temporizador.MainActivity" token="33554505" />
       <entry key="crc644f4854b3ebd3c3a6/MainApplication" java-name="crc644f4854b3ebd3c3a6/MainApplication" managed-type-name="Temporizador.MainApplication" token="33554506" />
       <entry key="crc644f4854b3ebd3c3a6/TimerService" java-name="crc644f4854b3ebd3c3a6/TimerService" managed-type-name="Temporizador.TimerService" token="33554507" />
-      <entry key="crc64f4d9d07d0eb5bd40/AlarmReceiver" java-name="crc64f4d9d07d0eb5bd40/AlarmReceiver" managed-type-name="Temporizador.Platforms.Android.AlarmReceiver" token="33554535" />
-      <entry key="crc64f4d9d07d0eb5bd40/BotaoReceiver" java-name="crc64f4d9d07d0eb5bd40/BotaoReceiver" managed-type-name="Temporizador.Platforms.Android.BotaoReceiver" token="33554537" />
+      <entry key="crc644f4854b3ebd3c3a6/TimerService_ScreenStateReceiver" java-name="crc644f4854b3ebd3c3a6/TimerService_ScreenStateReceiver" managed-type-name="Temporizador.TimerService/ScreenStateReceiver" token="33554508" />
+      <entry key="crc64f4d9d07d0eb5bd40/AlarmReceiver" java-name="crc64f4d9d07d0eb5bd40/AlarmReceiver" managed-type-name="Temporizador.Platforms.Android.AlarmReceiver" token="33554536" />
+      <entry key="crc64f4d9d07d0eb5bd40/BotaoReceiver" java-name="crc64f4d9d07d0eb5bd40/BotaoReceiver" managed-type-name="Temporizador.Platforms.Android.BotaoReceiver" token="33554538" />
     </types-scratch>
   </module>
 </api>
