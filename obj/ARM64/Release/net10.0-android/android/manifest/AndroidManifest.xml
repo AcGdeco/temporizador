@@ -44,13 +44,13 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <service android:name="crc644f4854b3ebd3c3a6.TimerService" android:exported="true" android:foregroundServiceType="dataSync" />
     <receiver android:name="crc64f4d9d07d0eb5bd40.AlarmReceiver" android:directBootAware="true" android:enabled="true" android:exported="true">
       <intent-filter>
         <action android:name="com.companyname.temporizador.ACTION_TIMER_FINISHED" />
       </intent-filter>
     </receiver>
     <receiver android:name="crc64f4d9d07d0eb5bd40.BotaoReceiver" android:enabled="true" android:exported="true" />
+    <service android:name="crc64f4d9d07d0eb5bd40.TimerService" android:exported="true" android:foregroundServiceType="specialUse" />
     <provider android:name="mono.MonoRuntimeProvider" android:authorities="com.companyname.temporizador.mono.MonoRuntimeProvider.__mono_init__" android:directBootAware="true" android:exported="false" android:initOrder="1999999999" />
     <provider android:name="androidx.startup.InitializationProvider" android:authorities="com.companyname.temporizador.androidx-startup" android:exported="false" tools:node="merge">
       <meta-data android:name="androidx.profileinstaller.ProfileInstallerInitializer" android:value="androidx.startup" />

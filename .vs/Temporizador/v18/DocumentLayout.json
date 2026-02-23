@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Andre\\source\\repos\\Temporizador\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\timerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\timerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\views\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:views\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\timernotificationbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\timernotificationbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\platforms\\android\\timerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|solutionrelative:platforms\\android\\timerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1753B5E-C2A2-41A9-B13B-2E65616B3F2C}|Temporizador.csproj|c:\\users\\andre\\source\\repos\\temporizador\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +50,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
+              "RelativeDocumentMoniker": "Views\\MainPage.xaml",
+              "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml",
+              "RelativeToolTip": "Views\\MainPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-02-23T17:49:29.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "TimerNotificationBuilder.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\TimerNotificationBuilder.cs",
               "RelativeDocumentMoniker": "Platforms\\Android\\TimerNotificationBuilder.cs",
@@ -58,7 +75,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\App.xaml.cs",
               "RelativeDocumentMoniker": "App.xaml.cs",
@@ -70,20 +87,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "MainPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "Views\\MainPage.xaml.cs",
               "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Views\\MainPage.xaml.cs",
               "RelativeToolTip": "Views\\MainPage.xaml.cs",
-              "ViewState": "AgIAANQAAAAAAAAAAAAawCkBAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAvwJQAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-27T11:48:50.987Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "MauiProgram.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\MauiProgram.cs",
               "RelativeDocumentMoniker": "MauiProgram.cs",
@@ -95,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "MainPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "MainPage.xaml.cs",
@@ -107,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "AndroidManifest.xml",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\AndroidManifest.xml",
               "RelativeDocumentMoniker": "Platforms\\Android\\AndroidManifest.xml",
@@ -118,15 +135,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "TimerService.cs",
               "DocumentMoniker": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\TimerService.cs",
               "RelativeDocumentMoniker": "Platforms\\Android\\TimerService.cs",
               "ToolTip": "C:\\Users\\Andre\\source\\repos\\Temporizador\\Platforms\\Android\\TimerService.cs",
               "RelativeToolTip": "Platforms\\Android\\TimerService.cs",
-              "ViewState": "AgIAAOsAAAAAAAAAAAAEwB4BAABrAAAAAAAAAA==",
+              "ViewState": "AgIAAA0CAAAAAAAAAAAawA0CAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T19:50:30.299Z"
+              "WhenOpened": "2026-01-26T19:50:30.299Z",
+              "EditorCaption": ""
             }
           ]
         }

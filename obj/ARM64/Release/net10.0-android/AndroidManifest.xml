@@ -42,13 +42,13 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <service android:exported="true" android:foregroundServiceType="dataSync" android:name="crc644f4854b3ebd3c3a6.TimerService" />
     <receiver android:directBootAware="true" android:enabled="true" android:exported="true" android:name="crc64f4d9d07d0eb5bd40.AlarmReceiver">
       <intent-filter>
         <action android:name="com.companyname.temporizador.ACTION_TIMER_FINISHED" />
       </intent-filter>
     </receiver>
     <receiver android:enabled="true" android:exported="true" android:name="crc64f4d9d07d0eb5bd40.BotaoReceiver" />
+    <service android:exported="true" android:foregroundServiceType="specialUse" android:name="crc64f4d9d07d0eb5bd40.TimerService" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:directBootAware="true" android:authorities="com.companyname.temporizador.mono.MonoRuntimeProvider.__mono_init__" />
   </application>
 </manifest>

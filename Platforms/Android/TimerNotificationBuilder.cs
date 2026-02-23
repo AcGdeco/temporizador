@@ -1,7 +1,8 @@
-using Android.App;
-using Android.Content;
+using global::Android.App;
+using global::Android.Content;
 using AndroidX.Core.App;
 using static AndroidX.Core.App.NotificationCompat;
+using Temporizador; // Para MainActivity
 
 namespace Temporizador.Platforms.Android
 {
@@ -9,7 +10,7 @@ namespace Temporizador.Platforms.Android
     {
         private const string ChannelId = "timer_channel";
 
-        public static NotificationCompat.Builder Build(Context context, string botao1Texto, string botao2Texto, string tempoAtual)
+        public static NotificationCompat.Builder Build(Context context, string botao1Texto, string botao2Texto, string tempoAtual, long when = 0, bool chronometerCountDown = false)
         {
             var intent = new Intent(context, typeof(MainActivity));
             intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
@@ -26,6 +27,20 @@ namespace Temporizador.Platforms.Android
                 .SetPriority(NotificationCompat.PriorityLow)
                 .SetSilent(true)
                 .SetOngoing(true);
+
+            if (when > 0 && chronometerCountDown)
+            {
+                builder.SetWhen(when);
+                builder.SetUsesChronometer(true);
+                if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.N)
+                {
+                    builder.SetChronometerCountDown(true);
+                }
+            }
+            else
+            {
+                builder.SetShowWhen(false);
+            }
 
             // Botão 1 (esquerda) - SEM ÍCONE
             // Envia como BROADCAST para o BotaoReceiver — garante funcionamento consistente
