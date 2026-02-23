@@ -88,26 +88,8 @@ namespace Temporizador.Platforms.Android
             }
             catch { }
 
-            // Segunda tentativa: usar um ícone do sistema Android
-            try
-            {
-                // Usando reflexão para acessar o Resource do Android
-                var drawableClass = Type.GetType("Android.Resource+Drawable, Mono.Android");
-                if (drawableClass != null)
-                {
-                    var field = drawableClass.GetField("ic_dialog_info");
-                    if (field != null)
-                    {
-                        var value = field.GetValue(null);
-                        if (value is int intValue)
-                            return intValue;
-                    }
-                }
-            }
-            catch { }
-
-            // Último recurso: retorna 0 e deixa o Android escolher
-            return 0;
+            // Fallback para ícone de sistema garantido
+            return global::Android.Resource.Drawable.IcLockIdleAlarm;
         }
 
         private static int GetRequestCode(string texto)

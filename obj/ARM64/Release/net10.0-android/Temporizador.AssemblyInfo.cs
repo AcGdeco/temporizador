@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Temporizador")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.1+909f6c9cd6680e669512fcc7802786ae3b24e21b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.1+be7b6077dfb43f41162d0196abcc7b2b50a40157")]
 [assembly: System.Reflection.AssemblyProductAttribute("Temporizador")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Temporizador")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.1.0")]

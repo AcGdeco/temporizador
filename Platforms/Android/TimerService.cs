@@ -277,7 +277,7 @@ namespace Temporizador.Platforms.Android
             if (!_isForeground)
             {
                 var notification = BuildNotification();
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.UpsideDownCake)
                 {
                      // Android 14 exige tipo de serviço
                      StartForeground(NotificationId, notification, global::Android.Content.PM.ForegroundService.TypeSpecialUse);
@@ -390,7 +390,10 @@ namespace Temporizador.Platforms.Android
                 }
                 else
                 {
-                    _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, endTimeMillis, _expireIntent);
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+                        _alarmManager.SetExactAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, endTimeMillis, _expireIntent);
+                    else
+                        _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, endTimeMillis, _expireIntent);
                 }
             }
             catch
@@ -433,7 +436,12 @@ namespace Temporizador.Platforms.Android
                      if (Build.VERSION.SdkInt >= BuildVersionCodes.S && !_alarmManager.CanScheduleExactAlarms())
                         _alarmManager.Set(AlarmType.ElapsedRealtime, scheduleAt, _updateIntent);
                     else
-                        _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, scheduleAt, _updateIntent);
+                    {
+                        if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+                            _alarmManager.SetExactAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, scheduleAt, _updateIntent);
+                        else
+                            _alarmManager.SetExact(AlarmType.ElapsedRealtimeWakeup, scheduleAt, _updateIntent);
+                    }
                 }
             }
             catch
