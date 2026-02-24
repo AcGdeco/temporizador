@@ -585,7 +585,7 @@ namespace Temporizador.Platforms.Android
                     {
                         int h = totalMinutes / 60;
                         int m = totalMinutes % 60;
-                        contentText = m > 0 ? $"Termina em {h}h {m}m" : $"Termina em {h}h";
+                        contentText = "Temporizador em andamento";
                     }
                     else
                     {
