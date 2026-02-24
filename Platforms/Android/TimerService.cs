@@ -607,8 +607,9 @@ namespace Temporizador.Platforms.Android
                 contentText = FormatTimeForNotification(tempoArredondado);
             }
 
-            string textoBotao1 = _estaRodando ? "Pausar" : "Iniciar";
-            string textoBotao2 = _estaRodando ? "Parar" : "Reset";
+            bool mostrarControleRodando = _estaRodando || _alarmeAtivo;
+            string textoBotao1 = mostrarControleRodando ? "Pausar" : "Iniciar";
+            string textoBotao2 = mostrarControleRodando ? "Parar" : "Reset";
 
             // Enviamos a string formatada com o tempo arredondado para os botões/broadcasts
             var builder = TimerNotificationBuilder.Build(
