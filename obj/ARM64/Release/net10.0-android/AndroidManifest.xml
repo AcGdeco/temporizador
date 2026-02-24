@@ -19,7 +19,7 @@
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
   <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
   <!-- ÚNICO application -->
-  <application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:name="crc644f4854b3ebd3c3a6.MainApplication" android:label="Bibi" android:extractNativeLibs="true">
+  <application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:name="crc644f4854b3ebd3c3a6.MainApplication" android:label="Chef Timer" android:extractNativeLibs="true">
     <receiver android:name=".TimerBroadcastReceiver" android:exported="false">
       <intent-filter>
         <action android:name="com.temporizador.ACTION" />
