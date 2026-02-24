@@ -276,7 +276,7 @@ namespace Temporizador.Views
 
             novaGrid.Add(new Label
             {
-                Text = "Nova Receita",
+                Text = "Nova Predefinição",
                 FontSize = 14,
                 TextColor = Colors.Black,
                 HorizontalOptions = LayoutOptions.Center
@@ -405,7 +405,7 @@ namespace Temporizador.Views
                  estadoTemporizador = EstadoTemporizador.Rodando;
                  AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
                  AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
-                 StatusLabel.Text = "COZINHANDO...";
+                 StatusLabel.Text = "RODANDO...";
 
                  if (!fromService)
                  {
@@ -730,7 +730,7 @@ namespace Temporizador.Views
 
                             AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
                             AtualizarBotaoReset("Parar", "stop.png", Colors.Red);
-                            StatusLabel.Text = "COZINHANDO...";
+                            StatusLabel.Text = "RODANDO...";
                         }
                         else
                         {

@@ -9,7 +9,7 @@
     <Grid RowDefinitions="Auto,*" Padding="0" Margin="0">
         <!-- Cabeçalho -->
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" >
-            <Label Text="Editar Receita"
+            <Label Text="Editar Predefinição"
                    FontSize="20"
                    FontAttributes="Bold"
                    HorizontalOptions="FillAndExpand"
@@ -29,7 +29,7 @@
 
         <!-- Conteúdo -->
         <VerticalStackLayout Grid.Row="1" Spacing="15">
-            <Entry x:Name="NomeReceitaEntry" Placeholder="Nome da Receita" />
+            <Entry x:Name="NomeReceitaEntry" Placeholder="Nome" />
 
             <!-- Entradas de tempo -->
             <Grid ColumnDefinitions="0.3*,0.3*,0.3*" ColumnSpacing="10">

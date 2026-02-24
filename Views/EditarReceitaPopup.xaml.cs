@@ -51,7 +51,7 @@ namespace Temporizador.Popups
                 // Validação básica
                 if (string.IsNullOrWhiteSpace(NomeReceitaEntry.Text))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Erro", "Digite um nome para a receita.", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Digite um nome.", "OK");
                     return;
                 }
 
@@ -81,7 +81,7 @@ namespace Temporizador.Popups
                 _db.Update(_receita);
 
                 // Agora mostra o alerta (fora do popup)
-                await Application.Current.MainPage.DisplayAlert("Sucesso", "Receita atualizada com sucesso!", "OK");
+                await Application.Current.MainPage.DisplayAlert("Sucesso", "Predefinição atualizada com sucesso!", "OK");
 
                 // Fecha ANTES de mostrar o alert
                 await CloseAsync(); // opcional: retorna a receita atualizada
@@ -95,7 +95,7 @@ namespace Temporizador.Popups
 
         private async void OnDeletarReceitaClicked(object sender, EventArgs e)
         {
-            bool confirmar = await Application.Current.MainPage.DisplayAlert("Confirmar", "Deseja realmente deletar esta receita?", "Sim", "Não");
+            bool confirmar = await Application.Current.MainPage.DisplayAlert("Confirmar", "Deseja realmente deletar esta predefinição?", "Sim", "Não");
             
             if (confirmar)
             {
@@ -106,7 +106,7 @@ namespace Temporizador.Popups
                     // Fecha primeiro
                     await CloseAsync(); // ou CloseAsync(true) se quiser sinalizar exclusão
 
-                    await Application.Current.MainPage.DisplayAlert("Sucesso", "Receita deletada com sucesso!", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Sucesso", "Predefinição deletada com sucesso!", "OK");
                 }
                 catch (Exception ex)
                 {

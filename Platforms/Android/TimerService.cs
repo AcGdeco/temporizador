@@ -621,7 +621,7 @@ namespace Temporizador.Platforms.Android
                 useChronometer);
                 
             return builder
-                .SetContentTitle(_estaRodando ? "Cozinhando..." : "Timer Pausado")
+                .SetContentTitle(_estaRodando ? "Temporizador rodando" : "Temporizador pausado")
                 .SetContentText(contentText)
                 .SetOngoing(_estaRodando)
                 .SetOnlyAlertOnce(true)

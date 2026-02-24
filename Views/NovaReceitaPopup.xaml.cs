@@ -44,11 +44,11 @@ namespace Temporizador.Popups
 
         private async void OnSalvarReceitaClicked(object sender, EventArgs e)
         {
-            // 1. Nome da receita
+            // 1. Nome
             string nome = NomeReceitaEntry?.Text?.Trim();
             if (string.IsNullOrEmpty(nome))
             {
-                await Application.Current.MainPage.DisplayAlert("Erro", "O nome da receita deve ser preenchido.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Erro", "O nome deve ser preenchido.", "OK");
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace Temporizador.Popups
 
             if (corSelecionada == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Erro", "Selecione uma cor para o botão.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Erro", "Selecione uma cor.", "OK");
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace Temporizador.Popups
 
             _db.Insert(receita);
 
-            await Application.Current.MainPage.DisplayAlert("Sucesso", "Receita salva com sucesso!", "OK");
+            await Application.Current.MainPage.DisplayAlert("Sucesso", "Predefinição salva com sucesso!", "OK");
 
             // Fecha popup retornando a receita salva
             CloseAsync();
