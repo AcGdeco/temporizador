@@ -78,13 +78,13 @@ namespace Temporizador.Platforms.Android
 
         private static int GetSmallIcon(Context context)
         {
-            // Tenta usar o ícone do aplicativo (sempre existe)
             try
             {
-                // Primeira tentativa: ícone do app
-                int iconId = context.ApplicationInfo.Icon;
-                if (iconId != 0)
-                    return iconId;
+                int id = context.Resources!.GetIdentifier("appiconfg1", "drawable", context.PackageName);
+                if (id == 0)
+                    id = context.Resources!.GetIdentifier("appiconfg1", "mipmap", context.PackageName);
+                if (id != 0)
+                    return id;
             }
             catch { }
 

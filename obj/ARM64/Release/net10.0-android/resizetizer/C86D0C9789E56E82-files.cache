@@ -2,10 +2,15 @@
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\play.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\reset.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable\stop.png
+obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-hdpi\appiconfg1.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-hdpi\dotnet_bot.png
+obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-mdpi\appiconfg1.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-mdpi\dotnet_bot.png
+obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xhdpi\appiconfg1.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xhdpi\dotnet_bot.png
+obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xxhdpi\appiconfg1.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xxhdpi\dotnet_bot.png
+obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xxxhdpi\appiconfg1.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\drawable-xxxhdpi\dotnet_bot.png
 obj\ARM64\Release\net10.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
 obj\ARM64\Release\net10.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_round.xml

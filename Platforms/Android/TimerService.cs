@@ -2,6 +2,7 @@ using global::Android.App;
 using global::Android.Content;
 using global::Android.OS;
 using global::Android.Media;
+using global::Android.Content.Res;
 using AndroidX.Core.App;
 using Temporizador.Platforms.Android;
 using CommunityToolkit.Mvvm.Messaging;
@@ -24,6 +25,7 @@ namespace Temporizador.Platforms.Android
         public const string ActionParar = "PARAR";
         public const string ActionResetar = "RESETAR";
         public const string ActionUpdate = "UPDATE";
+        public const string ActionExpirar = "EXPIRAR";
 
         private NotificationManager _notificationManager;
         private bool _isForeground = false;
@@ -48,6 +50,9 @@ namespace Temporizador.Platforms.Android
 
         // Handler para posts atrasados
         private Handler _handler;
+        private MediaPlayer? _alarmPlayer;
+        private Vibrator? _vibrator;
+        private bool _alarmeAtivo;
 
         // Método estático para obter ação baseada no texto do botão
         public static string GetActionForButton(string texto)
@@ -152,6 +157,7 @@ namespace Temporizador.Platforms.Android
             _notificationManager = (NotificationManager)GetSystemService(NotificationService)!;
             _alarmManager = (AlarmManager)GetSystemService(Context.AlarmService)!;
             _handler = new Handler(Looper.MainLooper!);
+            _vibrator = (Vibrator)GetSystemService(VibratorService)!;
 
             // Inicializa PowerManager e registra receiver para atualização ao acender a tela
             _powerManager = (PowerManager)GetSystemService(Context.PowerService)!;
@@ -168,7 +174,7 @@ namespace Temporizador.Platforms.Android
             var updateIntent = new Intent(this, typeof(TimerService)).SetAction(ActionUpdate);
             _updateIntent = PendingIntent.GetService(this, 1, updateIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable)!;
             
-            var expireIntent = new Intent(this, typeof(TimerService)).SetAction(ActionParar);
+            var expireIntent = new Intent(this, typeof(TimerService)).SetAction(ActionExpirar);
             _expireIntent = PendingIntent.GetService(this, 2, expireIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable)!;
         }
 
@@ -224,6 +230,9 @@ namespace Temporizador.Platforms.Android
                     case ActionResetar:
                         ResetarTimer();
                         break;
+                    case ActionExpirar:
+                        ExpirarTimer();
+                        break;
                 }
             }
             else
@@ -265,7 +274,7 @@ namespace Temporizador.Platforms.Android
                     {
                         _estaRodando = false;
                         _tempoRestante = TimeSpan.Zero;
-                        PararTimer();
+                        ExpirarTimer();
                     }
                 }
             }
@@ -346,6 +355,7 @@ namespace Temporizador.Platforms.Android
             
             CancelAlarms();
             _handler.RemoveCallbacksAndMessages(null);
+            PararAlarmeEVibracao();
             
             UpdateNotification();
             
@@ -361,8 +371,11 @@ namespace Temporizador.Platforms.Android
             
             CancelAlarms();
             _handler.RemoveCallbacksAndMessages(null);
+            PararAlarmeEVibracao();
             
             StopForeground(true);
+            _notificationManager.Cancel(NotificationId);
+            _isForeground = false;
             StopSelf();
             
             WeakReferenceMessenger.Default.Send(new ResetarTimerPelaNotificacaoMessage());
@@ -409,7 +422,7 @@ namespace Temporizador.Platforms.Android
             _handler.PostDelayed(() => {
                 if (_estaRodando && DateTime.UtcNow >= _targetEndTime)
                 {
-                    PararTimer();
+                    ExpirarTimer();
                 }
                 else if (_estaRodando)
                 {
@@ -457,7 +470,7 @@ namespace Temporizador.Platforms.Android
 
             if (remaining <= 0)
             {
-                PararTimer();
+                ExpirarTimer();
                 return;
             }
 
@@ -467,6 +480,69 @@ namespace Temporizador.Platforms.Android
 
             UpdateNotification();
             ScheduleNextUpdate();
+        }
+
+        private void ExpirarTimer()
+        {
+            _estaRodando = false;
+            _tempoRestante = TimeSpan.Zero;
+            SaveState();
+            IniciarAlarmeEVibracao();
+            UpdateNotification(true);
+        }
+
+        private void IniciarAlarmeEVibracao()
+        {
+            if (_alarmeAtivo) return;
+            try
+            {
+                _alarmPlayer = new MediaPlayer();
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+                {
+                    var attrs = new AudioAttributes.Builder()
+                        .SetUsage(AudioUsageKind.Alarm)
+                        .SetContentType(AudioContentType.Sonification)
+                        .Build();
+                    _alarmPlayer.SetAudioAttributes(attrs);
+                }
+                _alarmPlayer.Looping = true;
+                _alarmPlayer.SetVolume(1f, 1f);
+                _alarmPlayer.Prepare();
+                _alarmPlayer.Start();
+            }
+            catch { }
+            try
+            {
+                long[] pattern = new long[] { 0, 1000, 1000 };
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                {
+                    var effect = VibrationEffect.CreateWaveform(pattern, 0);
+                    _vibrator?.Vibrate(effect);
+                }
+                else
+                {
+                    _vibrator?.Vibrate(pattern, 0);
+                }
+            }
+            catch { }
+            _alarmeAtivo = true;
+        }
+
+        private void PararAlarmeEVibracao()
+        {
+            try
+            {
+                _alarmPlayer?.Stop();
+                _alarmPlayer?.Release();
+                _alarmPlayer = null;
+            }
+            catch { }
+            try
+            {
+                _vibrator?.Cancel();
+            }
+            catch { }
+            _alarmeAtivo = false;
         }
 
         private void UpdateNotification(bool force = false)
