@@ -589,7 +589,7 @@ namespace Temporizador.Platforms.Android
                     }
                     else
                     {
-                        contentText = $"Termina em {totalMinutes} min";
+                        contentText = "Temporizador em andamento";
                     }
                 }
                 else if (tempoArredondado.TotalSeconds > 0)
