@@ -295,7 +295,9 @@ namespace Temporizador.Views
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                TempoRestanteLabel.Text = tempoRestante.ToString(@"hh\:mm\:ss");
+                // Arredonda para o segundo mais próximo antes de exibir
+                var tempoExibicao = TimeSpan.FromSeconds(Math.Ceiling(tempoRestante.TotalSeconds));
+                TempoRestanteLabel.Text = tempoExibicao.ToString(@"hh\:mm\:ss");
 
                 double larguraTotal = BarraContainer.Width;
                 if (larguraTotal <= 0)

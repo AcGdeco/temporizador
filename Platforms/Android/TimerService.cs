@@ -466,15 +466,22 @@ namespace Temporizador.Platforms.Android
         {
             if (!_estaRodando) return;
 
-            long remaining = (long)(_targetEndTime - DateTime.UtcNow).TotalMilliseconds;
+            // 1. Calcula a diferença real
+            double totalMilliseconds = (_targetEndTime - DateTime.UtcNow).TotalMilliseconds;
 
-            if (remaining <= 0)
+            if (totalMilliseconds <= 0)
             {
                 ExpirarTimer();
                 return;
             }
 
-            _tempoRestante = TimeSpan.FromMilliseconds(remaining);
+            // 2. Arredonda para cima os segundos para a UI não parecer "atrasada"
+            // Exemplo: 1500ms -> 1.5s -> Ceiling vira 2s -> 2000ms
+            double segundosArredondados = Math.Ceiling(totalMilliseconds / 1000.0);
+            long remainingArredondado = (long)(segundosArredondados * 1000);
+
+            _tempoRestante = TimeSpan.FromMilliseconds(remainingArredondado);
+
             // Salva estado periodicamente para caso de crash
             SaveState();
 
@@ -558,44 +565,59 @@ namespace Temporizador.Platforms.Android
             long when = 0;
             bool useChronometer = false;
 
+            // Arredonda SEMPRE para cima. Ex: 59.1 segundos viram 60 segundos (1 minuto).
+            double segundosTotaisArredondados = Math.Ceiling(_tempoRestante.TotalSeconds);
+            TimeSpan tempoArredondado = TimeSpan.FromSeconds(segundosTotaisArredondados);
+
             if (_estaRodando)
             {
-                // Configura o Chronometer para contagem regressiva
+                // O Chronometer do Android usa o timestamp de destino. 
+                // Ele arredonda internamente, então mantemos o target real.
                 when = new DateTimeOffset(_targetEndTime).ToUnixTimeMilliseconds();
                 useChronometer = true;
                 
-                // Texto auxiliar
-                if (_tempoRestante.TotalSeconds >= 60)
+                if (tempoArredondado.TotalSeconds >= 60)
                 {
-                    int minutes = (int)Math.Ceiling(_tempoRestante.TotalMinutes);
-                    if (minutes >= 60)
+                    // Usamos TotalMinutes arredondado para cima para o texto auxiliar
+                    int totalMinutes = (int)Math.Ceiling(tempoArredondado.TotalMinutes);
+                    
+                    if (totalMinutes >= 60)
                     {
-                        int h = minutes / 60;
-                        int m = minutes % 60;
-                        contentText = $"Termina em {h}h {m}m";
+                        int h = totalMinutes / 60;
+                        int m = totalMinutes % 60;
+                        contentText = m > 0 ? $"Termina em {h}h {m}m" : $"Termina em {h}h";
                     }
                     else
                     {
-                        contentText = $"Termina em {minutes} min";
+                        contentText = $"Termina em {totalMinutes} min";
                     }
+                }
+                else if (tempoArredondado.TotalSeconds > 0)
+                {
+                    contentText = "Quase pronto!";
                 }
                 else
                 {
-                    contentText = "Quase pronto!";
+                    contentText = "Tempo esgotado!";
                 }
             }
             else
             {
-                // Timer parado ou pausado - mostra tempo estático
-                contentText = FormatTimeForNotification(_tempoRestante);
+                // Estado Pausado: Mostra o tempo estático arredondado
+                contentText = FormatTimeForNotification(tempoArredondado);
             }
 
             string textoBotao1 = _estaRodando ? "Pausar" : "Iniciar";
             string textoBotao2 = _estaRodando ? "Parar" : "Reset";
 
-            // Passamos o tempo restante real como extra (hh:mm:ss) para ações
-            var builder = TimerNotificationBuilder.Build(this, textoBotao1, textoBotao2, 
-                _tempoRestante.ToString(@"hh\:mm\:ss"), when, useChronometer);
+            // Enviamos a string formatada com o tempo arredondado para os botões/broadcasts
+            var builder = TimerNotificationBuilder.Build(
+                this, 
+                textoBotao1, 
+                textoBotao2, 
+                tempoArredondado.ToString(@"hh\:mm\:ss"), 
+                when, 
+                useChronometer);
                 
             return builder
                 .SetContentTitle(_estaRodando ? "Cozinhando..." : "Timer Pausado")
