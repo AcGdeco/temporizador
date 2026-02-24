@@ -1,5 +1,5 @@
-<api type="release" assembly-name="Temporizador" mvid="aa0dd52d83dc44618a141fde86f42a12">
-  <module assembly-name="Temporizador" mvid="aa0dd52d83dc44618a141fde86f42a12" mvid-bytes="LdUNqtyDYUSKFB/ehvQqEg==">
+<api type="release" assembly-name="Temporizador" mvid="533c2afef3d84170a4b6e2a43c792822">
+  <module assembly-name="Temporizador" mvid="533c2afef3d84170a4b6e2a43c792822" mvid-bytes="/io8U9jzcEGktuKkPHkoIg==">
     <types-scratch>
       <entry key="crc644f4854b3ebd3c3a6/MainActivity" java-name="crc644f4854b3ebd3c3a6/MainActivity" managed-type-name="Temporizador.MainActivity" token="33554510" />
       <entry key="crc644f4854b3ebd3c3a6/MainApplication" java-name="crc644f4854b3ebd3c3a6/MainApplication" managed-type-name="Temporizador.MainApplication" token="33554511" />

@@ -21,7 +21,7 @@
   <permission android:name="com.companyname.temporizador.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature" />
   <uses-permission android:name="com.companyname.temporizador.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
   <!-- ÚNICO application -->
-  <application android:name="crc644f4854b3ebd3c3a6.MainApplication" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:extractNativeLibs="true" android:icon="@mipmap/appicon" android:label="Bibi" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true">
+  <application android:name="crc644f4854b3ebd3c3a6.MainApplication" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:extractNativeLibs="true" android:icon="@mipmap/appicon" android:label="Temporizador" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true">
     <receiver android:name="com.companyname.temporizador.TimerBroadcastReceiver" android:exported="false">
       <intent-filter>
         <action android:name="com.temporizador.ACTION" />
