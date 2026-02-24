@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using Plugin.Maui.Audio;
 

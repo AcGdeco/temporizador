@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
@@ -395,6 +395,10 @@ namespace Temporizador.Views
                      _targetEndTime = DateTime.UtcNow.Add(tempoRestante);
                  }
 
+                timer = this.Dispatcher.CreateTimer();
+                timer.Interval = TimeSpan.FromSeconds(1);
+                timer.Tick += OnTimerElapsed;
+                
                  timer.Start();
                  estadoTemporizador = EstadoTemporizador.Rodando;
                  AtualizarBotaoIniciar("Pausar", "pause.png", Colors.Orange);
@@ -432,7 +436,7 @@ namespace Temporizador.Views
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 timer.Stop();
-                estadoTemporizador = EstadoTemporizador.Resetado;
+                estadoTemporizador = EstadoTemporizador.Pausado;
                 tempoRestante = TimeSpan.Zero;
                 TempoRestanteLabel.Text = "00:00:00";
                 BarraLaranja.WidthRequest = 0;
