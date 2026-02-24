@@ -573,7 +573,7 @@ namespace Temporizador.Platforms.Android
             {
                 // O Chronometer do Android usa o timestamp de destino. 
                 // Ele arredonda internamente, então mantemos o target real.
-                when = new DateTimeOffset(_targetEndTime).ToUnixTimeMilliseconds();
+                when = new DateTimeOffset(_targetEndTime).ToUnixTimeMilliseconds() + 1000;
                 useChronometer = true;
                 
                 if (tempoArredondado.TotalSeconds >= 60)
