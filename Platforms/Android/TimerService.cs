@@ -585,11 +585,11 @@ namespace Temporizador.Platforms.Android
                     {
                         int h = totalMinutes / 60;
                         int m = totalMinutes % 60;
-                        contentText = m > 0 ? $"Termina em {h}h {m}m" : $"Termina em {h}h";
+                        contentText = "Temporizador em andamento";
                     }
                     else
                     {
-                        contentText = $"Termina em {totalMinutes} min";
+                        contentText = "Temporizador em andamento";
                     }
                 }
                 else if (tempoArredondado.TotalSeconds > 0)

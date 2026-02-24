@@ -12,7 +12,7 @@
     <Nullable>enable</Nullable>
 
     <!-- Informações do app -->
-    <ApplicationTitle>Bibi</ApplicationTitle>
+    <ApplicationTitle>Temporizador</ApplicationTitle>
     <ApplicationId>com.companyname.temporizador</ApplicationId>
     <ApplicationDisplayVersion>1.0.1</ApplicationDisplayVersion>
     <ApplicationVersion>2</ApplicationVersion>
